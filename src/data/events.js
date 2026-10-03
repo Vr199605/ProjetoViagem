@@ -8,9 +8,9 @@ export const EVENTS = [
     date: '15 a 23 de Agosto',
     season: 'Inverno',
     category: 'Cinema & Cultura',
-    tag: 'Cultura & Luxo',
-    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80',
-    description: 'O tapete vermelho mais célebre do audiovisual latino-americano na charmosa serra gaúcha com noites de gala e alta gastronomia.',
+    tag: 'Cultura & Gala',
+    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80',
+    description: 'O tapete vermelho mais célebre do audiovisual latino-americano no Palácio dos Festivais com noites de gala e alta gastronomia.',
     venue: 'Palácio dos Festivais',
     ticketUrl: 'https://www.sympla.com.br/busca/festival-cinema-gramado',
     averageTicket: 'R$ 180 — R$ 450'
@@ -24,23 +24,23 @@ export const EVENTS = [
     season: 'Outono',
     category: 'Esporte & Saúde',
     tag: 'Esporte Cênico',
-    image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=800&q=80',
-    description: 'A corrida mais deslumbrante do mundo, com trajeto que margeia as orlas do Recreio, Barra, São Conrado, Leblon, Ipanema e Copacabana.',
+    image: 'https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&w=800&q=80',
+    description: 'A corrida mais deslumbrante do mundo, com trajeto que margeia as orlas de São Conrado, Leblon, Ipanema e Copacabana ao nascer do sol.',
     venue: 'Aterro do Flamengo / Orla Carioca',
     ticketUrl: 'https://www.sympla.com.br/busca/maratona-rio',
     averageTicket: 'R$ 220 — R$ 680'
   },
   {
     id: 'rock-in-rio',
-    title: 'Rock in Rio & Festivais Musicais',
+    title: 'Rock in Rio & Festivais de Música',
     city: 'Rio de Janeiro, RJ',
     country: 'Brasil',
     date: '13 a 22 de Setembro',
     season: 'Primavera',
     category: 'Grandes Festivais',
-    tag: 'Música Internacional',
+    tag: 'Música Global',
     image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
-    description: 'O maior festival de música e entretenimento do planeta, reunindo lendas do rock, pop mundial e experiências imersivas na Cidade do Rock.',
+    description: 'O maior festival de música e entretenimento do planeta, reunindo lendas do rock, pop mundial e megaestruturas na Cidade do Rock.',
     venue: 'Parque Olímpico — Cidade do Rock',
     ticketUrl: 'https://www.eventbrite.com/d/brazil/festivais-musica/',
     averageTicket: 'R$ 495 — R$ 1.250'
@@ -53,9 +53,9 @@ export const EVENTS = [
     date: '24 de Outubro a 18 de Janeiro',
     season: 'Primavera / Verão',
     category: 'Família & Espetáculo',
-    tag: 'Espetáculo Teatral',
-    image: 'https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=800&q=80',
-    description: 'Milhões de lâmpadas transformam a cidade no maior espetáculo natalino a céu aberto do Brasil com desfiles e orquestras no lago.',
+    tag: 'Espetáculo de Luzes',
+    image: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=800&q=80',
+    description: 'Milhões de lâmpadas transformam a serra gaúcha no maior espetáculo natalino a céu aberto do Brasil com desfiles e orquestras no lago.',
     venue: 'Serra Park e Lago Joaquina Rita Bier',
     ticketUrl: 'https://www.sympla.com.br/busca/natal-luz-gramado',
     averageTicket: 'R$ 190 — R$ 520'
@@ -70,7 +70,7 @@ export const EVENTS = [
     category: 'Esporte & Luxo',
     tag: 'Motorsport VIP',
     image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80',
-    description: 'A emoção máxima do automobilismo internacional no histórico circuito de Interlagos com lounges VIP e hospitalidade de classe mundial.',
+    description: 'A emoção máxima do automobilismo internacional no histórico circuito de Interlagos com hospitalidade de classe mundial e lounges VIP.',
     venue: 'Autódromo José Carlos Pace (Interlagos)',
     ticketUrl: 'https://www.eventbrite.com/d/brazil/formula-1/',
     averageTicket: 'R$ 890 — R$ 8.900'
@@ -85,7 +85,7 @@ export const EVENTS = [
     category: 'Gastronomia & Cultura',
     tag: 'Tradição Germânica',
     image: 'https://images.unsplash.com/photo-1575037614876-c38a4d44f5b8?auto=format&fit=crop&w=800&q=80',
-    description: 'A segunda maior festa da cerveja do planeta, celebrando a rica gastronomia alemã, trajes típicos e os melhores chopes artesanais do país.',
+    description: 'A maior festa da cerveja das Américas, celebrando a rica gastronomia alemã, trajes típicos e os melhores chopes artesanais do país.',
     venue: 'Parque Vila Germânica',
     ticketUrl: 'https://www.sympla.com.br/busca/oktoberfest-blumenau',
     averageTicket: 'R$ 60 — R$ 160'
@@ -116,8 +116,8 @@ export const EVENTS = [
     tag: 'Natureza & Tradição',
     image: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=800&q=80',
     description: 'A celebração do florescer das cerejeiras sob templos centenários e castelos imperiais com piqueniques tradicionais ao ar livre.',
-    venue: 'Parque Ueno e Filosofos em Quioto',
+    venue: 'Parque Ueno e Caminho dos Filósofos em Quioto',
     ticketUrl: 'https://www.eventbrite.com/d/japan/cherry-blossom/',
-    averageTicket: 'Entrada Franca / Chás: R$ 120'
+    averageTicket: 'Entrada Franca / Cerimônias de Chá: R$ 120'
   }
 ];

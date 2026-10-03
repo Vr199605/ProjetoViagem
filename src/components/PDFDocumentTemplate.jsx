@@ -1,7 +1,8 @@
 import React from 'react';
-import { Compass, Calendar, MapPin, Users, CheckCircle2, ExternalLink, Sparkles, ShieldCheck } from 'lucide-react';
+import { Compass, Calendar, MapPin, Users, CheckCircle2, ExternalLink, Sparkles, ShieldCheck, Award } from 'lucide-react';
 import { generateQuotationBreakdown } from '../data/quotations';
 import { DESTINATIONS } from '../data/destinations';
+import { CONFIG } from '../config';
 
 export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) {
   // Find destination details for photo and metadata
@@ -21,7 +22,7 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
   const itinerary = planState.customItinerary || [];
 
   return (
-    <div id="pdf-printable-document" className="bg-[#FAF9F6] text-navy-900 p-8 sm:p-12 max-w-[920px] mx-auto font-sans leading-relaxed selection:bg-emerald-500 selection:text-white">
+    <div id="pdf-printable-document" className="bg-[#FAF9F6] text-navy-900 p-6 sm:p-12 max-w-[920px] mx-auto font-sans leading-relaxed selection:bg-emerald-500 selection:text-white">
       
       {/* 1. CAPA ESTILIZADA DE LUXO */}
       <div className="relative rounded-3xl overflow-hidden bg-navy-900 text-white mb-10 shadow-luxury">
@@ -33,13 +34,16 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent" />
           
-          {/* Header Brand */}
-          <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+          {/* Header Brand & Patent Credit */}
+          <div className="absolute top-6 sm:top-8 left-6 sm:left-8 right-6 sm:right-8 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
                 <Compass className="w-4 h-4 text-white" />
               </div>
-              <span className="font-serif text-lg tracking-widest font-bold">VOYAGER AI</span>
+              <div>
+                <span className="font-serif text-lg tracking-widest font-bold block leading-none">VOYAGER AI</span>
+                <span className="text-[9px] text-sand-300 font-medium">Patente: {CONFIG.DEVELOPER_NAME}</span>
+              </div>
             </div>
 
             <div className="px-3.5 py-1 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-400/40 text-emerald-300 text-[10px] font-bold tracking-widest uppercase">
@@ -48,24 +52,24 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
           </div>
 
           {/* Cover Titles */}
-          <div className="absolute bottom-8 left-8 right-8">
+          <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
             <span className="text-sand-300 text-xs uppercase tracking-widest font-semibold block mb-2">
               Dossiê de Viagem & Cotações Executivas
             </span>
-            <h1 className="font-serif text-4xl sm:text-5xl font-normal leading-tight text-white mb-4">
+            <h1 className="font-serif text-3xl sm:text-5xl font-normal leading-tight text-white mb-4">
               {planState.destination}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-200">
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-xs text-slate-200">
+              <div className="flex items-center gap-1.5 bg-black/35 backdrop-blur-md px-3 py-1.5 rounded-full">
                 <Calendar className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{planState.days} Dias • {planState.dates}</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full">
+              <div className="flex items-center gap-1.5 bg-black/35 backdrop-blur-md px-3 py-1.5 rounded-full">
                 <Users className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{planState.travelersLabel || `${planState.travelers} viajantes`}</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full">
+              <div className="flex items-center gap-1.5 bg-black/35 backdrop-blur-md px-3 py-1.5 rounded-full">
                 <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Estilo: {planState.profile}</span>
               </div>
@@ -76,13 +80,13 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       </div>
 
       {/* 2. RESUMO EXECUTIVO & LOGÍSTICA DE TRANSPORTE */}
-      <section className="mb-10 bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
+      <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
         <div className="flex items-center gap-2 mb-4">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 className="font-serif text-2xl text-navy-900 font-bold">1. Resumo Executivo & Logística</h2>
+          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">1. Resumo Executivo & Logística</h2>
         </div>
 
-        <p className="text-sm text-slate-600 leading-relaxed mb-6">
+        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
           Este itinerário sob medida foi estruturado para proporcionar uma experiência imersiva e sem fricções em <strong>{planState.destination}</strong>. 
           A logística contempla deslocamentos prioritários, balanceando manhãs culturais, almoços com foco na gastronomia de terroir e noites intimistas.
         </p>
@@ -109,13 +113,15 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       </section>
 
       {/* 3. TABELA COMPARATIVA DE COTAÇÕES */}
-      <section className="mb-10 bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
-        <div className="flex items-center justify-between mb-4">
+      <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-            <h2 className="font-serif text-2xl text-navy-900 font-bold">2. Comparativo de Cotações nas Plataformas</h2>
+            <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">2. Comparativo de Cotações nas Plataformas</h2>
           </div>
-          <span className="text-[11px] text-slate-400 uppercase tracking-widest font-bold">Base {planState.travelers} Pax • {planState.days} Diárias</span>
+          <span className="text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-widest font-bold">
+            Base {planState.travelers} Pax • {planState.days} Diárias
+          </span>
         </div>
 
         <div className="overflow-x-auto">
@@ -167,23 +173,23 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       </section>
 
       {/* 4. ITINERÁRIO DIA A DIA DETALHADO */}
-      <section className="mb-10 bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
+      <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
         <div className="flex items-center gap-2 mb-6">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 className="font-serif text-2xl text-navy-900 font-bold">3. Itinerário Dia a Dia Detalhado</h2>
+          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">3. Itinerário Dia a Dia Detalhado</h2>
         </div>
 
         <div className="space-y-6">
           {itinerary.map((dayItem) => (
-            <div key={dayItem.day} className="border border-slate-200/90 rounded-2xl p-5 bg-sand-50/30">
+            <div key={dayItem.day} className="border border-slate-200/90 rounded-2xl p-4 sm:p-5 bg-sand-50/30">
               
               {/* Day Header */}
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200/70">
                 <div className="flex items-center gap-3">
-                  <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-xs font-bold flex items-center justify-center">
+                  <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-xs font-bold flex items-center justify-center shrink-0">
                     D{dayItem.day}
                   </span>
-                  <h3 className="font-serif text-base font-bold text-navy-900">
+                  <h3 className="font-serif text-sm sm:text-base font-bold text-navy-900">
                     {dayItem.theme}
                   </h3>
                 </div>
@@ -242,10 +248,10 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       </section>
 
       {/* 5. ORÇAMENTO CONSOLIDADO POR PESSOA & GRUPO */}
-      <section className="mb-10 bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft">
+      <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
         <div className="flex items-center gap-2 mb-4">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 className="font-serif text-2xl text-navy-900 font-bold">4. Orçamento Consolidado</h2>
+          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">4. Orçamento Consolidado</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -282,13 +288,15 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
         </div>
       </section>
 
-      {/* FOOTER DO PDF */}
-      <footer className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+      {/* FOOTER DO PDF COM PATENTE */}
+      <footer className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
         <div className="flex items-center gap-2">
           <Compass className="w-3.5 h-3.5 text-navy-900" />
-          <span>VOYAGER AI — Documento emitido em {new Date().toLocaleDateString('pt-BR')}</span>
+          <span>VOYAGER AI • Emitido em {new Date().toLocaleDateString('pt-BR')}</span>
         </div>
-        <span>100% Client-Side Engine • Zero Webhook Dependencies</span>
+        <div className="font-semibold text-navy-900">
+          Tecnologia & Patente: {CONFIG.DEVELOPER_NAME}
+        </div>
       </footer>
 
     </div>

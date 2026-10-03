@@ -1,16 +1,26 @@
 # 🧭 Voyager AI — Portal de Viagens Minimalista & Roteiros Inteligentes
 
-Aplicação web moderna, despoluída e de alto padrão, inspirada na estética editorial de portais de turismo de luxo (estilo Nassau Paradise Island). Combina usabilidade minimalista, assistente conversacional alimentado por IA (Google Gemini) e um motor **100% client-side** para geração e download imediato de roteiros e cotações em PDF na tela.
+> **Idealizado e Desenvolvido por Victor Ricardo de Carvalho Moreira**  
+> *Patente & Tecnologia Proprietária • Todos os direitos reservados.*
+
+Aplicação web moderna, despoluída e de alto padrão, inspirada na estética editorial de portais de turismo de luxo (estilo Nassau Paradise Island). Combina usabilidade minimalista, assistente conversacional alimentado por IA (Google Gemini), comparador multiplataforma de voos (Google Flights, Skyscanner, Decolar, 123 Milhas, MaxMilhas e Kayak) e um motor **100% client-side** para geração e download imediato de roteiros e cotações em PDF na tela.
 
 ---
 
 ## 🌟 Principais Funcionalidades
 
-- **Design System Editorial:** Estética minimalista, tipografia serifada de luxo combinada com sans-serif geométrica, paleta off-white e deep navy.
-- **Hero & Buscador Universal:** Abas para Hospedagens, Voos, Pacotes e Eventos Culturais com autocomplete de destinos nacionais e globais, validação inteligente de datas e gerador de deeplinks diretos para Booking.com, Skyscanner, Decolar, Airbnb, Sympla e Eventbrite.
-- **Feed de Destinos & Calendário Global:** Filtros rápidos por categoria e inclusão direta de destinos e grandes eventos no itinerário.
+- **Design System Editorial:** Estética minimalista, tipografia serifada de luxo combinada com sans-serif geométrica, paleta off-white e deep navy. 100% responsivo para celulares, tablets e desktops.
+- **Hero & Buscador Universal:** Cobertura de todas as 27 capitais do Brasil, mais de 40 pólos turísticos nacionais e mais de 50 destinos globais, além de busca livre para qualquer lugar do planeta.
+- **Comparador de Voos com Ida e Volta:** Seletor de ida e volta ou somente ida, classes de assento, contador de passageiros e matriz comparativa de melhores preços com deeplinks diretos para:
+  - **Google Flights**
+  - **Skyscanner**
+  - **Decolar.com**
+  - **123 Milhas**
+  - **MaxMilhas**
+  - **Kayak**
+- **Feed de Destinos Autênticos & Calendário Global:** Fotografias 100% autênticas e icônicas de cada localidade, com filtros de categorias e eventos culturais sincronizados.
 - **Assistente IA Conversacional:** Processamento de texto em linguagem natural integrado ao Gemini AI com chips interativos e editáveis para ajuste fino dos parâmetros.
-- **Geração de PDF 100% Client-Side:** Compilação direta no navegador via `jsPDF` e `html2canvas` com capa editorial, resumo executivo, tabela comparativa de cotações, roteiro dia a dia detalhado (Manhã, Tarde e Noite) e orçamento discriminado.
+- **Geração de PDF 100% Client-Side:** Compilação direta no navegador via `jsPDF` e `html2canvas` com capa editorial, resumo executivo, tabela comparativa de cotações, roteiro dia a dia detalhado (Manhã, Tarde e Noite) e orçamento discriminado com patente oficial.
 
 ---
 
@@ -29,8 +39,8 @@ Aplicação web moderna, despoluída e de alto padrão, inspirada na estética e
 
 1. Clone o repositório ou acesse a pasta do projeto:
 ```bash
-git clone https://github.com/SEU-USUARIO/voyager-ai.git
-cd voyager-ai
+git clone https://github.com/Vr199605/ProjetoViagem.git
+cd ProjetoViagem
 ```
 
 2. Instale as dependências:
@@ -47,6 +57,7 @@ npm run dev
 
 ---
 
-## 📄 Licença
+## 📄 Autoria e Patente
 
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+**Desenvolvido por:** Victor Ricardo de Carvalho Moreira  
+Todos os direitos reservados.
