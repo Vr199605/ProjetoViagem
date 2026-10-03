@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, Send, MapPin, Calendar, DollarSign, Heart, 
   Users, Edit3, ArrowRight, Loader2, Check, FileDown, Eye, AlertCircle, 
-  ShieldCheck, Star, ExternalLink, Luggage, Compass, RefreshCw, X, ChevronRight, Award
+  ShieldCheck, Star, ExternalLink, Luggage, Compass, RefreshCw, X, ChevronRight, Award,
+  Plane, Package
 } from 'lucide-react';
 import { getAiDestinationSuggestions } from '../services/aiSuggestionEngine';
 import { calculateFlightComparison, calculatePackageComparison } from '../data/quotations';
