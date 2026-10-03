@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   Building2, Plane, Package, Ticket, Calendar, Users, 
   Search, ArrowRight, MapPin, ChevronDown, Check, ExternalLink, 
-  Sparkles, ArrowLeftRight, TrendingDown, ShieldCheck, Award
+  Sparkles, ArrowLeftRight, TrendingDown, ShieldCheck, Award,
+  Luggage, Compass, Filter
 } from 'lucide-react';
 import { SEARCH_AUTOCOMPLETE } from '../data/destinations';
-import { calculateFlightComparison } from '../data/quotations';
+import { calculateFlightComparison, calculatePackageComparison } from '../data/quotations';
 import { CONFIG } from '../config';
 import { 
   buildBookingUrl, 
@@ -46,6 +47,9 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   // Flight Specific Modes
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [flightClass, setFlightClass] = useState('Econômica');
+  const [hasCheckedBaggage, setHasCheckedBaggage] = useState(false);
+  const [directOnly, setDirectOnly] = useState(false);
+  const [flightSubTab, setFlightSubTab] = useState('todas'); // 'todas' | 'comparadores' | 'companhias'
 
   // Search parameters
   const [originQuery, setOriginQuery] = useState('São Paulo, SP (GRU / CGH / VCP)');
@@ -66,9 +70,10 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   const [destSuggestions, setDestSuggestions] = useState([]);
   const [showDestSuggestions, setShowDestSuggestions] = useState(false);
 
-  // Partner deeplink / flight comparison results
+  // Partner deeplink / flight comparison / packages results
   const [lastSearchedDeeplinks, setLastSearchedDeeplinks] = useState(null);
   const [flightComparisonResults, setFlightComparisonResults] = useState(null);
+  const [packageComparisonResults, setPackageComparisonResults] = useState(null);
 
   const originRef = useRef(null);
   const destRef = useRef(null);
@@ -194,15 +199,47 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
         returnDate: checkOut,
         roundTrip: isRoundTrip,
         adults,
-        seatClass: flightClass
+        seatClass: flightClass,
+        checkedBaggage: hasCheckedBaggage,
+        directOnly: directOnly
       });
 
       setFlightComparisonResults(comparison);
+      setPackageComparisonResults(null);
 
+      const totalCount = (comparison.otas?.length || 0) + (comparison.airlines?.length || 0);
       onNotify?.({
         type: 'success',
         title: 'Cotação Multiplataforma Pronta',
-        message: `Comparamos voos entre ${cleanOrig} e ${cleanDest} (${isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}) em 6 plataformas parceiras.`
+        message: `Comparamos ${comparison.otas?.length || 6} comparadores e ${comparison.airlines?.length || 20} companhias aéreas entre ${cleanOrig} e ${cleanDest} (${isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}).`
+      });
+    } else if (activeTab === 'pacotes') {
+      let durationDays = 5;
+      if (checkIn && checkOut) {
+        const dIn = new Date(checkIn);
+        const dOut = new Date(checkOut);
+        const diffTime = Math.abs(dOut - dIn);
+        const computedDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (computedDays > 0) durationDays = computedDays;
+      }
+
+      const packageComparison = calculatePackageComparison({
+        origin: originQuery,
+        destination: destinationQuery,
+        checkIn,
+        checkOut,
+        adults,
+        rooms,
+        days: durationDays
+      });
+
+      setPackageComparisonResults(packageComparison);
+      setFlightComparisonResults(null);
+
+      onNotify?.({
+        type: 'success',
+        title: 'Cotação de Pacotes Pronta',
+        message: `Calculamos os melhores pacotes de viagem em ${packageComparison.length} operadoras líderes para ${cleanDest}.`
       });
     } else {
       const bookingUrl = buildBookingUrl({ 
@@ -237,6 +274,8 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
         symplaUrl,
         eventbriteUrl
       });
+      setFlightComparisonResults(null);
+      setPackageComparisonResults(null);
 
       onNotify?.({
         type: 'success',
@@ -315,6 +354,8 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   onClick={() => {
                     setActiveTab('voos');
                     setFlightComparisonResults(null);
+                    setPackageComparisonResults(null);
+                    setLastSearchedDeeplinks(null);
                   }}
                   className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'voos'
@@ -331,6 +372,8 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   onClick={() => {
                     setActiveTab('hospedagens');
                     setFlightComparisonResults(null);
+                    setPackageComparisonResults(null);
+                    setLastSearchedDeeplinks(null);
                   }}
                   className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'hospedagens'
@@ -347,6 +390,8 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   onClick={() => {
                     setActiveTab('pacotes');
                     setFlightComparisonResults(null);
+                    setPackageComparisonResults(null);
+                    setLastSearchedDeeplinks(null);
                   }}
                   className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'pacotes'
@@ -355,7 +400,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   }`}
                 >
                   <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span>Pacotes</span>
+                  <span>Pacotes de Viagem</span>
                 </button>
 
                 <button
@@ -363,6 +408,8 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   onClick={() => {
                     setActiveTab('eventos');
                     setFlightComparisonResults(null);
+                    setPackageComparisonResults(null);
+                    setLastSearchedDeeplinks(null);
                   }}
                   className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'eventos'
@@ -375,15 +422,17 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                 </button>
               </div>
 
-              {/* Flight Round-Trip / Class Controls (Visible on Voos tab) */}
+              {/* Flight Round-Trip / Class / Baggage / Stops Controls (Visible on Voos tab) */}
               {activeTab === 'voos' && (
-                <div className="flex items-center justify-between sm:justify-end gap-2">
+                <div className="flex flex-wrap items-center justify-start sm:justify-end gap-2">
+                  
+                  {/* Round-trip / One-way */}
                   <div className="flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-xl text-[11px] sm:text-xs font-semibold">
                     <button
                       type="button"
                       onClick={() => setIsRoundTrip(true)}
                       className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all ${
-                        isRoundTrip ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'
+                        isRoundTrip ? 'bg-white text-navy-900 shadow-2xs font-bold' : 'text-slate-500 hover:text-navy-900'
                       }`}
                     >
                       Ida e Volta
@@ -392,17 +441,50 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                       type="button"
                       onClick={() => setIsRoundTrip(false)}
                       className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all ${
-                        !isRoundTrip ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'
+                        !isRoundTrip ? 'bg-white text-navy-900 shadow-2xs font-bold' : 'text-slate-500 hover:text-navy-900'
                       }`}
                     >
                       Somente Ida
                     </button>
                   </div>
 
+                  {/* Baggage Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setHasCheckedBaggage(!hasCheckedBaggage)}
+                    className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer ${
+                      hasCheckedBaggage
+                        ? 'bg-amber-500/15 border-amber-400 text-amber-900 shadow-2xs font-bold'
+                        : 'bg-slate-100/80 border-transparent text-slate-600 hover:text-navy-900'
+                    }`}
+                    title="Alternar entre mala de mão (10kg) e mala despachada (23kg)"
+                  >
+                    <Luggage className={`w-3.5 h-3.5 ${hasCheckedBaggage ? 'text-amber-700' : 'text-slate-400'}`} />
+                    <span>{hasCheckedBaggage ? 'Com Mala Despachada (23kg)' : 'Mala de Mão (10kg)'}</span>
+                    {hasCheckedBaggage && <Check className="w-3 h-3 text-amber-700 ml-0.5" />}
+                  </button>
+
+                  {/* Direct Flights Only Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setDirectOnly(!directOnly)}
+                    className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer ${
+                      directOnly
+                        ? 'bg-emerald-500/15 border-emerald-400 text-emerald-900 shadow-2xs font-bold'
+                        : 'bg-slate-100/80 border-transparent text-slate-600 hover:text-navy-900'
+                    }`}
+                    title="Filtrar apenas voos diretos sem escalas"
+                  >
+                    <Compass className={`w-3.5 h-3.5 ${directOnly ? 'text-emerald-700' : 'text-slate-400'}`} />
+                    <span>{directOnly ? 'Apenas Voos Diretos' : 'Todos os Voos'}</span>
+                    {directOnly && <Check className="w-3 h-3 text-emerald-700 ml-0.5" />}
+                  </button>
+
+                  {/* Cabin Class */}
                   <select
                     value={flightClass}
                     onChange={(e) => setFlightClass(e.target.value)}
-                    className="text-[11px] sm:text-xs font-medium text-slate-700 bg-slate-100 py-1.5 px-2 rounded-xl border-none focus:outline-none cursor-pointer"
+                    className="text-[11px] sm:text-xs font-medium text-slate-700 bg-slate-100 py-1.5 px-2.5 rounded-xl border border-transparent focus:outline-none cursor-pointer"
                   >
                     <option value="Econômica">Econômica</option>
                     <option value="Premium Economy">Premium Economy</option>
@@ -709,76 +791,339 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
             {flightComparisonResults && (
               <div className="mt-6 pt-5 border-t border-slate-100 animate-fade-in">
                 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                {/* Header Information */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
                   <div>
                     <h3 className="font-serif text-base sm:text-lg font-bold text-navy-900 flex flex-wrap items-center gap-2">
-                      <span>Cotações em Tempo Real</span>
+                      <span>Cotações em Tempo Real Multiplataforma</span>
                       <span className="text-[11px] font-sans font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full">
                         {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'} • {adults} {adults === 1 ? 'Passageiro' : 'Passageiros'}
                       </span>
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Rota: <strong>{originQuery.split('(')[0]}</strong> ➔ <strong>{destinationQuery.split('(')[0]}</strong> ({flightClass})
+                    <p className="text-xs text-slate-500 mt-1 flex flex-wrap items-center gap-2">
+                      <span>Rota: <strong>{originQuery.split('(')[0]}</strong> ➔ <strong>{destinationQuery.split('(')[0]}</strong></span>
+                      <span className="text-slate-300">•</span>
+                      <span>Classe: <strong>{flightClass}</strong></span>
+                      <span className="text-slate-300">•</span>
+                      <span className={hasCheckedBaggage ? 'text-amber-800 font-semibold' : 'text-slate-600'}>
+                        {hasCheckedBaggage ? '🧳 Com Mala Despachada (23kg)' : '🎒 Apenas Mala de Mão (10kg)'}
+                      </span>
+                      <span className="text-slate-300">•</span>
+                      <span className={directOnly ? 'text-emerald-800 font-semibold' : 'text-slate-600'}>
+                        {directOnly ? '✈️ Apenas Voos Diretos' : '✈️ Todos os Voos'}
+                      </span>
                     </p>
                   </div>
 
-                  <span className="text-[10px] sm:text-[11px] text-slate-400">
-                    Clique para abrir na plataforma desejada com trechos e datas pré-preenchidos:
-                  </span>
+                  <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-xl px-3 py-2 text-[11px] text-emerald-800 flex items-center gap-2 shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Links diretos: abrem a busca com passageiros, datas e rotas já preenchidos.</span>
+                  </div>
                 </div>
 
-                {/* 6 Cards Grid: Google Flights, Skyscanner, Decolar, 123Milhas, MaxMilhas, Kayak */}
+                {/* Sub-Tabs: Todas as Ofertas / Comparadores / Companhias Aéreas */}
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4 border-b border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setFlightSubTab('todas')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                      flightSubTab === 'todas'
+                        ? 'bg-navy-900 text-white shadow-soft'
+                        : 'bg-slate-100 text-slate-600 hover:text-navy-900 hover:bg-slate-200'
+                    }`}
+                  >
+                    Todas as Opções ({(flightComparisonResults.otas?.length || 0) + (flightComparisonResults.airlines?.length || 0)})
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFlightSubTab('comparadores')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                      flightSubTab === 'comparadores'
+                        ? 'bg-navy-900 text-white shadow-soft'
+                        : 'bg-slate-100 text-slate-600 hover:text-navy-900 hover:bg-slate-200'
+                    }`}
+                  >
+                    <span>Comparadores & Metabuscas</span>
+                    <span className="bg-emerald-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+                      {flightComparisonResults.otas?.length || 0}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFlightSubTab('companhias')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                      flightSubTab === 'companhias'
+                        ? 'bg-navy-900 text-white shadow-soft'
+                        : 'bg-slate-100 text-slate-600 hover:text-navy-900 hover:bg-slate-200'
+                    }`}
+                  >
+                    <span>Companhias Aéreas Oficiais</span>
+                    <span className="bg-blue-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">
+                      {flightComparisonResults.airlines?.length || 0}
+                    </span>
+                  </button>
+                </div>
+
+                {/* 1. COMPARADORES & METABUSCAS SECTION */}
+                {(flightSubTab === 'todas' || flightSubTab === 'comparadores') && (
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-xs sm:text-sm font-bold text-navy-900 flex items-center gap-1.5 uppercase tracking-wider">
+                        <span>Comparadores & Plataformas Consolidadoras</span>
+                        <span className="text-[11px] font-normal text-slate-500 normal-case">(Google Flights, Skyscanner, Decolar, 123 Milhas, MaxMilhas, Kayak)</span>
+                      </h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {flightComparisonResults.otas?.map((item) => (
+                        <div
+                          key={item.id}
+                          className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
+                            item.isBestDeal
+                              ? 'bg-gradient-to-br from-emerald-50/50 to-white border-emerald-300 shadow-soft ring-1 ring-emerald-400/30'
+                              : 'bg-white border-slate-200/80 hover:border-slate-300 shadow-2xs'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{item.logo}</span>
+                                <span className="font-bold text-sm text-navy-900">{item.name}</span>
+                              </div>
+                              <span className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                item.isBestDeal ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                              }`}>
+                                {item.badge}
+                              </span>
+                            </div>
+
+                            <div className="mt-2 mb-2">
+                              <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Estimada Total</span>
+                              <div className="flex items-baseline gap-1.5 flex-wrap">
+                                <span className="text-lg sm:text-xl font-extrabold text-navy-900">
+                                  R$ {item.totalPrice.toLocaleString('pt-BR')}
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] text-slate-500">
+                                  (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap gap-1.5 mb-2">
+                              <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+                                hasCheckedBaggage ? 'bg-amber-50 text-amber-800' : 'bg-slate-100 text-slate-600'
+                              }`}>
+                                {hasCheckedBaggage ? '🧳 23kg inclusa no cálculo' : '🎒 Apenas Mala de Mão 10kg'}
+                              </span>
+                              <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+                                directOnly ? 'bg-emerald-50 text-emerald-800' : 'bg-slate-100 text-slate-600'
+                              }`}>
+                                {directOnly ? '✈️ Voo Direto' : '✈️ Direto ou Conexão'}
+                              </span>
+                            </div>
+
+                            <p className="text-[11px] text-slate-500 mb-3 leading-snug">
+                              {item.perk}
+                            </p>
+                          </div>
+
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                              item.isBestDeal
+                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-soft'
+                                : 'bg-navy-900 hover:bg-navy-800 text-white'
+                            }`}
+                          >
+                            <span>Ir para a passagem no {item.name}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. OFFICIAL AIRLINES DIRECT BOOKING SECTION */}
+                {(flightSubTab === 'todas' || flightSubTab === 'companhias') && (
+                  <div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+                      <h4 className="text-xs sm:text-sm font-bold text-navy-900 flex items-center gap-1.5 uppercase tracking-wider">
+                        <span>Companhias Aéreas Oficiais (Compre Direto na Companhia)</span>
+                        <span className="text-[11px] font-normal text-slate-500 normal-case">(Sem taxas de intermediários e com milhas oficiais)</span>
+                      </h4>
+                      <span className="text-[10px] text-slate-400">Total: {flightComparisonResults.airlines?.length || 0} companhias mapeadas</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {flightComparisonResults.airlines?.map((airline) => (
+                        <div
+                          key={airline.id}
+                          className="p-4 rounded-2xl border border-slate-200/80 hover:border-slate-300 bg-white hover:shadow-soft transition-all duration-300 flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{airline.logo}</span>
+                                <div>
+                                  <div className="font-bold text-sm text-navy-900 leading-tight">{airline.name}</div>
+                                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                    IATA: {airline.code} • {airline.country}
+                                  </div>
+                                </div>
+                              </div>
+                              <span className="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 shrink-0">
+                                {airline.badge}
+                              </span>
+                            </div>
+
+                            <div className="mt-2 mb-2">
+                              <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Direta da Companhia</span>
+                              <div className="flex items-baseline gap-1.5 flex-wrap">
+                                <span className="text-lg sm:text-xl font-extrabold text-navy-900">
+                                  R$ {airline.totalPrice.toLocaleString('pt-BR')}
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] text-slate-500">
+                                  (R$ {airline.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="space-y-1 mb-3 text-[11px] text-slate-600">
+                              <div className="flex items-center gap-1.5 text-slate-500">
+                                <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                                <span className="truncate">{airline.hub}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <Check className="w-3 h-3 text-emerald-600 shrink-0" />
+                                <span>{airline.perk}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-slate-500">
+                                <Luggage className="w-3 h-3 text-amber-600 shrink-0" />
+                                <span className="truncate">{airline.baggagePolicy}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <a
+                            href={airline.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 text-white shadow-2xs"
+                          >
+                            <span>Comprar Direto na {airline.name}</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            )}
+
+            {/* MULTI-PLATFORM TRAVEL PACKAGES MATRIX */}
+            {packageComparisonResults && activeTab === 'pacotes' && (
+              <div className="mt-6 pt-5 border-t border-slate-100 animate-fade-in">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
+                  <div>
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-navy-900 flex flex-wrap items-center gap-2">
+                      <span>Cotações de Pacotes Completos (Voo + Hospedagem)</span>
+                      <span className="text-[11px] font-sans font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full">
+                        {adults} {adults === 1 ? 'Viajante' : 'Viajantes'} • {rooms} {rooms === 1 ? 'Quarto' : 'Quartos'}
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Destino: <strong>{destinationQuery.split('(')[0]}</strong> • Saindo de <strong>{originQuery.split('(')[0]}</strong> • 7 Operadoras Líderes
+                    </p>
+                  </div>
+
+                  <div className="bg-blue-50/80 border border-blue-200/80 rounded-xl px-3 py-2 text-[11px] text-blue-900 flex items-center gap-2 shrink-0">
+                    <Award className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Inclui aéreo ida e volta + hotel selecionado + café da manhã</span>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {flightComparisonResults.map((item) => (
+                  {packageComparisonResults.map((pkg) => (
                     <div
-                      key={item.id}
+                      key={pkg.id}
                       className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
-                        item.isBestDeal
+                        pkg.isBestDeal
                           ? 'bg-gradient-to-br from-emerald-50/50 to-white border-emerald-300 shadow-soft ring-1 ring-emerald-400/30'
+                          : pkg.isLuxury
+                          ? 'bg-gradient-to-br from-amber-50/50 to-white border-amber-300 shadow-soft ring-1 ring-amber-400/30'
                           : 'bg-white border-slate-200/80 hover:border-slate-300 shadow-2xs'
                       }`}
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-lg">{item.logo}</span>
-                            <span className="font-bold text-sm text-navy-900">{item.name}</span>
+                            <span className="text-xl">{pkg.logo}</span>
+                            <span className="font-bold text-sm text-navy-900">{pkg.name}</span>
                           </div>
                           <span className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            item.isBestDeal ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                            pkg.isBestDeal 
+                              ? 'bg-emerald-600 text-white' 
+                              : pkg.isLuxury 
+                              ? 'bg-amber-600 text-white' 
+                              : 'bg-slate-100 text-slate-700'
                           }`}>
-                            {item.badge}
+                            {pkg.badge}
                           </span>
                         </div>
 
                         <div className="mt-2 mb-2">
-                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Estimada Total</span>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Pacote Completo ({pkg.durationNights} noites)</span>
                           <div className="flex items-baseline gap-1.5 flex-wrap">
                             <span className="text-lg sm:text-xl font-extrabold text-navy-900">
-                              R$ {item.totalPrice.toLocaleString('pt-BR')}
+                              R$ {pkg.totalPrice.toLocaleString('pt-BR')}
                             </span>
                             <span className="text-[10px] sm:text-[11px] text-slate-500">
-                              (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
+                              (R$ {pkg.pricePerPerson.toLocaleString('pt-BR')} / pessoa)
                             </span>
                           </div>
                         </div>
 
-                        <p className="text-[11px] text-slate-500 mb-3 leading-snug">
-                          {item.perk}
-                        </p>
+                        <div className="space-y-1 mb-3 text-[11px] text-slate-600">
+                          <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
+                            <Check className="w-3.5 h-3.5 shrink-0" />
+                            <span>Passagem Aérea Ida e Volta inclusa</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
+                            <Check className="w-3.5 h-3.5 shrink-0" />
+                            <span>Hospedagem {pkg.isLuxury ? '5★ Resort' : '4★ Superior'}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-slate-600">
+                            <Check className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            <span>{pkg.includes}</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 pt-1 leading-snug">
+                            {pkg.perk}
+                          </p>
+                        </div>
                       </div>
 
                       <a
-                        href={item.url}
+                        href={pkg.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                          item.isBestDeal
+                          pkg.isBestDeal
                             ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-soft'
+                            : pkg.isLuxury
+                            ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-soft'
                             : 'bg-navy-900 hover:bg-navy-800 text-white'
                         }`}
                       >
-                        <span>Abrir cotação no {item.name}</span>
+                        <span>Ver Pacote no {pkg.name}</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
 
@@ -790,7 +1135,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
             )}
 
             {/* Standard Partner Deeplinks Bar (for other tabs) */}
-            {lastSearchedDeeplinks && activeTab !== 'voos' && (
+            {lastSearchedDeeplinks && activeTab !== 'voos' && activeTab !== 'pacotes' && (
               <div className="mt-4 pt-3 border-t border-slate-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <span className="text-xs font-medium text-slate-600">
