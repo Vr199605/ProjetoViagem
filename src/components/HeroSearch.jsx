@@ -18,22 +18,22 @@ import {
 
 const HERO_SLIDES = [
   {
-    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Morro_Dois_Irm%C3%A3os_-_Fernando_de_Noronha.jpg/1280px-Morro_Dois_Irm%C3%A3os_-_Fernando_de_Noronha.jpg',
+    image: '/images/destinations/noronha.jpg',
     title: 'Fernando de Noronha',
     subtitle: 'Santuário de águas anil e vida marinha pura no Atlântico Sul'
   },
   {
-    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Len%C3%A7%C3%B3is_Maranhenses_2018.jpg/1280px-Len%C3%A7%C3%B3is_Maranhenses_2018.jpg',
+    image: '/images/destinations/lencois.jpg',
     title: 'Lençóis Maranhenses',
     subtitle: 'Dunas esculpidas pelo vento e oásis de água doce cristalina'
   },
   {
-    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Catedral_de_Pedra%2C_Canela_RS.jpg/1280px-Catedral_de_Pedra%2C_Canela_RS.jpg',
+    image: '/images/destinations/gramado.jpg',
     title: 'Gramado & Serra Gaúcha',
     subtitle: 'Clima europeu, chalés alpinos e vinhedos premiados'
   },
   {
-    image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1920&q=85',
+    image: '/images/destinations/paris.jpg',
     title: 'Paris & Vale do Loire',
     subtitle: 'O berço da elegância, alta costura e gastronomia estrelada'
   }
