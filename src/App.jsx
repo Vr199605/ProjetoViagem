@@ -136,7 +136,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF9F6] selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#030814] text-slate-100 selection:bg-amber-400 selection:text-slate-950">
       
       {/* 1. Header with Glassmorphism & Navigation */}
       <Header 

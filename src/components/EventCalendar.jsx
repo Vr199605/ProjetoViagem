@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { EVENTS } from '../data/events';
-import { Calendar, MapPin, Ticket, ExternalLink, Plus, Check } from 'lucide-react';
+import { Calendar, MapPin, Ticket, ExternalLink, Plus, Check, Sparkles } from 'lucide-react';
 
 export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], onNotify }) {
   const [filterType, setFilterType] = useState('Todos');
@@ -26,19 +26,20 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
   };
 
   return (
-    <section id="eventos-festivais" className="py-16 bg-sand-50/60 border-y border-slate-200/60 scroll-mt-24">
+    <section id="eventos-festivais" className="py-16 bg-[#040D22] border-y border-blue-900/60 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3.5 py-1.5 rounded-full inline-block mb-3">
-              Calendário Global & Grandes Experiências
+            <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/30 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3 shadow-[0_0_15px_rgba(251,191,36,0.15)]">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Calendário Global & Grandes Experiências</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-navy-900 font-normal tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight">
               Eventos Culturais, Festivais & Maratonas
             </h2>
-            <p className="mt-2 text-sm text-slate-500 font-light max-w-2xl leading-relaxed">
+            <p className="mt-2 text-sm text-slate-300 font-light max-w-2xl leading-relaxed">
               Planeje sua viagem sincronizada com os momentos mais marcantes do cinema, alta gastronomia, esportes e espetáculos pelo mundo.
             </p>
           </div>
@@ -49,10 +50,10 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
               <button
                 key={opt}
                 onClick={() => setFilterType(opt)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all shrink-0 cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 cursor-pointer ${
                   filterType === opt
-                    ? 'bg-navy-900 text-white shadow-soft'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black shadow-[0_0_15px_rgba(251,191,36,0.35)]'
+                    : 'bg-[#071736] text-slate-300 border border-blue-500/30 hover:border-amber-400/50 hover:text-white'
                 }`}
               >
                 {opt}
@@ -69,10 +70,10 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
             return (
               <div
                 key={item.id}
-                className="bg-white rounded-3xl border border-slate-200/80 shadow-soft overflow-hidden flex flex-col justify-between card-hover-effect"
+                className="bg-[#071736] rounded-3xl border border-blue-500/30 hover:border-amber-400/60 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col justify-between card-hover-effect"
               >
                 {/* Image */}
-                <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+                <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -80,7 +81,7 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
                     loading="lazy"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-navy-900/80 backdrop-blur-md text-white text-[10px] font-bold tracking-wider uppercase">
+                    <span className="px-2.5 py-0.5 rounded-full bg-navy-950/80 backdrop-blur-md text-amber-300 border border-amber-400/30 text-[10px] font-bold tracking-wider uppercase">
                       {item.tag}
                     </span>
                   </div>
@@ -90,30 +91,30 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     {/* Date Badge */}
-                    <div className="flex items-center gap-1.5 text-emerald-700 text-xs font-semibold mb-2">
-                      <Calendar className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1.5 text-amber-300 text-xs font-bold mb-2">
+                      <Calendar className="w-3.5 h-3.5 text-amber-400" />
                       <span>{item.date}</span>
                     </div>
 
-                    <h4 className="font-serif text-lg font-bold text-navy-900 leading-snug">
+                    <h4 className="font-serif text-lg font-bold text-white leading-snug">
                       {item.title}
                     </h4>
 
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1 mb-3">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="flex items-center gap-1.5 text-xs text-blue-200 mt-1 mb-3">
+                      <MapPin className="w-3.5 h-3.5 text-blue-300" />
                       <span>{item.city}, {item.country}</span>
                     </div>
 
-                    <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-4">
+                    <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed mb-4 font-light">
                       {item.description}
                     </p>
                   </div>
 
                   {/* Footer & Actions */}
-                  <div className="pt-3 border-t border-slate-100">
-                    <div className="flex items-center justify-between text-[11px] text-slate-500 mb-3">
+                  <div className="pt-3 border-t border-blue-900/60">
+                    <div className="flex items-center justify-between text-[11px] text-slate-300 mb-3">
                       <span>Ingressos médios:</span>
-                      <strong className="text-navy-900">{item.averageTicket}</strong>
+                      <strong className="text-amber-300 font-bold">{item.averageTicket}</strong>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
@@ -122,30 +123,30 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
                         href={item.ticketUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="py-2 px-3 rounded-xl border border-slate-200 hover:border-slate-300 text-slate-700 text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                        className="py-2.5 px-3 rounded-xl border border-blue-400/30 hover:border-amber-400/60 bg-[#0A2248] text-white text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors"
                       >
                         <span>Ingressos</span>
-                        <ExternalLink className="w-3 h-3 text-slate-400" />
+                        <ExternalLink className="w-3 h-3 text-slate-300" />
                       </a>
 
                       {/* Add to plan */}
                       <button
                         type="button"
                         onClick={() => handleAddEvent(item)}
-                        className={`py-2 px-3 rounded-xl text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        className={`py-2.5 px-3 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                           isAdded
-                            ? 'bg-emerald-600 text-white'
-                            : 'bg-navy-900 hover:bg-navy-800 text-white'
+                            ? 'bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+                            : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.3)]'
                         }`}
                       >
                         {isAdded ? (
                           <>
-                            <Check className="w-3 h-3 text-white" />
+                            <Check className="w-3.5 h-3.5 text-white" />
                             <span>Adicionado</span>
                           </>
                         ) : (
                           <>
-                            <Plus className="w-3 h-3" />
+                            <Plus className="w-3.5 h-3.5" />
                             <span>Adicionar</span>
                           </>
                         )}
