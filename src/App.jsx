@@ -9,6 +9,7 @@ import PDFPreviewModal from './components/PDFPreviewModal';
 import PDFDocumentTemplate from './components/PDFDocumentTemplate';
 import ToastNotification from './components/ToastNotification';
 import Footer from './components/Footer';
+import LandingPage from './components/LandingPage';
 
 import { buildCustomItinerary } from './data/itineraries';
 import { generateEditorialPDF } from './utils/pdfGenerator';
@@ -34,6 +35,9 @@ export default function App() {
 
   // Toast notification state
   const [toast, setToast] = useState(null);
+
+  // Active View State ('landing' | 'platform')
+  const [currentView, setCurrentView] = useState('landing');
 
   // Modals & Generation State
   const [isGenerating, setIsGenerating] = useState(false);
@@ -117,6 +121,20 @@ export default function App() {
     }
   };
 
+  if (currentView === 'landing') {
+    return (
+      <div className="min-h-screen bg-[#FAF9F6]">
+        <LandingPage 
+          onEnterPlatform={() => {
+            setCurrentView('platform');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }} 
+        />
+        <ToastNotification toast={toast} onClose={() => setToast(null)} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F6] selection:bg-emerald-500 selection:text-white">
       
@@ -126,6 +144,10 @@ export default function App() {
         onOpenPlanner={() => {
           const el = document.getElementById('assistente-ia');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onBackToLanding={() => {
+          setCurrentView('landing');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
 

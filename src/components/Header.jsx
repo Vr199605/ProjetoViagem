@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Compass, Sparkles, MapPin, Calendar, BookOpen, Layers, Menu, X, ShieldCheck } from 'lucide-react';
 import { CONFIG } from '../config';
 
-export default function Header({ plannedItemsCount = 0, onOpenPlanner }) {
+export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToLanding }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollTo = (id) => {
@@ -40,7 +40,17 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner }) {
         </div>
 
         {/* Desktop Navigation Anchors */}
-        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600">
+        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
+          {onBackToLanding && (
+            <button 
+              onClick={onBackToLanding}
+              className="hover:text-emerald-700 text-navy-900 font-bold transition-all py-1 px-3 rounded-full bg-slate-100/90 hover:bg-emerald-50 flex items-center gap-1.5 text-xs border border-slate-200 cursor-pointer"
+              title="Voltar para a página de apresentação do VOYAGER AI"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Apresentação & Diferenciais</span>
+            </button>
+          )}
           <button 
             onClick={() => scrollTo('destinos-brasil')}
             className="hover:text-navy-900 transition-colors py-1 cursor-pointer"
@@ -116,6 +126,22 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner }) {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-slate-200 p-5 space-y-4 animate-fade-in shadow-modal">
           <div className="flex flex-col space-y-3 text-sm font-semibold text-slate-700">
+            {onBackToLanding && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onBackToLanding();
+                }}
+                className="text-left py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-emerald-50 text-navy-900 font-bold transition-colors flex items-center justify-between border border-slate-200"
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-600" />
+                  <span>Apresentação & Diferenciais</span>
+                </div>
+                <span className="text-[10px] bg-navy-900 text-white px-2 py-0.5 rounded-full">Início</span>
+              </button>
+            )}
+
             <button
               onClick={() => scrollTo('destinos-brasil')}
               className="text-left py-2 px-3 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between"
