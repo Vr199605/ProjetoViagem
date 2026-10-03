@@ -18,17 +18,17 @@ import {
 
 const HERO_SLIDES = [
   {
-    image: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=1920&q=85',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Morro_Dois_Irm%C3%A3os_-_Fernando_de_Noronha.jpg/1280px-Morro_Dois_Irm%C3%A3os_-_Fernando_de_Noronha.jpg',
     title: 'Fernando de Noronha',
     subtitle: 'Santuário de águas anil e vida marinha pura no Atlântico Sul'
   },
   {
-    image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=1920&q=85',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Len%C3%A7%C3%B3is_Maranhenses_2018.jpg/1280px-Len%C3%A7%C3%B3is_Maranhenses_2018.jpg',
     title: 'Lençóis Maranhenses',
     subtitle: 'Dunas esculpidas pelo vento e oásis de água doce cristalina'
   },
   {
-    image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1920&q=85',
+    image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Catedral_de_Pedra%2C_Canela_RS.jpg/1280px-Catedral_de_Pedra%2C_Canela_RS.jpg',
     title: 'Gramado & Serra Gaúcha',
     subtitle: 'Clima europeu, chalés alpinos e vinhedos premiados'
   },
