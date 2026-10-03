@@ -123,7 +123,7 @@ export default function App() {
 
   if (currentView === 'landing') {
     return (
-      <div className="min-h-screen bg-[#FAF9F6]">
+      <div className="min-h-screen bg-[#030814] text-slate-100">
         <LandingPage 
           onEnterPlatform={() => {
             setCurrentView('platform');
