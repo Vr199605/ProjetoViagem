@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Building2, Plane, Package, Ticket, Calendar, Users, 
-  Search, ArrowRight, MapPin, ChevronDown, Check, ExternalLink, Sparkles 
+  Search, ArrowRight, MapPin, ChevronDown, Check, ExternalLink, 
+  Sparkles, ArrowLeftRight, TrendingDown, ShieldAlert
 } from 'lucide-react';
 import { SEARCH_AUTOCOMPLETE } from '../data/destinations';
+import { calculateFlightComparison } from '../data/quotations';
 import { 
-  buildBookingUrl, buildSkyscannerUrl, buildDecolarUrl, 
-  buildAirbnbUrl, buildSymplaUrl, buildEventbriteUrl 
+  buildBookingUrl, 
+  buildSkyscannerUrl, 
+  buildDecolarUrl, 
+  buildAirbnbUrl, 
+  buildSymplaUrl, 
+  buildEventbriteUrl 
 } from '../utils/deeplinkBuilder';
 
 const HERO_SLIDES = [
@@ -21,9 +27,9 @@ const HERO_SLIDES = [
     subtitle: 'Dunas esculpidas pelo vento e oásis de água doce cristalina'
   },
   {
-    image: 'https://images.unsplash.com/photo-1548625361-16eb72f384a5?auto=format&fit=crop&w=1920&q=85',
+    image: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1920&q=85',
     title: 'Gramado & Serra Gaúcha',
-    subtitle: 'Clima europeu, alta gastronomia e vinhedos premiados'
+    subtitle: 'Clima europeu, chalés alpinos e vinhedos premiados'
   },
   {
     image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1920&q=85',
@@ -34,11 +40,15 @@ const HERO_SLIDES = [
 
 export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeTab, setActiveTab] = useState('hospedagens'); // 'hospedagens', 'voos', 'pacotes', 'eventos'
+  const [activeTab, setActiveTab] = useState('voos'); // Default to 'voos' to showcase the new multi-platform round-trip comparison!
   
+  // Flight Specific Modes
+  const [isRoundTrip, setIsRoundTrip] = useState(true); // true = Ida e Volta, false = Somente Ida
+  const [flightClass, setFlightClass] = useState('Econômica'); // Econômica, Premium Economy, Executiva
+
   // Search parameters
-  const [destinationQuery, setDestinationQuery] = useState('Gramado & Serra Gaúcha, RS');
-  const [originQuery, setOriginQuery] = useState('São Paulo (GRU), SP');
+  const [originQuery, setOriginQuery] = useState('São Paulo, SP (GRU / CGH / VCP)');
+  const [destinationQuery, setDestinationQuery] = useState('Gramado & Canela, RS (POA)');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   
@@ -49,13 +59,18 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   const [rooms, setRooms] = useState(1);
 
   // Autocomplete suggestions
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [originSuggestions, setOriginSuggestions] = useState([]);
+  const [showOriginSuggestions, setShowOriginSuggestions] = useState(false);
 
-  // Partner deeplink modal or direct triggers
+  const [destSuggestions, setDestSuggestions] = useState([]);
+  const [showDestSuggestions, setShowDestSuggestions] = useState(false);
+
+  // Partner deeplink / flight comparison results
   const [lastSearchedDeeplinks, setLastSearchedDeeplinks] = useState(null);
+  const [flightComparisonResults, setFlightComparisonResults] = useState(null);
 
-  const autocompleteRef = useRef(null);
+  const originRef = useRef(null);
+  const destRef = useRef(null);
 
   // Auto slide rotation
   useEffect(() => {
@@ -68,47 +83,68 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   // Today's date in YYYY-MM-DD format for min-date
   const todayStr = new Date().toISOString().split('T')[0];
 
-  // Close dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     function handleClickOutside(event) {
-      if (autocompleteRef.current && !autocompleteRef.current.contains(event.target)) {
-        setShowSuggestions(false);
+      if (originRef.current && !originRef.current.contains(event.target)) {
+        setShowOriginSuggestions(false);
+      }
+      if (destRef.current && !destRef.current.contains(event.target)) {
+        setShowDestSuggestions(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filter autocomplete
+  // Origin autocomplete
+  const handleOriginInput = (e) => {
+    const val = e.target.value;
+    setOriginQuery(val);
+    if (val.trim().length > 0) {
+      const filtered = SEARCH_AUTOCOMPLETE.filter(item => 
+        item.label.toLowerCase().includes(val.toLowerCase()) ||
+        item.country.toLowerCase().includes(val.toLowerCase()) ||
+        (item.airport && item.airport.toLowerCase().includes(val.toLowerCase()))
+      );
+      setOriginSuggestions(filtered);
+      setShowOriginSuggestions(true);
+    } else {
+      setOriginSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 8));
+      setShowOriginSuggestions(true);
+    }
+  };
+
+  // Destination autocomplete
   const handleDestinationInput = (e) => {
     const val = e.target.value;
     setDestinationQuery(val);
     if (val.trim().length > 0) {
       const filtered = SEARCH_AUTOCOMPLETE.filter(item => 
         item.label.toLowerCase().includes(val.toLowerCase()) ||
-        item.country.toLowerCase().includes(val.toLowerCase())
+        item.country.toLowerCase().includes(val.toLowerCase()) ||
+        (item.airport && item.airport.toLowerCase().includes(val.toLowerCase()))
       );
-      setSuggestions(filtered);
-      setShowSuggestions(true);
+      setDestSuggestions(filtered);
+      setShowDestSuggestions(true);
     } else {
-      setSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 6));
-      setShowSuggestions(true);
+      setDestSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 8));
+      setShowDestSuggestions(true);
     }
   };
 
-  // Date validation: Check-Out cannot be before or equal to Check-In
+  // Date validation: Check-Out / Return Date cannot be before Check-In / Depart Date
   const handleCheckInChange = (e) => {
     const newCheckIn = e.target.value;
     setCheckIn(newCheckIn);
     if (checkOut && newCheckIn >= checkOut) {
-      // Automatically advance check-out by 3 days
       const d = new Date(newCheckIn);
-      d.setDate(d.getDate() + 3);
+      d.setDate(d.getDate() + 5);
       setCheckOut(d.toISOString().split('T')[0]);
       onNotify?.({
         type: 'info',
-        title: 'Datas ajustadas',
-        message: 'A data de check-out foi atualizada automaticamente para após o check-in.'
+        title: 'Datas Ajustadas',
+        message: 'A data de volta foi ajustada para após a data de partida.'
       });
     }
   };
@@ -119,14 +155,21 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
       onNotify?.({
         type: 'error',
         title: 'Data Inválida',
-        message: 'A data de check-out deve ser posterior ao check-in.'
+        message: 'A data de retorno deve ser posterior à data de ida.'
       });
       return;
     }
     setCheckOut(newCheckOut);
   };
 
-  // Handle Search Submission & Partner Deeplink Creation
+  // Swap Origin and Destination
+  const handleSwapLocations = () => {
+    const temp = originQuery;
+    setOriginQuery(destinationQuery);
+    setDestinationQuery(temp);
+  };
+
+  // Execute Search & Comparative Engine
   const handleExecuteSearch = (e) => {
     e.preventDefault();
 
@@ -134,65 +177,78 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
       onNotify?.({
         type: 'error',
         title: 'Destino Obrigatório',
-        message: 'Por favor, selecione ou digite um destino para pesquisar.'
+        message: 'Por favor, informe a cidade ou aeroporto de destino.'
       });
       return;
     }
 
-    const cleanDest = destinationQuery.split(',')[0].trim();
+    const cleanDest = destinationQuery.split('(')[0].trim();
+    const cleanOrig = originQuery.split('(')[0].trim();
 
-    // Prepare partner links
-    const bookingUrl = buildBookingUrl({ 
-      destination: cleanDest, 
-      checkIn, 
-      checkOut, 
-      adults, 
-      rooms 
-    });
+    // 1. If Voos tab is active: Calculate Multi-Platform Flight Comparison
+    if (activeTab === 'voos') {
+      const comparison = calculateFlightComparison({
+        origin: originQuery,
+        destination: destinationQuery,
+        departDate: checkIn,
+        returnDate: checkOut,
+        roundTrip: isRoundTrip,
+        adults,
+        seatClass: flightClass
+      });
 
-    const skyscannerUrl = buildSkyscannerUrl({ 
-      origin: 'SAO', 
-      destination: cleanDest, 
-      checkIn, 
-      checkOut, 
-      adults 
-    });
+      setFlightComparisonResults(comparison);
 
-    const decolarUrl = buildDecolarUrl({ 
-      destination: cleanDest, 
-      checkIn, 
-      checkOut 
-    });
+      onNotify?.({
+        type: 'success',
+        title: 'Cotação Multiplataforma Pronta',
+        message: `Comparamos voos entre ${cleanOrig} e ${cleanDest} (${isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}) em 6 plataformas parceiras.`
+      });
+    } else {
+      // 2. Other tabs: build hotel/package deeplinks
+      const bookingUrl = buildBookingUrl({ 
+        destination: cleanDest, 
+        checkIn, 
+        checkOut, 
+        adults, 
+        rooms 
+      });
 
-    const airbnbUrl = buildAirbnbUrl({ 
-      destination: cleanDest, 
-      checkIn, 
-      checkOut, 
-      adults 
-    });
+      const decolarUrl = buildDecolarUrl({ 
+        destination: cleanDest, 
+        checkIn, 
+        checkOut 
+      });
 
-    const symplaUrl = buildSymplaUrl(cleanDest);
-    const eventbriteUrl = buildEventbriteUrl(cleanDest);
+      const airbnbUrl = buildAirbnbUrl({ 
+        destination: cleanDest, 
+        checkIn, 
+        checkOut, 
+        adults 
+      });
 
-    setLastSearchedDeeplinks({
-      destination: cleanDest,
-      bookingUrl,
-      skyscannerUrl,
-      decolarUrl,
-      airbnbUrl,
-      symplaUrl,
-      eventbriteUrl
-    });
+      const symplaUrl = buildSymplaUrl(cleanDest);
+      const eventbriteUrl = buildEventbriteUrl(cleanDest);
 
-    onNotify?.({
-      type: 'success',
-      title: 'Busca Universal Pronta',
-      message: `Links gerados com sucesso para ${cleanDest} com cotações em tempo real nas principais plataformas parceiras.`
-    });
+      setLastSearchedDeeplinks({
+        destination: cleanDest,
+        bookingUrl,
+        decolarUrl,
+        airbnbUrl,
+        symplaUrl,
+        eventbriteUrl
+      });
+
+      onNotify?.({
+        type: 'success',
+        title: 'Busca Concluída',
+        message: `Cotações disponíveis em tempo real para ${cleanDest}.`
+      });
+    }
   };
 
   return (
-    <div className="relative min-h-[640px] lg:min-h-[700px] flex items-center justify-center overflow-hidden pb-16">
+    <div className="relative min-h-[680px] lg:min-h-[760px] flex items-center justify-center overflow-hidden pb-16">
       
       {/* Background Rotating Imagery */}
       {HERO_SLIDES.map((slide, idx) => (
@@ -208,8 +264,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
             alt={slide.title}
             className="w-full h-full object-cover object-center filter brightness-[0.78]"
           />
-          {/* Subtle gradient overlay for readability and luxury mood */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-900/30 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-navy-900/35 to-black/30" />
         </div>
       ))}
 
@@ -235,136 +290,293 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
         {/* Editorial Subtitle Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-xs uppercase tracking-widest font-semibold mb-6 animate-fade-in">
           <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Curadoria Exclusiva & Roteiros Inteligentes</span>
+          <span>Cobertura Universal: Todo o Brasil e o Mundo</span>
         </div>
 
-        {/* Editorial High-Impact Title */}
+        {/* Editorial Title */}
         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-[1.15] max-w-4xl mx-auto drop-shadow-md">
           Descubra o Brasil e o Mundo com inteligência e sofisticação.
         </h1>
         
         <p className="mt-4 text-base sm:text-lg text-slate-200/90 max-w-2xl mx-auto font-light leading-relaxed">
-          Experiências autênticas, gastronomia de autor e itinerários dia a dia gerados sob medida com cotações imediatas em PDF.
+          Comparamos os melhores preços de voos e hotéis em Google Flights, Skyscanner, Decolar, 123 Milhas, MaxMilhas e Booking.
         </p>
 
-        {/* Floating Universal Search Box */}
-        <div className="mt-10 max-w-5xl mx-auto text-left">
-          <div className="glass-dropdown bg-white/95 rounded-3xl p-3 sm:p-5 shadow-modal border border-white/80">
+        {/* Universal Search Container */}
+        <div className="mt-8 max-w-5xl mx-auto text-left">
+          <div className="glass-dropdown bg-white/95 rounded-3xl p-4 sm:p-6 shadow-modal border border-white/80">
             
-            {/* Search Tabs */}
-            <div className="flex items-center gap-1 sm:gap-2 border-b border-slate-100 pb-3 mb-4 overflow-x-auto no-scrollbar">
-              <button
-                type="button"
-                onClick={() => setActiveTab('hospedagens')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 ${
-                  activeTab === 'hospedagens'
-                    ? 'bg-navy-900 text-white shadow-soft'
-                    : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
-                }`}
-              >
-                <Building2 className="w-4 h-4" />
-                <span>Hospedagens</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('voos')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 ${
-                  activeTab === 'voos'
-                    ? 'bg-navy-900 text-white shadow-soft'
-                    : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
-                }`}
-              >
-                <Plane className="w-4 h-4" />
-                <span>Voos</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('pacotes')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 ${
-                  activeTab === 'pacotes'
-                    ? 'bg-navy-900 text-white shadow-soft'
-                    : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
-                }`}
-              >
-                <Package className="w-4 h-4" />
-                <span>Pacotes</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('eventos')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 ${
-                  activeTab === 'eventos'
-                    ? 'bg-navy-900 text-white shadow-soft'
-                    : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
-                }`}
-              >
-                <Ticket className="w-4 h-4" />
-                <span>Eventos Culturais</span>
-              </button>
-            </div>
-
-            {/* Inputs Grid */}
-            <form onSubmit={handleExecuteSearch} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+            {/* Search Tabs & Flight Mode Selector */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
               
-              {/* Destination Autocomplete (col-span-4) */}
-              <div className="md:col-span-4 relative" ref={autocompleteRef}>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-                  {activeTab === 'voos' ? 'Destino Final' : 'Para onde você deseja ir?'}
-                </label>
-                <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors">
-                  <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <input
-                    type="text"
-                    value={destinationQuery}
-                    onChange={handleDestinationInput}
-                    onFocus={() => {
-                      setSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 6));
-                      setShowSuggestions(true);
-                    }}
-                    placeholder="Ex: Fernando de Noronha, Paris..."
-                    className="w-full bg-transparent text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none"
-                  />
-                </div>
+              {/* Category Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('voos');
+                    setFlightComparisonResults(null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+                    activeTab === 'voos'
+                      ? 'bg-navy-900 text-white shadow-soft'
+                      : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
+                  }`}
+                >
+                  <Plane className="w-4 h-4" />
+                  <span>Voos & Cotação</span>
+                </button>
 
-                {/* Autocomplete Dropdown */}
-                {showSuggestions && (
-                  <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-modal border border-slate-200/90 py-2 z-50 max-h-64 overflow-y-auto">
-                    <div className="px-3 py-1 text-[10px] font-bold uppercase text-slate-400">
-                      Destinos Populares & Hubs
-                    </div>
-                    {suggestions.map((item, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => {
-                          setDestinationQuery(item.label);
-                          setShowSuggestions(false);
-                        }}
-                        className="w-full text-left px-3.5 py-2 text-xs hover:bg-slate-50 flex items-center justify-between group transition-colors"
-                      >
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600" />
-                          <span className="font-medium text-navy-900">{item.label}</span>
-                        </div>
-                        <span className="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                          {item.airport}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('hospedagens');
+                    setFlightComparisonResults(null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+                    activeTab === 'hospedagens'
+                      ? 'bg-navy-900 text-white shadow-soft'
+                      : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4" />
+                  <span>Hospedagens</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('pacotes');
+                    setFlightComparisonResults(null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+                    activeTab === 'pacotes'
+                      ? 'bg-navy-900 text-white shadow-soft'
+                      : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
+                  }`}
+                >
+                  <Package className="w-4 h-4" />
+                  <span>Pacotes</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveTab('eventos');
+                    setFlightComparisonResults(null);
+                  }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer ${
+                    activeTab === 'eventos'
+                      ? 'bg-navy-900 text-white shadow-soft'
+                      : 'text-slate-600 hover:text-navy-900 hover:bg-slate-100/70'
+                  }`}
+                >
+                  <Ticket className="w-4 h-4" />
+                  <span>Eventos Culturais</span>
+                </button>
               </div>
 
-              {/* Check-in & Check-out Dates (col-span-4) */}
-              <div className="md:col-span-4 grid grid-cols-2 gap-2">
+              {/* Flight Round-Trip / Class Controls (Visible on Voos tab) */}
+              {activeTab === 'voos' && (
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => setIsRoundTrip(true)}
+                      className={`px-3 py-1 rounded-lg transition-all ${
+                        isRoundTrip ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'
+                      }`}
+                    >
+                      Ida e Volta
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsRoundTrip(false)}
+                      className={`px-3 py-1 rounded-lg transition-all ${
+                        !isRoundTrip ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'
+                      }`}
+                    >
+                      Somente Ida
+                    </button>
+                  </div>
+
+                  <select
+                    value={flightClass}
+                    onChange={(e) => setFlightClass(e.target.value)}
+                    className="text-xs font-medium text-slate-700 bg-slate-100 py-1.5 px-2.5 rounded-xl border-none focus:outline-none cursor-pointer"
+                  >
+                    <option value="Econômica">Econômica</option>
+                    <option value="Premium Economy">Premium Economy</option>
+                    <option value="Executiva">Classe Executiva</option>
+                  </select>
+                </div>
+              )}
+
+            </div>
+
+            {/* Inputs Form */}
+            <form onSubmit={handleExecuteSearch} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+              
+              {/* If Voos tab: Origem (col-span-3) and Destino (col-span-3) with Swap */}
+              {activeTab === 'voos' ? (
+                <>
+                  {/* Origem */}
+                  <div className="md:col-span-3 relative" ref={originRef}>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                      Origem (Brasil ou Mundo)
+                    </label>
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors">
+                      <Plane className="w-4 h-4 text-slate-400 rotate-45 shrink-0" />
+                      <input
+                        type="text"
+                        value={originQuery}
+                        onChange={handleOriginInput}
+                        onFocus={() => {
+                          setOriginSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 8));
+                          setShowOriginSuggestions(true);
+                        }}
+                        placeholder="Origem: Ex: São Paulo, Paris..."
+                        className="w-full bg-transparent text-xs sm:text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Autocomplete Dropdown */}
+                    {showOriginSuggestions && (
+                      <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-modal border border-slate-200/90 py-2 z-50 max-h-60 overflow-y-auto">
+                        <div className="px-3 py-1 text-[10px] font-bold uppercase text-slate-400">
+                          Origens Frequentes
+                        </div>
+                        {originSuggestions.map((item, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              setOriginQuery(item.label);
+                              setShowOriginSuggestions(false);
+                            }}
+                            className="w-full text-left px-3.5 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between transition-colors"
+                          >
+                            <span className="font-medium text-navy-900">{item.label}</span>
+                            <span className="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full font-bold">
+                              {item.airport}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Destino */}
+                  <div className="md:col-span-3 relative" ref={destRef}>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        Destino Final
+                      </label>
+                      <button
+                        type="button"
+                        onClick={handleSwapLocations}
+                        className="text-[10px] text-slate-400 hover:text-navy-900 flex items-center gap-1 cursor-pointer"
+                        title="Inverter origem e destino"
+                      >
+                        <ArrowLeftRight className="w-3 h-3" />
+                        <span>Inverter</span>
+                      </button>
+                    </div>
+
+                    <div className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors">
+                      <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <input
+                        type="text"
+                        value={destinationQuery}
+                        onChange={handleDestinationInput}
+                        onFocus={() => {
+                          setDestSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 8));
+                          setShowDestSuggestions(true);
+                        }}
+                        placeholder="Destino: Ex: Gramado, Roma..."
+                        className="w-full bg-transparent text-xs sm:text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none"
+                      />
+                    </div>
+
+                    {showDestSuggestions && (
+                      <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-modal border border-slate-200/90 py-2 z-50 max-h-60 overflow-y-auto">
+                        <div className="px-3 py-1 text-[10px] font-bold uppercase text-slate-400">
+                          Capitais e Pólos Mundiais
+                        </div>
+                        {destSuggestions.map((item, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => {
+                              setDestinationQuery(item.label);
+                              setShowDestSuggestions(false);
+                            }}
+                            className="w-full text-left px-3.5 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between transition-colors"
+                          >
+                            <span className="font-medium text-navy-900">{item.label}</span>
+                            <span className="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full font-bold">
+                              {item.airport}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                /* Standard Destination Input for Hospedagens/Pacotes/Eventos (col-span-4) */
+                <div className="md:col-span-4 relative" ref={destRef}>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                    Qual destino no Brasil ou no Mundo?
+                  </label>
+                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors">
+                    <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <input
+                      type="text"
+                      value={destinationQuery}
+                      onChange={handleDestinationInput}
+                      onFocus={() => {
+                        setDestSuggestions(SEARCH_AUTOCOMPLETE.slice(0, 8));
+                        setShowDestSuggestions(true);
+                      }}
+                      placeholder="Qualquer cidade do Brasil ou Mundo..."
+                      className="w-full bg-transparent text-sm font-medium text-navy-900 placeholder-slate-400 focus:outline-none"
+                    />
+                  </div>
+
+                  {showDestSuggestions && (
+                    <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-modal border border-slate-200/90 py-2 z-50 max-h-60 overflow-y-auto">
+                      <div className="px-3 py-1 text-[10px] font-bold uppercase text-slate-400">
+                        Capitais & Cidades Turísticas
+                      </div>
+                      {destSuggestions.map((item, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setDestinationQuery(item.label);
+                            setShowDestSuggestions(false);
+                          }}
+                          className="w-full text-left px-3.5 py-1.5 text-xs hover:bg-slate-50 flex items-center justify-between transition-colors"
+                        >
+                          <span className="font-medium text-navy-900">{item.label}</span>
+                          <span className="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full font-bold">
+                            {item.airport}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Dates (Ida & Volta) (col-span-4) */}
+              <div className={`${activeTab === 'voos' ? 'md:col-span-3' : 'md:col-span-4'} grid grid-cols-2 gap-2`}>
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-                    Check-in
+                    {activeTab === 'voos' ? 'Data de Ida' : 'Check-in'}
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+                  <div className="flex items-center gap-1.5 px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80">
                     <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
                       type="date"
@@ -378,49 +590,51 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
 
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-                    Check-out
+                    {activeTab === 'voos' ? 'Data de Volta' : 'Check-out'}
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+                  <div className={`flex items-center gap-1.5 px-3 py-2.5 rounded-2xl border ${
+                    !isRoundTrip && activeTab === 'voos' 
+                      ? 'bg-slate-100/50 border-slate-200 opacity-50 cursor-not-allowed' 
+                      : 'bg-slate-50 border-slate-200/80'
+                  }`}>
                     <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
                       type="date"
                       min={checkIn || todayStr}
                       value={checkOut}
+                      disabled={!isRoundTrip && activeTab === 'voos'}
                       onChange={handleCheckOutChange}
-                      className="w-full bg-transparent text-xs sm:text-sm font-medium text-navy-900 focus:outline-none"
+                      className="w-full bg-transparent text-xs sm:text-sm font-medium text-navy-900 focus:outline-none disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Travelers Dropdown (col-span-2) */}
-              <div className="md:col-span-2 relative">
+              {/* Travelers (col-span-2) */}
+              <div className={`${activeTab === 'voos' ? 'md:col-span-2' : 'md:col-span-2'} relative`}>
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-                  Viajantes
+                  Passageiros
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowTravelersDropdown(!showTravelersDropdown)}
                   className="w-full flex items-center justify-between px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 text-left transition-colors"
                 >
-                  <div className="flex items-center gap-2 truncate">
+                  <div className="flex items-center gap-1.5 truncate">
                     <Users className="w-4 h-4 text-slate-400 shrink-0" />
                     <span className="text-xs sm:text-sm font-medium text-navy-900 truncate">
-                      {adults + childrenCount} {adults + childrenCount === 1 ? 'Viajante' : 'Viajantes'}
+                      {adults + childrenCount} {adults + childrenCount === 1 ? 'Pessoa' : 'Pessoas'}
                     </span>
                   </div>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                 </button>
 
-                {/* Travelers Popover */}
                 {showTravelersDropdown && (
                   <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-modal border border-slate-200 p-4 z-50">
-                    
-                    {/* Adults */}
                     <div className="flex items-center justify-between py-2 border-b border-slate-100">
                       <div>
                         <div className="text-xs font-bold text-navy-900">Adultos</div>
-                        <div className="text-[10px] text-slate-400">12 anos ou mais</div>
+                        <div className="text-[10px] text-slate-400">12+ anos</div>
                       </div>
                       <div className="flex items-center gap-3">
                         <button
@@ -441,10 +655,9 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                       </div>
                     </div>
 
-                    {/* Children */}
-                    <div className="flex items-center justify-between py-2 border-b border-slate-100">
+                    <div className="flex items-center justify-between py-2 mb-3">
                       <div>
-                        <div className="text-xs font-bold text-navy-900">Crianças</div>
+                        <div className="text-xs font-bold text-navy-900">Crianças / Bebês</div>
                         <div className="text-[10px] text-slate-400">0 a 11 anos</div>
                       </div>
                       <div className="flex items-center gap-3">
@@ -466,31 +679,6 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                       </div>
                     </div>
 
-                    {/* Rooms */}
-                    <div className="flex items-center justify-between py-2 mb-3">
-                      <div>
-                        <div className="text-xs font-bold text-navy-900">Quartos</div>
-                        <div className="text-[10px] text-slate-400">Suítes / Apartamentos</div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setRooms(Math.max(1, rooms - 1))}
-                          className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100"
-                        >
-                          -
-                        </button>
-                        <span className="text-xs font-bold text-navy-900 w-4 text-center">{rooms}</span>
-                        <button
-                          type="button"
-                          onClick={() => setRooms(Math.min(5, rooms + 1))}
-                          className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-100"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-
                     <button
                       type="button"
                       onClick={() => setShowTravelersDropdown(false)}
@@ -502,24 +690,112 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                 )}
               </div>
 
-              {/* Submit CTA (col-span-2) */}
-              <div className="md:col-span-2">
+              {/* Submit CTA Button (col-span-1 or col-span-2) */}
+              <div className={`${activeTab === 'voos' ? 'md:col-span-1' : 'md:col-span-2'}`}>
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-transparent mb-1 select-none">
-                  Ação
+                  Buscar
                 </label>
                 <button
                   type="submit"
-                  className="w-full py-2.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition-all duration-200 shadow-soft flex items-center justify-center gap-2 group cursor-pointer"
+                  className="w-full py-2.5 px-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition-all duration-200 shadow-soft flex items-center justify-center gap-1.5 group cursor-pointer"
+                  title="Pesquisar melhores preços"
                 >
                   <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  <span>Buscar</span>
+                  <span>{activeTab === 'voos' ? 'Buscar' : 'Pesquisar'}</span>
                 </button>
               </div>
 
             </form>
 
-            {/* Generated Partner Deeplinks Bar (when search is run) */}
-            {lastSearchedDeeplinks && (
+            {/* MULTI-PLATFORM FLIGHT COMPARISON RESULTS MATRIX */}
+            {flightComparisonResults && (
+              <div className="mt-6 pt-5 border-t border-slate-100 animate-fade-in">
+                
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                  <div>
+                    <h3 className="font-serif text-lg font-bold text-navy-900 flex items-center gap-2">
+                      <span>Cotações de Voos em Tempo Real</span>
+                      <span className="text-xs font-sans font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full">
+                        {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'} • {adults} {adults === 1 ? 'Passageiro' : 'Passageiros'}
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Rota: <strong>{originQuery}</strong> ➔ <strong>{destinationQuery}</strong> ({flightClass})
+                    </p>
+                  </div>
+
+                  <span className="text-[11px] text-slate-400">
+                    Clique em qualquer plataforma para abrir com datas e trechos pré-preenchidos:
+                  </span>
+                </div>
+
+                {/* 6 Cards Grid: Google Flights, Skyscanner, Decolar, 123Milhas, MaxMilhas, Kayak */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                  {flightComparisonResults.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
+                        item.isBestDeal
+                          ? 'bg-gradient-to-br from-emerald-50/50 to-white border-emerald-300 shadow-soft ring-1 ring-emerald-400/30'
+                          : 'bg-white border-slate-200/80 hover:border-slate-300 shadow-2xs'
+                      }`}
+                    >
+                      <div>
+                        {/* Header badge & Platform Name */}
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{item.logo}</span>
+                            <span className="font-bold text-sm text-navy-900">{item.name}</span>
+                          </div>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            item.isBestDeal ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                            {item.badge}
+                          </span>
+                        </div>
+
+                        {/* Price estimate */}
+                        <div className="mt-2 mb-2">
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Estimada Total</span>
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="text-lg font-extrabold text-navy-900">
+                              R$ {item.totalPrice.toLocaleString('pt-BR')}
+                            </span>
+                            <span className="text-[11px] text-slate-500">
+                              (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="text-[11px] text-slate-500 mb-3 leading-snug">
+                          {item.perk}
+                        </p>
+                      </div>
+
+                      {/* Direct Deeplink Button */}
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                          item.isBestDeal
+                            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-soft'
+                            : 'bg-navy-900 hover:bg-navy-800 text-white'
+                        }`}
+                      >
+                        <span>Abrir no {item.name}</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            )}
+
+            {/* Standard Partner Deeplinks Bar (for other tabs) */}
+            {lastSearchedDeeplinks && activeTab !== 'voos' && (
               <div className="mt-4 pt-3 border-t border-slate-100">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-xs font-medium text-slate-600">
@@ -535,16 +811,6 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     >
                       <span>Booking.com</span>
                       <ExternalLink className="w-3 h-3 text-blue-600" />
-                    </a>
-
-                    <a
-                      href={lastSearchedDeeplinks.skyscannerUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sky-50 text-sky-800 hover:bg-sky-100 text-xs font-semibold transition-colors"
-                    >
-                      <span>Skyscanner</span>
-                      <ExternalLink className="w-3 h-3 text-sky-600" />
                     </a>
 
                     <a
@@ -565,6 +831,16 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     >
                       <span>Airbnb</span>
                       <ExternalLink className="w-3 h-3 text-pink-600" />
+                    </a>
+
+                    <a
+                      href={lastSearchedDeeplinks.symplaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-50 text-indigo-800 hover:bg-indigo-100 text-xs font-semibold transition-colors"
+                    >
+                      <span>Sympla</span>
+                      <ExternalLink className="w-3 h-3 text-indigo-600" />
                     </a>
                   </div>
                 </div>
