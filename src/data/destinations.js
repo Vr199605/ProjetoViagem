@@ -265,7 +265,7 @@ export const DESTINATIONS = [
     tags: ['Internacionais', 'Grandes Festivais'],
     bestSeason: 'Set — Nov / Jan — Mai',
     dailyBudget: 1450,
-    vibe: 'Castelo da Cinderela & Magia Disney',
+    vibe: 'Castelo Encantado & Parques Temáticos',
     image: '/images/destinations/orlando.jpg',
     description: 'A capital mundial da imaginação e do entretenimento, onde contos de fadas ganham vida no Magic Kingdom, Epcot, Hollywood Studios e Animal Kingdom.',
     highlights: ['Magic Kingdom e Castelo da Cinderela', 'Epcot e World Showcase', 'Star Wars: Galaxy\'s Edge', 'Universal Studios & Harry Potter'],
@@ -561,7 +561,7 @@ export const SEARCH_AUTOCOMPLETE = [
   // --- MUNDO: AMÉRICA DO NORTE ---
   { label: 'Nova York, Estados Unidos (JFK / EWR)', country: 'América do Norte', airport: 'JFK', region: 'EUA' },
   { label: 'Miami & South Beach, Estados Unidos (MIA)', country: 'América do Norte', airport: 'MIA', region: 'EUA' },
-  { label: 'Orlando & Parques Disney, Estados Unidos (MCO)', country: 'América do Norte', airport: 'MCO', region: 'EUA' },
+  { label: 'Orlando & Parques Temáticos, Estados Unidos (MCO)', country: 'América do Norte', airport: 'MCO', region: 'EUA' },
   { label: 'Los Angeles & Beverly Hills, Estados Unidos (LAX)', country: 'América do Norte', airport: 'LAX', region: 'EUA' },
   { label: 'San Francisco, Estados Unidos (SFO)', country: 'América do Norte', airport: 'SFO', region: 'EUA' },
   { label: 'Las Vegas, Estados Unidos (LAS)', country: 'América do Norte', airport: 'LAS', region: 'EUA' },

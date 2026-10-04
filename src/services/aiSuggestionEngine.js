@@ -1,4 +1,4 @@
-// Intelligent Multi-Destination AI Concierge Engine for VOYAGER AI (Disney Experience)
+// Intelligent Multi-Destination AI Concierge Engine for VOYAGER AI (Enchanted Royal Experience)
 // Analyzes ALL of Brazil and ALL of the World dynamically based on user prompt
 
 import { parseTravelPrompt } from '../utils/nlpParser.js';
@@ -316,19 +316,19 @@ export const DESTINATION_DATABASE = [
   // --- MUNDO: AMÉRICA DO NORTE & CARIBE ---
   {
     id: 'orlando',
-    name: 'Orlando & Parques Disney',
+    name: 'Orlando & Parques Temáticos',
     state: 'Flórida',
     country: 'Estados Unidos',
     airportCode: 'MCO',
     image: '/images/destinations/orlando.jpg',
-    magicBadge: '✨ O Reino Encantado da Disney & Aventura',
+    magicBadge: '✨ O Reino Encantado dos Parques & Aventura',
     vibe: 'Magic Kingdom, Epcot, Universal Studios & Harry Potter',
     keywords: ['orlando', 'disney', 'disney world', 'magic kingdom', 'epcot', 'universal', 'universal studios', 'harry potter', 'estados unidos', 'eua', 'florida', 'parques tematicos', 'criancas', 'personagens', 'familia', 'mickey', 'pateta', 'compras orlando', 'outlets'],
-    highlights: ['Show de fogos no Castelo da Cinderela no Magic Kingdom', 'Mundo Mágico de Harry Potter e Beco Diagonal na Universal', 'Expedição espacial no Epcot e Hollywood Studios Star Wars', 'Compras nos maiores Premium Outlets dos Estados Unidos'],
+    highlights: ['Show de fogos no Castelo Encantado no Magic Kingdom', 'Mundo Mágico de Harry Potter e Beco Diagonal na Universal', 'Expedição espacial no Epcot e Hollywood Studios Star Wars', 'Compras nos maiores Premium Outlets dos Estados Unidos'],
     defaultDays: 8,
     dailyBudget: 1550,
     profile: 'Família & Diversão Máxima',
-    foodSpecialty: 'Waffles temáticos do Mickey, carnes nobres americanas e guloseimas',
+    foodSpecialty: 'Waffles temáticos artesanais, carnes nobres americanas e guloseimas',
     isDomestic: false,
     category: 'Internacionais'
   },
@@ -378,9 +378,9 @@ export const DESTINATION_DATABASE = [
     airportCode: 'CDG',
     image: '/images/destinations/paris.jpg',
     magicBadge: '🗼 A Cidade Luz, Castelos & Alta Gastronomia',
-    vibe: 'Torre Eiffel, Museu do Louvre, Rio Sena & Disneyland Paris',
-    keywords: ['paris', 'franca', 'frança', 'torre eiffel', 'louvre', 'rio sena', 'disneyland paris', 'castelos', 'vale do loire', 'gastronomia francesa', 'romance europa', 'bistros', 'versailles', 'museu', 'alta costura'],
-    highlights: ['Subida ao topo da Torre Eiffel ao pôr do sol', 'Visita à Mona Lisa no Museu do Louvre e Jardins das Tulherias', 'Passeio de barco iluminado pelo Rio Sena com jantar gourmet', 'Magia com a família nos dois parques da Disneyland Paris'],
+    vibe: 'Torre Eiffel, Museu do Louvre, Rio Sena & Castelos Mágicos',
+    keywords: ['paris', 'franca', 'frança', 'torre eiffel', 'louvre', 'rio sena', 'castelos', 'vale do loire', 'gastronomia francesa', 'romance europa', 'bistros', 'versailles', 'museu', 'alta costura'],
+    highlights: ['Subida ao topo da Torre Eiffel ao pôr do sol', 'Visita à Mona Lisa no Museu do Louvre e Jardins das Tulherias', 'Passeio de barco iluminado pelo Rio Sena com jantar gourmet', 'Magia com a família nos grandes parques temáticos e castelos'],
     defaultDays: 6,
     dailyBudget: 1400,
     profile: 'Romance & Cultura Clássica',
@@ -627,7 +627,9 @@ export function getAiDestinationSuggestions(prompt) {
       const normKw = normalizeStr(kw);
       if (normPrompt.includes(normKw)) {
         score += 80;
-        matchedTerms.push(kw);
+        if (!normKw.includes('disney')) {
+          matchedTerms.push(kw);
+        }
       }
     });
 
@@ -639,9 +641,9 @@ export function getAiDestinationSuggestions(prompt) {
       score += 500;
     }
 
-    // Theme: Theme Parks & Disney & Kids
+    // Theme: Theme Parks & Family Fun & Kids
     const isParkPrompt = normPrompt.includes('disney') || normPrompt.includes('parque') || normPrompt.includes('crianca') || normPrompt.includes('filho') || normPrompt.includes('diversao');
-    const isParkDest = dest.keywords.includes('disney') || dest.keywords.includes('parques') || dest.keywords.includes('parque de diversoes');
+    const isParkDest = dest.keywords.includes('parques') || dest.keywords.includes('parque de diversoes') || dest.keywords.includes('disney');
     if (isParkPrompt && isParkDest) {
       score += 500;
     }
@@ -731,8 +733,9 @@ export function getAiDestinationSuggestions(prompt) {
 
     // Dynamic contextual whyMatches text that refers back to what the user wrote
     let customWhy = '';
-    if (dest.matchedTerms && dest.matchedTerms.length > 0) {
-      const topTerms = dest.matchedTerms.slice(0, 3).join(', ');
+    const cleanTerms = (dest.matchedTerms || []).filter(t => !t.toLowerCase().includes('disney'));
+    if (cleanTerms.length > 0) {
+      const topTerms = cleanTerms.slice(0, 3).join(', ');
       customWhy = `Selecionado sob medida para o seu pedido com foco em ${topTerms}! `;
     } else {
       customWhy = 'Uma recomendação encantadora com curadoria da nossa IA para o seu estilo de viagem! ';

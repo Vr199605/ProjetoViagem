@@ -58,7 +58,7 @@ export default function LandingPage({ onEnterPlatform }) {
   return (
     <div className="min-h-screen bg-[#030814] text-slate-100 selection:bg-emerald-500 selection:text-white font-sans antialiased overflow-x-hidden">
       
-      {/* 1. TOP STICKY NAVBAR - DISNEY ROYAL NAVY & GOLD */}
+      {/* 1. TOP STICKY NAVBAR - ENCHANTED ROYAL NAVY & GOLD */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 shadow-xl transition-all">
         
         {/* Top Patent Golden Ribbon */}
@@ -106,7 +106,7 @@ export default function LandingPage({ onEnterPlatform }) {
             </button>
           </nav>
 
-          {/* Primary Action Button (Glowing Disney-like CTA) */}
+          {/* Primary Action Button (Glowing Enchanted CTA) */}
           <button
             onClick={onEnterPlatform}
             className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
@@ -120,10 +120,10 @@ export default function LandingPage({ onEnterPlatform }) {
         </div>
       </header>
 
-      {/* 2. HERO SECTION - ENCHANTED DISNEY TWILIGHT NIGHT */}
+      {/* 2. HERO SECTION - ENCHANTED TWILIGHT NIGHT */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[#030814] via-[#081838] to-[#040E24] text-white pt-10 sm:pt-24 pb-16 sm:pb-32 border-b border-blue-900/40 w-full max-w-full">
         
-        {/* Starlight Ambient Glows (Disney Fairy-tale Lights) */}
+        {/* Starlight Ambient Glows (Fairy-tale Lights) */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-blue-600/25 via-emerald-500/20 to-amber-500/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-12 left-10 w-72 h-72 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -133,7 +133,7 @@ export default function LandingPage({ onEnterPlatform }) {
           {/* Magic Badge */}
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-blue-900/60 via-emerald-950/60 to-blue-900/60 border border-emerald-400/40 text-emerald-300 text-[11px] sm:text-sm font-bold mb-5 sm:mb-7 shadow-[0_0_25px_rgba(16,185,129,0.3)] animate-fade-in backdrop-blur-md max-w-full">
             <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
-            <span className="truncate">Metabusca Universal & IA Disney</span>
+            <span className="truncate">Metabusca Universal & IA dos Sonhos</span>
             <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
           </div>
 
@@ -291,7 +291,7 @@ export default function LandingPage({ onEnterPlatform }) {
 
       </section>
 
-      {/* 4. QUADRO COMPARATIVO: VOYAGER AI VS CONCORRENTES - VIBRANT DISNEY CONTRAST */}
+      {/* 4. QUADRO COMPARATIVO: VOYAGER AI VS CONCORRENTES - VIBRANT ROYAL CONTRAST */}
       <section id="comparativo" className="py-18 sm:py-26 bg-[#040C1E] border-y border-blue-900/60 relative w-full max-w-full overflow-hidden">
         <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 w-full max-w-full">
           
@@ -734,7 +734,7 @@ export default function LandingPage({ onEnterPlatform }) {
 
       </section>
 
-      {/* 8. CALL TO ACTION FINAL - DISNEY CASTLE MAGIC VIBES */}
+      {/* 8. CALL TO ACTION FINAL - ENCHANTED CASTLE MAGIC VIBES */}
       <section className="bg-gradient-to-b from-[#07193C] via-[#0A2658] to-[#040F26] text-white py-20 sm:py-28 text-center px-4 relative overflow-hidden border-t border-blue-900/60 w-full max-w-full">
         
         {/* Glow */}

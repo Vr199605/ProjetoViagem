@@ -100,7 +100,7 @@ export default function AIAssistant({
 
     setIsProcessingAI(true);
     try {
-      // Simulate real-time Disney AI Concierge analysis
+      // Simulate real-time Enchanted AI Concierge analysis
       await new Promise(r => setTimeout(r, 650));
       const suggestions = getAiDestinationSuggestions(query);
       setSuggestedDestinations(suggestions);
@@ -176,19 +176,19 @@ export default function AIAssistant({
   return (
     <section id="assistente-ia" className="py-14 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 scroll-mt-24 w-full max-w-full overflow-hidden">
       
-      {/* DISNEY MAGIC CONTAINER - MIDNIGHT ROYAL NAVY & GOLD */}
+      {/* ENCHANTED ROYAL CONTAINER - MIDNIGHT ROYAL NAVY & GOLD */}
       <div className="rounded-3xl sm:rounded-4xl bg-gradient-to-br from-[#040E24] via-[#081A3C] to-[#040C20] border-2 border-blue-500/40 shadow-[0_0_50px_rgba(0,0,0,0.8)] p-4 sm:p-8 lg:p-10 text-white relative overflow-hidden">
         
         {/* Fairy Dust & Starlight Glows */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-96 h-96 bg-amber-500/15 rounded-full blur-[100px] pointer-events-none" />
 
-        {/* 1. HEADER: DISNEY CONCIERGE BRANDING */}
+        {/* 1. HEADER: ENCHANTED CONCIERGE BRANDING */}
         <div className="relative z-10 max-w-3xl mb-7 sm:mb-9">
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold tracking-wider mb-4 shadow-[0_0_15px_rgba(251,191,36,0.25)]">
             <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-            <span>Concierge Mágico VOYAGER AI • Experiência Disney</span>
+            <span>Concierge Mágico VOYAGER AI • Experiência Encantada</span>
             <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
           </div>
 
