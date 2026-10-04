@@ -10,6 +10,7 @@ import { calculateFlightComparison, calculatePackageComparison } from '../data/q
 import { buildCustomItinerary } from '../data/itineraries';
 import { CONFIG } from '../config';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { addDaysToDateStr } from '../utils/deeplinkBuilder';
 
 const SAMPLE_PROMPTS = [
   "🏰 Quero viajar por 5 dias com minha família e crianças para lugares mágicos com parques e diversão",
@@ -59,11 +60,18 @@ export default function AIAssistant({
   // Recalculate quotation matrix for a destination
   const recalculateQuotes = (destItem, baggage, nonstop) => {
     if (!destItem) return;
+    const todayStr = new Date().toISOString().split('T')[0];
+    const defaultDepart = addDaysToDateStr(todayStr, 30);
+    const defaultReturn = addDaysToDateStr(defaultDepart, destItem.recommendedDays || planState.days || 5);
+
+    const activeDepart = planState.departDate || defaultDepart;
+    const activeReturn = planState.returnDate || defaultReturn;
+
     const flights = calculateFlightComparison({
-      origin: 'São Paulo (GRU / CGH / VCP)',
+      origin: planState.origin || 'São Paulo (GRU / CGH / VCP)',
       destination: destItem.name,
-      departDate: '',
-      returnDate: '',
+      departDate: activeDepart,
+      returnDate: activeReturn,
       roundTrip: true,
       adults: planState.travelers || 2,
       seatClass: 'Econômica',
@@ -72,8 +80,10 @@ export default function AIAssistant({
     });
 
     const packages = calculatePackageComparison({
-      origin: 'São Paulo (GRU)',
+      origin: planState.origin || 'São Paulo (GRU)',
       destination: destItem.name,
+      checkIn: activeDepart,
+      checkOut: activeReturn,
       adults: planState.travelers || 2,
       rooms: 1,
       days: destItem.recommendedDays || planState.days || 5

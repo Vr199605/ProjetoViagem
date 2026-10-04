@@ -571,7 +571,7 @@ export function calculateFlightComparison({
       perk: airline.perk,
       pricePerAdult: airlineUnitPrice,
       totalPrice: airlineUnitPrice * adults,
-      url: buildAirlineUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass })
+      url: buildAirlineUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly })
     };
   });
 

@@ -14,7 +14,8 @@ import {
   buildDecolarUrl, 
   buildAirbnbUrl, 
   buildSymplaUrl, 
-  buildEventbriteUrl 
+  buildEventbriteUrl,
+  addDaysToDateStr 
 } from '../utils/deeplinkBuilder';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
@@ -144,10 +145,10 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   const handleCheckInChange = (e) => {
     const newCheckIn = e.target.value;
     setCheckIn(newCheckIn);
-    if (checkOut && newCheckIn >= checkOut) {
-      const d = new Date(newCheckIn);
-      d.setDate(d.getDate() + 5);
-      setCheckOut(d.toISOString().split('T')[0]);
+    // If checkOut is set and is earlier than newCheckIn, adjust checkOut forward safely
+    if (newCheckIn && checkOut && newCheckIn > checkOut) {
+      const adjusted = addDaysToDateStr(newCheckIn, 4);
+      setCheckOut(adjusted);
       onNotify?.({
         type: 'info',
         title: 'Datas Ajustadas',
@@ -158,15 +159,17 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
 
   const handleCheckOutChange = (e) => {
     const newCheckOut = e.target.value;
-    if (checkIn && newCheckOut <= checkIn) {
-      onNotify?.({
-        type: 'error',
-        title: 'Data Inválida',
-        message: 'A data de retorno deve ser posterior à data de ida.'
-      });
-      return;
-    }
+    // ALWAYS allow the user to set checkOut without blocking keystrokes or intermediate years
     setCheckOut(newCheckOut);
+    if (newCheckOut && newCheckOut.length === 10 && checkIn && checkIn.length === 10) {
+      if (newCheckOut < checkIn) {
+        onNotify?.({
+          type: 'warning',
+          title: 'Atenção às Datas',
+          message: 'A data de volta está anterior à data de ida.'
+        });
+      }
+    }
   };
 
   // Swap Origin and Destination
@@ -189,15 +192,36 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
       return;
     }
 
+    if (isRoundTrip && checkIn && checkOut && checkOut < checkIn) {
+      onNotify?.({
+        type: 'error',
+        title: 'Data Inválida',
+        message: 'A data de retorno deve ser posterior à data de ida. Por favor, ajuste as datas.'
+      });
+      return;
+    }
+
     const cleanDest = destinationQuery.split('(')[0].trim();
     const cleanOrig = originQuery.split('(')[0].trim();
+
+    // Auto-fill sensible dates if empty upon search
+    let activeCheckIn = checkIn;
+    let activeCheckOut = checkOut;
+    if (!activeCheckIn) {
+      activeCheckIn = addDaysToDateStr(todayStr, 30);
+      setCheckIn(activeCheckIn);
+    }
+    if (isRoundTrip && !activeCheckOut) {
+      activeCheckOut = addDaysToDateStr(activeCheckIn, 4);
+      setCheckOut(activeCheckOut);
+    }
 
     if (activeTab === 'voos') {
       const comparison = calculateFlightComparison({
         origin: originQuery,
         destination: destinationQuery,
-        departDate: checkIn,
-        returnDate: checkOut,
+        departDate: activeCheckIn,
+        returnDate: activeCheckOut,
         roundTrip: isRoundTrip,
         adults,
         seatClass: flightClass,
@@ -682,7 +706,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                     <input
                       type="date"
-                      min={checkIn || todayStr}
+                      min={todayStr}
                       value={checkOut}
                       disabled={!isRoundTrip && activeTab === 'voos'}
                       onChange={handleCheckOutChange}

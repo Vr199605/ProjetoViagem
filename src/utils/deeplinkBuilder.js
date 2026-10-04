@@ -17,6 +17,24 @@ export function extractAirportCode(text, defaultCode = 'GRU') {
     'congonhas': 'CGH',
     'guarulhos': 'GRU',
     'viracopos': 'VCP',
+    'maragogi': 'MCZ',
+    'porto de galinhas': 'REC',
+    'alter do chão': 'STM',
+    'alter do chao': 'STM',
+    'santarém': 'STM',
+    'santarem': 'STM',
+    'ouro preto': 'CNF',
+    'tiradentes': 'CNF',
+    'balneário camboriú': 'NVT',
+    'balneario camboriu': 'NVT',
+    'navegantes': 'NVT',
+    'ilhéus': 'IOS',
+    'ilheus': 'IOS',
+    'itacaré': 'IOS',
+    'itacare': 'IOS',
+    'morro de são paulo': 'SSA',
+    'morro de sao paulo': 'SSA',
+    'caldas novas': 'CLV',
     'rio': 'GIG',
     'rio de janeiro': 'GIG',
     'galeão': 'GIG',
@@ -125,12 +143,30 @@ export function extractAirportCode(text, defaultCode = 'GRU') {
   return defaultCode;
 }
 
+// Safe date helpers without timezone offset bugs
+export function parseDateParts(str) {
+  if (!str) return null;
+  const parts = str.split('-').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return { year: parts[0], month: parts[1], day: parts[2] };
+}
+
+export function addDaysToDateStr(str, daysToAdd) {
+  const p = parseDateParts(str);
+  if (!p) return '';
+  const d = new Date(Date.UTC(p.year, p.month - 1, p.day + daysToAdd));
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 // Format date helper: returns YYYY-MM-DD or default future date
 function ensureDate(dateStr, offsetDays = 30) {
   if (dateStr && dateStr.length === 10) return dateStr;
-  const d = new Date();
-  d.setDate(d.getDate() + offsetDays);
-  return d.toISOString().split('T')[0];
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  return addDaysToDateStr(todayStr, offsetDays);
 }
 
 // Format date for Skyscanner: YYMMDD
@@ -143,18 +179,39 @@ function formatSkyscannerDate(dateStr, offsetDays = 30) {
 // 1. COMPARATORS & OTAs (Direct Canonical Search Results URLs)
 // -------------------------------------------------------------
 
-export function buildGoogleFlightsUrl({ origin, destination, departDate, returnDate, roundTrip = true, adults = 1, seatClass = 'Econômica', directOnly = false }) {
+export function buildGoogleFlightsUrl({ 
+  origin, 
+  destination, 
+  departDate, 
+  returnDate, 
+  roundTrip = true, 
+  adults = 1, 
+  seatClass = 'Econômica', 
+  directOnly = false,
+  airlineName = null 
+}) {
   const origCode = extractAirportCode(origin, 'GRU');
   const destCode = extractAirportCode(destination, 'POA');
   const dDate = ensureDate(departDate, 30);
   const rDate = roundTrip ? ensureDate(returnDate, 37) : '';
 
-  let query = `Voos de ${origCode} para ${destCode} saindo ${dDate}`;
-  if (roundTrip && rDate) query += ` voltando ${rDate}`;
-  query += ` ${adults} adultos`;
-  if (seatClass === 'Executiva') query += ' executiva';
-  if (seatClass === 'Premium Economy') query += ' premium economy';
-  if (directOnly) query += ' voo direto sem escalas';
+  // Canonical Google Flights search grammar:
+  // "Flights to {destCode} from {origCode} on {dDate} through {rDate} with {airline} nonstop"
+  let query = `Flights to ${destCode} from ${origCode} on ${dDate}`;
+  if (roundTrip && rDate) {
+    query += ` through ${rDate}`;
+  }
+  if (airlineName) {
+    query += ` with ${airlineName}`;
+  }
+  if (directOnly) {
+    query += ` nonstop`;
+  }
+  if (seatClass === 'Executiva') {
+    query += ` business class`;
+  } else if (seatClass === 'Premium Economy') {
+    query += ` premium economy`;
+  }
 
   return `https://www.google.com/travel/flights?q=${encodeURIComponent(query)}&hl=pt-BR&gl=BR`;
 }
@@ -178,9 +235,9 @@ export function buildDecolarUrl({ origin, destination, departDate, returnDate, r
   const origCode = extractAirportCode(origin, 'SAO');
   const destCode = extractAirportCode(destination, 'POA');
   const dDate = ensureDate(departDate, 30);
-  const rDate = ensureDate(returnDate, 37);
+  const rDate = roundTrip ? ensureDate(returnDate, 37) : '';
 
-  if (roundTrip) {
+  if (roundTrip && rDate) {
     return `https://www.decolar.com/shop/flights/results/roundtrip/${origCode}/${destCode}/${dDate}/${rDate}/${adults}/0/0/NA/NA/NA/NA/NA?from=SB&di=1-0`;
   }
   return `https://www.decolar.com/shop/flights/results/oneway/${origCode}/${destCode}/${dDate}/${adults}/0/0/NA/NA/NA/NA/NA?from=SB&di=1-0`;
@@ -190,11 +247,11 @@ export function buildKayakUrl({ origin, destination, departDate, returnDate, rou
   const origCode = extractAirportCode(origin, 'SAO');
   const destCode = extractAirportCode(destination, 'POA');
   const dDate = ensureDate(departDate, 30);
-  const rDate = ensureDate(returnDate, 37);
+  const rDate = roundTrip ? ensureDate(returnDate, 37) : '';
   const cabinParam = seatClass === 'Executiva' ? '/business' : '';
   const stopsParam = directOnly ? '&fs=stops=0' : '';
 
-  if (roundTrip) {
+  if (roundTrip && rDate) {
     return `https://www.kayak.com.br/flights/${origCode}-${destCode}/${dDate}/${rDate}/${adults}adults${cabinParam}?sort=bestflight_a${stopsParam}`;
   }
   return `https://www.kayak.com.br/flights/${origCode}-${destCode}/${dDate}/${adults}adults${cabinParam}?sort=bestflight_a${stopsParam}`;
@@ -220,58 +277,51 @@ export function buildMaxMilhasUrl({ origin, destination, departDate, returnDate,
 // 2. OFFICIAL AIRLINES (Direct Booking Engines for all carriers)
 // -------------------------------------------------------------
 
-export function buildAirlineUrl(airlineId, { origin, destination, departDate, returnDate, roundTrip = true, adults = 1, seatClass = 'Econômica' }) {
-  const origCode = extractAirportCode(origin, 'GRU');
-  const destCode = extractAirportCode(destination, 'POA');
-  const dDate = ensureDate(departDate, 30);
-  const rDate = ensureDate(returnDate, 37);
+export const AIRLINE_SEARCH_NAMES = {
+  latam: 'LATAM',
+  gol: 'GOL',
+  azul: 'Azul',
+  voepass: 'Voepass',
+  tap: 'TAP Air Portugal',
+  airfrance: 'Air France',
+  american: 'American Airlines',
+  united: 'United',
+  delta: 'Delta',
+  emirates: 'Emirates',
+  qatar: 'Qatar Airways',
+  lufthansa: 'Lufthansa',
+  iberia: 'Iberia',
+  british: 'British Airways',
+  klm: 'KLM',
+  copa: 'Copa Airlines',
+  aerolineas: 'Aerolíneas Argentinas',
+  swiss: 'Swiss',
+  turkish: 'Turkish Airlines',
+  aireuropa: 'Air Europa'
+};
 
-  const cabin = seatClass === 'Executiva' ? 'Business' : 'Economy';
-
-  switch (airlineId) {
-    case 'latam':
-      return `https://www.latamairlines.com/br/pt/ofertas-voos?origin=${origCode}&destination=${destCode}&outbound=${dDate}&inbound=${roundTrip ? rDate : ''}&adt=${adults}&cabin=${cabin}&trip=${roundTrip ? 'RT' : 'OW'}`;
-    case 'gol':
-      return `https://b2c.voegol.com.br/compra/busca-parceiros?pv=br&tipo=${roundTrip ? 'RT' : 'OW'}&de=${origCode}&para=${destCode}&ida=${dDate}&volta=${roundTrip ? rDate : ''}&adultos=${adults}`;
-    case 'azul':
-      return `https://www.voeazul.com.br/br/pt/home/selecao-voo?origin1=${origCode}&destination1=${destCode}&date1=${dDate}&date2=${roundTrip ? rDate : ''}&adults=${adults}&cabinClass=${cabin}`;
-    case 'voepass':
-      return `https://www.voepass.com.br/empresa/site/compra-passagem?origem=${origCode}&destino=${destCode}&dataIda=${dDate}&dataVolta=${roundTrip ? rDate : ''}&passageiros=${adults}`;
-    case 'tap':
-      return `https://www.flytap.com/pt-br/booking/flights?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'airfrance':
-      return `https://www.airfrance.com.br/search/advanced?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&cabin=${cabin.toUpperCase()}&paxAdults=${adults}`;
-    case 'american':
-      return `https://www.aa.com.br/booking/find-flights?tripType=${roundTrip ? 'roundTrip' : 'oneWay'}&originAirport=${origCode}&destinationAirport=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adultCount=${adults}`;
-    case 'united':
-      return `https://www.united.com/pt/br/flight-search/book-a-flight/results/rev?f=${origCode}&t=${destCode}&d=${dDate}&r=${roundTrip ? rDate : ''}&px=${adults}&taxng=1`;
-    case 'delta':
-      return `https://pt.delta.com/flight-search/book-a-flight?originCity=${origCode}&destinationCity=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&paxCount=${adults}`;
-    case 'emirates':
-      return `https://www.emirates.com/br/portuguese/book/?departureAirport=${origCode}&arrivalAirport=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'qatar':
-      return `https://www.qatarairways.com/pt-br/homepage.html?tripType=${roundTrip ? 'R' : 'O'}&fromStation=${origCode}&toStation=${destCode}&departing=${dDate}&returning=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'lufthansa':
-      return `https://www.lufthansa.com/br/pt/flight-search?origin=${origCode}&destination=${destCode}&outboundDate=${dDate}&inboundDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'iberia':
-      return `https://www.iberia.com/br/voos/?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'british':
-      return `https://www.britishairways.com/travel/fx/public/pt_br?dep_airport=${origCode}&arr_airport=${destCode}&dep_date=${dDate}&ret_date=${roundTrip ? rDate : ''}&ad=${adults}`;
-    case 'klm':
-      return `https://www.klm.com.br/search/advanced?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&paxAdults=${adults}`;
-    case 'copa':
-      return `https://www.copaair.com/pt-br/reserva-de-voos/?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'aerolineas':
-      return `https://www.aerolineas.com.ar/voos?origem=${origCode}&destino=${destCode}&dataIda=${dDate}&dataVolta=${roundTrip ? rDate : ''}&adultos=${adults}`;
-    case 'swiss':
-      return `https://www.swiss.com/br/pt/book?origin=${origCode}&destination=${destCode}&outboundDate=${dDate}&inboundDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'turkish':
-      return `https://www.turkishairlines.com/pt-br/flights/booking/?from=${origCode}&to=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    case 'aireuropa':
-      return `https://www.aireuropa.com/br/pt/reserve-voos?origin=${origCode}&destination=${destCode}&departureDate=${dDate}&returnDate=${roundTrip ? rDate : ''}&adults=${adults}`;
-    default:
-      return buildGoogleFlightsUrl({ origin, destination, departDate, returnDate, roundTrip, adults, seatClass });
-  }
+export function buildAirlineUrl(airlineId, { 
+  origin, 
+  destination, 
+  departDate, 
+  returnDate, 
+  roundTrip = true, 
+  adults = 1, 
+  seatClass = 'Econômica',
+  directOnly = false 
+}) {
+  const airlineName = AIRLINE_SEARCH_NAMES[airlineId] || airlineId;
+  return buildGoogleFlightsUrl({
+    origin,
+    destination,
+    departDate,
+    returnDate,
+    roundTrip,
+    adults,
+    seatClass,
+    directOnly,
+    airlineName
+  });
 }
 
 // -------------------------------------------------------------
