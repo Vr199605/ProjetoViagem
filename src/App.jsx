@@ -136,7 +136,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#030814] text-slate-100 selection:bg-amber-400 selection:text-slate-950">
+    <div className="min-h-screen flex flex-col bg-[#030814] text-slate-100 selection:bg-amber-400 selection:text-slate-950 w-full max-w-full overflow-x-hidden">
       
       {/* 1. Header with Glassmorphism & Navigation */}
       <Header 
@@ -210,8 +210,8 @@ export default function App() {
       <ToastNotification toast={toast} onClose={() => setToast(null)} />
 
       {/* Hidden Offscreen Container for Client-Side High-Res PDF Capture */}
-      <div className="fixed -left-[9999px] top-0 opacity-100 pointer-events-none w-[900px] z-[-1]" aria-hidden="true">
-        <div ref={printableRef} className="bg-[#FAF9F6]">
+      <div className="fixed -left-[99999px] -top-[99999px] max-w-0 max-h-0 overflow-hidden opacity-0 pointer-events-none z-[-99]" aria-hidden="true">
+        <div ref={printableRef} className="bg-[#FAF9F6] w-[900px]">
           <PDFDocumentTemplate planState={planState} selectedEvents={selectedEvents} />
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { EVENTS } from '../data/events';
 import { Calendar, MapPin, Ticket, ExternalLink, Plus, Check, Sparkles } from 'lucide-react';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], onNotify }) {
   const [filterType, setFilterType] = useState('Todos');
@@ -26,8 +27,8 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
   };
 
   return (
-    <section id="eventos-festivais" className="py-16 bg-[#040D22] border-y border-blue-900/60 scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="eventos-festivais" className="py-16 bg-[#040D22] border-y border-blue-900/60 scroll-mt-24 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -45,7 +46,7 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
           </div>
 
           {/* Quick Filters */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 w-full max-w-full">
             {filterOptions.map((opt) => (
               <button
                 key={opt}
@@ -75,10 +76,11 @@ export default function EventCalendar({ onAddEventToPlan, selectedEvents = [], o
                 {/* Image */}
                 <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
                   <img
-                    src={item.image}
+                    src={getAssetUrl(item.image)}
                     alt={item.title}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
+                    onError={handleImageError}
                   />
                   <div className="absolute top-3 left-3">
                     <span className="px-2.5 py-0.5 rounded-full bg-navy-950/80 backdrop-blur-md text-amber-300 border border-amber-400/30 text-[10px] font-bold tracking-wider uppercase">

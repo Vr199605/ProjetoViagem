@@ -3,6 +3,7 @@ import { Compass, Calendar, MapPin, Users, CheckCircle2, ExternalLink, Sparkles,
 import { generateQuotationBreakdown } from '../data/quotations';
 import { DESTINATIONS } from '../data/destinations';
 import { CONFIG } from '../config';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) {
   // Find destination details for photo and metadata
@@ -28,9 +29,10 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       <div className="relative rounded-3xl overflow-hidden bg-navy-900 text-white mb-10 shadow-luxury">
         <div className="relative h-96 w-full overflow-hidden">
           <img
-            src={destObj.image}
+            src={getAssetUrl(destObj.image)}
             alt={planState.destination}
             className="w-full h-full object-cover filter brightness-[0.70]"
+            onError={handleImageError}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent" />
           

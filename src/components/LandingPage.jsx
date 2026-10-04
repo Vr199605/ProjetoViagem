@@ -62,25 +62,27 @@ export default function LandingPage({ onEnterPlatform }) {
       <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 shadow-xl transition-all">
         
         {/* Top Patent Golden Ribbon */}
-        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-4 text-center font-bold tracking-wider flex items-center justify-center gap-2 shadow-inner">
-          <Star className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-          <span>Tecnologia & Patente Desenvolvida por: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong></span>
-          <Star className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-2.5 sm:px-3 text-center font-bold tracking-wider flex items-center justify-center gap-1.5 shadow-inner overflow-hidden w-full max-w-full min-w-0">
+          <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
+          <span className="block truncate max-w-[78vw] sm:max-w-none text-center">
+            Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+          </span>
+          <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-2">
           
           {/* Logo with Golden & Emerald Glow */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
-              <Compass className="w-6 h-6 text-navy-950" />
+          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
+              <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-navy-950" />
             </div>
-            <div>
-              <span className="font-serif text-2xl sm:text-3xl font-extrabold tracking-wider text-white block leading-tight drop-shadow-md">
-                VOYAGER <span className="font-sans text-xs sm:text-sm tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-2 py-0.5 rounded-full ml-1">AI</span>
+            <div className="min-w-0">
+              <span className="font-serif text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-wider text-white block leading-tight drop-shadow-md truncate">
+                VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1">AI</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] tracking-widest text-blue-200 uppercase font-semibold">
-                A Magia do Turismo Inteligente & Global
+              <span className="text-[9px] sm:text-[11px] tracking-widest text-blue-200 uppercase font-semibold hidden xs:block truncate">
+                Turismo Inteligente & Global
               </span>
             </div>
           </div>
@@ -107,35 +109,36 @@ export default function LandingPage({ onEnterPlatform }) {
           {/* Primary Action Button (Glowing Disney-like CTA) */}
           <button
             onClick={onEnterPlatform}
-            className="flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:shadow-[0_0_35px_rgba(16,185,129,0.7)] hover:scale-105 border border-emerald-300/40 cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
           >
-            <Sparkles className="w-4 h-4 text-amber-200" />
-            <span>Acessar Plataforma</span>
-            <ArrowRight className="w-4 h-4" />
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200 shrink-0" />
+            <span className="xs:hidden">Entrar</span>
+            <span className="hidden xs:inline">Acessar Plataforma</span>
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
           </button>
 
         </div>
       </header>
 
       {/* 2. HERO SECTION - ENCHANTED DISNEY TWILIGHT NIGHT */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#030814] via-[#081838] to-[#040E24] text-white pt-14 sm:pt-24 pb-24 sm:pb-32 border-b border-blue-900/40">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#030814] via-[#081838] to-[#040E24] text-white pt-10 sm:pt-24 pb-16 sm:pb-32 border-b border-blue-900/40 w-full max-w-full">
         
         {/* Starlight Ambient Glows (Disney Fairy-tale Lights) */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-blue-600/25 via-emerald-500/20 to-amber-500/20 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-12 left-10 w-72 h-72 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+        <div className="relative max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 text-center z-10">
           
           {/* Magic Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-900/60 via-emerald-950/60 to-blue-900/60 border border-emerald-400/40 text-emerald-300 text-xs sm:text-sm font-bold mb-7 shadow-[0_0_25px_rgba(16,185,129,0.3)] animate-fade-in backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-            <span>A Magia da Metabusca Universal & Turismo com Inteligência Artificial</span>
-            <Star className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-blue-900/60 via-emerald-950/60 to-blue-900/60 border border-emerald-400/40 text-emerald-300 text-[11px] sm:text-sm font-bold mb-5 sm:mb-7 shadow-[0_0_25px_rgba(16,185,129,0.3)] animate-fade-in backdrop-blur-md max-w-full">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
+            <span className="truncate">Metabusca Universal & IA Disney</span>
+            <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
           </div>
 
           {/* Main Title - Crystal-clear White with Golden Highlights */}
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.18] sm:leading-[1.14] max-w-5xl mx-auto text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight leading-tight sm:leading-snug max-w-5xl mx-auto text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
             O Primeiro Ecossistema Global que Unifica Metabusca em Tempo Real, 
             <span className="block mt-2 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(251,191,36,0.4)]">
               20 Companhias Aéreas e Roteiros por IA em um Só Lugar.
@@ -143,52 +146,52 @@ export default function LandingPage({ onEnterPlatform }) {
           </h1>
 
           {/* Subtitle - High Contrast, Easy to Read */}
-          <p className="mt-6 sm:mt-8 text-base sm:text-lg lg:text-xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed drop-shadow-sm">
+          <p className="mt-4 sm:mt-8 text-sm sm:text-base lg:text-xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed drop-shadow-sm px-1">
             Pare de perder horas abrindo 15 abas e redigitando origem, destino e datas. O <strong className="text-white font-bold underline decoration-emerald-400">VOYAGER AI</strong> compara simultaneamente Google Flights, Skyscanner, Decolar, 123 Milhas, Kayak e 20 companhias oficiais, enviando você direto para a compra com trechos e malas pré-selecionados — além de criar roteiros dia a dia completos com IA e exportação em PDF.
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-9 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+          <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5">
             <button
               onClick={onEnterPlatform}
-              className="w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-base sm:text-lg transition-all duration-300 shadow-[0_0_35px_rgba(16,185,129,0.6)] hover:scale-105 flex items-center justify-center gap-3 border border-emerald-300/50 cursor-pointer group"
+              className="w-full sm:w-auto px-7 sm:px-9 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-sm sm:text-lg transition-all duration-300 shadow-[0_0_35px_rgba(16,185,129,0.6)] hover:scale-105 flex items-center justify-center gap-2.5 sm:gap-3 border border-emerald-300/50 cursor-pointer group"
             >
-              <Sparkles className="w-5 h-5 text-amber-200 group-hover:rotate-12 transition-transform" />
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-200 group-hover:rotate-12 transition-transform shrink-0" />
               <span>Acessar Plataforma VOYAGER AI</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
 
             <button
               onClick={() => scrollTo('comparativo')}
-              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-gradient-to-r from-blue-950/80 to-navy-900/80 hover:bg-blue-900/80 border-2 border-amber-400/60 text-amber-200 hover:text-white font-bold text-base transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.2)] flex items-center justify-center gap-2 cursor-pointer hover:border-amber-300"
+              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-blue-950/80 to-navy-900/80 hover:bg-blue-900/80 border-2 border-amber-400/60 text-amber-200 hover:text-white font-bold text-xs sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.2)] flex items-center justify-center gap-2 cursor-pointer hover:border-amber-300"
             >
-              <Star className="w-4 h-4 text-amber-300 fill-amber-300" />
+              <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 fill-amber-300 shrink-0" />
               <span>Ver Comparativo com Concorrentes</span>
-              <ChevronDown className="w-4 h-4 text-amber-300" />
+              <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 shrink-0" />
             </button>
           </div>
 
           {/* Key Trust Stats Bar - Dark Royal Cards with Golden Accents */}
-          <div className="mt-14 sm:mt-18 pt-8 border-t border-blue-900/60 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+          <div className="mt-10 sm:mt-18 pt-6 sm:pt-8 border-t border-blue-900/60 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6 text-center">
             
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-3xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">20+</div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">Companhias Aéreas Oficiais</div>
+            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
+              <div className="text-2xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">20+</div>
+              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Companhias Oficiais</div>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">6 Líderes</div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">Metabuscadores Integrados</div>
+            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
+              <div className="text-2xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">6 Líderes</div>
+              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Metabuscadores</div>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-3xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">7 Operadoras</div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">Matriz de Pacotes Completos</div>
+            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
+              <div className="text-2xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">7 Operadoras</div>
+              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Pacotes Completos</div>
             </div>
 
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">Zero</div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-200 mt-1">Taxas Ocultas ou Redigitação</div>
+            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
+              <div className="text-2xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">Zero</div>
+              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Taxas Ocultas</div>
             </div>
 
           </div>
@@ -197,7 +200,7 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 3. O PROBLEMA VS A SOLUÇÃO - HIGH CONTRAST */}
-      <section id="problema-solucao" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="problema-solucao" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
           <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
@@ -289,10 +292,10 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 4. QUADRO COMPARATIVO: VOYAGER AI VS CONCORRENTES - VIBRANT DISNEY CONTRAST */}
-      <section id="comparativo" className="py-18 sm:py-26 bg-[#040C1E] border-y border-blue-900/60 relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="comparativo" className="py-18 sm:py-26 bg-[#040C1E] border-y border-blue-900/60 relative w-full max-w-full overflow-hidden">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 w-full max-w-full">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
               <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
               <span>Diferenciais Competitivos Incomparáveis</span>
@@ -305,9 +308,15 @@ export default function LandingPage({ onEnterPlatform }) {
             </p>
           </div>
 
+          {/* Mobile swipe helper */}
+          <div className="sm:hidden flex items-center justify-center gap-1.5 text-[11px] text-amber-300 mb-3 font-semibold bg-amber-400/10 py-1.5 px-3 rounded-full border border-amber-400/20">
+            <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
+            <span>Deslize horizontalmente para comparar colunas →</span>
+          </div>
+
           {/* Responsive Comparison Table - Deep Royal Midnight */}
-          <div className="overflow-x-auto rounded-3xl border-2 border-blue-500/40 shadow-[0_0_40px_rgba(0,0,0,0.6)] bg-[#071329]">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[700px]">
+          <div className="w-full max-w-full overflow-x-auto rounded-3xl border-2 border-blue-500/40 shadow-[0_0_40px_rgba(0,0,0,0.6)] bg-[#071329]">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[680px]">
               
               {/* Header */}
               <thead>
@@ -499,7 +508,7 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 5. OS 4 PILARES TECNOLÓGICOS DO VOYAGER AI */}
-      <section id="recursos" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="recursos" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
           <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
@@ -594,7 +603,7 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 6. VISÃO DE MERCADO, INVESTIDORES E PATENTE */}
-      <section id="investidores" className="py-18 sm:py-26 bg-[#030917] text-white border-t border-blue-900/60 relative overflow-hidden">
+      <section id="investidores" className="py-18 sm:py-26 bg-[#030917] text-white border-t border-blue-900/60 relative overflow-hidden w-full max-w-full">
         
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           
@@ -680,7 +689,7 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 7. PERGUNTAS FREQUENTES (FAQ) - CRYSTAL CLEAR */}
-      <section id="faq" className="py-18 sm:py-26 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="faq" className="py-18 sm:py-26 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center mb-14">
           <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
@@ -726,7 +735,7 @@ export default function LandingPage({ onEnterPlatform }) {
       </section>
 
       {/* 8. CALL TO ACTION FINAL - DISNEY CASTLE MAGIC VIBES */}
-      <section className="bg-gradient-to-b from-[#07193C] via-[#0A2658] to-[#040F26] text-white py-20 sm:py-28 text-center px-4 relative overflow-hidden border-t border-blue-900/60">
+      <section className="bg-gradient-to-b from-[#07193C] via-[#0A2658] to-[#040F26] text-white py-20 sm:py-28 text-center px-4 relative overflow-hidden border-t border-blue-900/60 w-full max-w-full">
         
         {/* Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-emerald-500/20 via-blue-500/25 to-amber-500/20 rounded-full blur-[130px] pointer-events-none" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DESTINATIONS, CATEGORIES } from '../data/destinations';
 import { MapPin, Sun, Calendar, Plus, Check, ArrowUpRight, Sparkles } from 'lucide-react';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function DestinationFeed({ onIncludeInPlan, plannedDestinationId, onNotify }) {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -23,7 +24,7 @@ export default function DestinationFeed({ onIncludeInPlan, plannedDestinationId,
   };
 
   return (
-    <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
       
       {/* Editorial Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
@@ -39,7 +40,7 @@ export default function DestinationFeed({ onIncludeInPlan, plannedDestinationId,
         </p>
 
         {/* Category Pills Filter */}
-        <div className="flex items-center justify-center gap-2 mt-8 overflow-x-auto no-scrollbar pb-2">
+        <div className="flex items-center justify-start sm:justify-center gap-2 mt-8 overflow-x-auto no-scrollbar pb-2 w-full max-w-full px-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -119,10 +120,11 @@ function DestinationCard({ destination, isSelected, onInclude }) {
       {/* 16:9 HD Image Header */}
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
         <img
-          src={destination.image}
+          src={getAssetUrl(destination.image)}
           alt={destination.name}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
           loading="lazy"
+          onError={handleImageError}
         />
         
         {/* Category Pill Badge */}
@@ -143,30 +145,30 @@ function DestinationCard({ destination, isSelected, onInclude }) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#040C1E] via-transparent to-transparent opacity-80" />
         
         <div className="absolute bottom-3 left-4 right-4 text-white">
-          <span className="text-xs font-semibold tracking-wide text-amber-200">
+          <span className="text-xs font-semibold tracking-wide text-amber-200 line-clamp-1 drop-shadow-md">
             {destination.vibe}
           </span>
         </div>
       </div>
 
       {/* Card Content */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+      <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
         <div>
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h4 className="font-serif text-xl sm:text-2xl font-bold text-white group-hover:text-amber-300 transition-colors">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <h4 className="font-serif text-lg sm:text-2xl font-bold text-white group-hover:text-amber-300 transition-colors leading-tight">
                 {destination.name}
               </h4>
-              <p className="text-xs text-slate-300 flex items-center gap-1 mt-1">
+              <p className="text-xs text-slate-300 flex items-center gap-1 mt-1 truncate">
                 <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                 <span>{destination.state ? `${destination.state}, ` : ''}{destination.country}</span>
               </p>
             </div>
             
             {/* Daily Estimate Badge */}
-            <div className="text-right">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Média Diária</span>
-              <span className="text-sm sm:text-base font-black text-amber-300">
+            <div className="text-right shrink-0">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block whitespace-nowrap">Média Diária</span>
+              <span className="text-sm sm:text-base font-black text-amber-300 whitespace-nowrap">
                 R$ {destination.dailyBudget.toLocaleString('pt-BR')}
               </span>
             </div>
@@ -177,13 +179,13 @@ function DestinationCard({ destination, isSelected, onInclude }) {
           </p>
 
           {/* Highlights & Best Season */}
-          <div className="mt-4 pt-3 border-t border-blue-900/60 flex items-center justify-between text-xs text-slate-300">
-            <div className="flex items-center gap-1.5">
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-              <span>{destination.bestSeason}</span>
+          <div className="mt-4 pt-3 border-t border-blue-900/60 flex items-center justify-between gap-2 text-xs text-slate-300">
+            <div className="flex items-center gap-1.5 truncate">
+              <Sun className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="truncate">{destination.bestSeason}</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="flex items-center gap-1.5 shrink-0">
+              <Calendar className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span>Sugerido: {destination.recommendedDays} dias</span>
             </div>
           </div>

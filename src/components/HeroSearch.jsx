@@ -16,6 +16,7 @@ import {
   buildSymplaUrl, 
   buildEventbriteUrl 
 } from '../utils/deeplinkBuilder';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 const HERO_SLIDES = [
   {
@@ -286,21 +287,22 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   };
 
   return (
-    <div className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] flex items-center justify-center overflow-hidden pb-12 sm:pb-16">
+    <div className="relative w-full max-w-full min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] flex items-center justify-center overflow-hidden pb-12 sm:pb-16">
       
       {/* Background Rotating Imagery */}
       {HERO_SLIDES.map((slide, idx) => (
         <div
           key={idx}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            idx === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+          className={`absolute inset-0 max-w-full overflow-hidden transition-opacity duration-1000 ease-in-out ${
+            idx === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-100 pointer-events-none'
           }`}
           style={{ transitionProperty: 'opacity, transform' }}
         >
           <img
-            src={slide.image}
+            src={getAssetUrl(slide.image)}
             alt={slide.title}
             className="w-full h-full object-cover object-center filter brightness-[0.78]"
+            onError={handleImageError}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-navy-900/40 to-black/35" />
         </div>
@@ -710,7 +712,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                 </button>
 
                 {showTravelersDropdown && (
-                  <div className="absolute left-0 sm:left-auto right-0 top-full mt-2 w-72 max-w-[92vw] bg-white rounded-2xl shadow-modal border border-slate-200 p-4 z-50">
+                  <div className="absolute left-0 right-0 sm:left-auto sm:right-0 top-full mt-2 w-full sm:w-72 bg-white rounded-2xl shadow-modal border border-slate-200 p-4 z-50">
                     <div className="flex items-center justify-between py-2 border-b border-slate-100">
                       <div>
                         <div className="text-xs font-bold text-navy-900">Adultos</div>

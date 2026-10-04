@@ -9,6 +9,7 @@ import { getAiDestinationSuggestions } from '../services/aiSuggestionEngine';
 import { calculateFlightComparison, calculatePackageComparison } from '../data/quotations';
 import { buildCustomItinerary } from '../data/itineraries';
 import { CONFIG } from '../config';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 const SAMPLE_PROMPTS = [
   "🏰 Quero viajar por 5 dias com minha família e crianças para lugares mágicos com parques e diversão",
@@ -163,7 +164,7 @@ export default function AIAssistant({
   };
 
   return (
-    <section id="assistente-ia" className="py-14 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 scroll-mt-24">
+    <section id="assistente-ia" className="py-14 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 scroll-mt-24 w-full max-w-full overflow-hidden">
       
       {/* DISNEY MAGIC CONTAINER - MIDNIGHT ROYAL NAVY & GOLD */}
       <div className="rounded-3xl sm:rounded-4xl bg-gradient-to-br from-[#040E24] via-[#081A3C] to-[#040C20] border-2 border-blue-500/40 shadow-[0_0_50px_rgba(0,0,0,0.8)] p-4 sm:p-8 lg:p-10 text-white relative overflow-hidden">
@@ -299,10 +300,11 @@ export default function AIAssistant({
                       {/* Image with Magic Badge */}
                       <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
                         <img
-                          src={dest.image}
+                          src={getAssetUrl(dest.image)}
                           alt={dest.name}
                           className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                           loading="lazy"
+                          onError={handleImageError}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#040E24] via-transparent to-transparent opacity-80" />
                         
@@ -411,39 +413,39 @@ export default function AIAssistant({
               </div>
 
               {/* Luggage & Direct Filters */}
-              <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full md:w-auto">
                 <button
                   type="button"
                   onClick={handleToggleBaggage}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center gap-1.5 ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 ${
                     hasCheckedBaggage
                       ? 'bg-amber-400 text-navy-950 border-amber-300 shadow-md font-black'
                       : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
                   }`}
                   title="Alternar mala de mão vs despachada"
                 >
-                  <Luggage className="w-3.5 h-3.5" />
+                  <Luggage className="w-3.5 h-3.5 shrink-0" />
                   <span>{hasCheckedBaggage ? 'Mala Despachada (23kg)' : 'Mala de Mão (10kg)'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleToggleDirect}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center gap-1.5 ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 ${
                     directOnly
                       ? 'bg-emerald-500 text-white border-emerald-400 shadow-md font-black'
                       : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
                   }`}
                   title="Alternar voos diretos"
                 >
-                  <Compass className="w-3.5 h-3.5" />
+                  <Compass className="w-3.5 h-3.5 shrink-0" />
                   <span>{directOnly ? 'Apenas Voos Diretos' : 'Todos os Voos'}</span>
                 </button>
               </div>
             </div>
 
             {/* QUOTATION SUB-TABS (VOOS / COMPANHIAS / PACOTES / ROTEIRO) */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-blue-900/60">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-blue-900/60 w-full max-w-full">
               <button
                 type="button"
                 onClick={() => setQuoteTab('voos')}
@@ -716,17 +718,17 @@ export default function AIAssistant({
             {/* TAB CONTENT 4: ROTEIRO DIA A DIA COMPLETO COM IA */}
             {quoteTab === 'roteiro' && planState.customItinerary && (
               <div className="bg-[#071634]/95 rounded-3xl p-5 sm:p-7 border border-blue-500/30 mb-8 backdrop-blur-md">
-                <div className="flex items-center justify-between mb-5 pb-3 border-b border-blue-900/60">
-                  <div>
-                    <h4 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                      <Calendar className="w-5 h-5 text-amber-300" />
-                      <span>Roteiro Cronológico para {planState.destination}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-blue-900/60">
+                  <div className="min-w-0">
+                    <h4 className="font-serif text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-amber-300 shrink-0" />
+                      <span className="truncate">Roteiro para {planState.destination}</span>
                     </h4>
-                    <p className="text-xs text-slate-300 mt-0.5">
+                    <p className="text-xs text-slate-300 mt-0.5 truncate">
                       Programação estruturada para {planState.days} dias • Perfil {planState.profile}
                     </p>
                   </div>
-                  <span className="text-xs font-bold text-amber-300 bg-amber-400/20 px-3 py-1 rounded-full border border-amber-400/40">
+                  <span className="text-xs font-bold text-amber-300 bg-amber-400/20 px-3 py-1 rounded-full border border-amber-400/40 self-start sm:self-auto shrink-0">
                     IA Concierge
                   </span>
                 </div>

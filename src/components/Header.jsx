@@ -16,25 +16,26 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToL
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 text-white shadow-xl transition-all duration-300">
       
-      {/* Patent & Creator Top Ribbon - Golden Disney Starlight */}
-      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-4 text-center font-bold tracking-wider border-b border-blue-900/50 flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-        <span>Tecnologia & Patente Desenvolvida por: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong></span>
-        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1 px-2.5 sm:px-3 text-center font-bold tracking-wider border-b border-blue-900/50 flex items-center justify-center gap-1.5 overflow-hidden w-full max-w-full min-w-0">
+        <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
+        <span className="block truncate max-w-[78vw] sm:max-w-none text-center">
+          Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+        </span>
+        <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-2">
         
         {/* Logo */}
-        <div className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
+        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
             <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-navy-950" />
           </div>
-          <div>
-            <span className="font-serif text-xl sm:text-2xl font-black tracking-wider text-white block leading-tight drop-shadow-sm">
-              VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-2 py-0.5 rounded-full ml-1">AI</span>
+          <div className="min-w-0">
+            <span className="font-serif text-lg sm:text-2xl font-black tracking-wider text-white block leading-tight drop-shadow-sm truncate">
+              VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1">AI</span>
             </span>
-            <span className="text-[9px] sm:text-[10px] tracking-widest text-blue-200 uppercase font-medium line-clamp-1">
+            <span className="text-[9px] sm:text-[10px] tracking-widest text-blue-200 uppercase font-medium hidden xs:block truncate">
               Curadoria de Viagens • Victor R. C. Moreira
             </span>
           </div>
