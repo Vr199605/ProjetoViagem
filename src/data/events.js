@@ -1,18 +1,18 @@
-// Global & Brazilian Cultural Festivals, Marathons & Events
+// Global & Brazilian Cultural Festivals, Marathons & Events (Temporadas Presentes e Futuras 2026 / 2027)
 export const EVENTS = [
   {
     id: 'gramado-cinema',
     title: 'Festival de Cinema de Gramado',
     city: 'Gramado, RS',
     country: 'Brasil',
-    date: '15 a 23 de Agosto',
+    date: '14 a 22 de Agosto de 2026 / Temporada 2027',
     season: 'Inverno',
     category: 'Cinema & Cultura',
     tag: 'Cultura & Gala',
     image: '/images/events/gramado-cinema.jpg',
     description: 'O tapete vermelho mais célebre do audiovisual latino-americano no Palácio dos Festivais com noites de gala e alta gastronomia.',
     venue: 'Palácio dos Festivais',
-    ticketUrl: 'https://www.sympla.com.br/busca/festival-cinema-gramado',
+    ticketUrl: 'https://festivaldecinemadegramado.com/',
     averageTicket: 'R$ 180 — R$ 450'
   },
   {
@@ -20,14 +20,14 @@ export const EVENTS = [
     title: 'Maratona do Rio de Janeiro',
     city: 'Rio de Janeiro, RJ',
     country: 'Brasil',
-    date: '19 a 22 de Junho',
+    date: '18 a 21 de Junho de 2026 / Temporada 2027',
     season: 'Outono',
     category: 'Esporte & Saúde',
     tag: 'Esporte Cênico',
     image: '/images/events/maratona-rio.jpg',
     description: 'A corrida mais deslumbrante do mundo, com trajeto que margeia as orlas de São Conrado, Leblon, Ipanema e Copacabana ao nascer do sol.',
     venue: 'Aterro do Flamengo / Orla Carioca',
-    ticketUrl: 'https://www.sympla.com.br/busca/maratona-rio',
+    ticketUrl: 'https://www.maratonadorio.com.br/',
     averageTicket: 'R$ 220 — R$ 680'
   },
   {
@@ -35,14 +35,14 @@ export const EVENTS = [
     title: 'Rock in Rio & Festivais de Música',
     city: 'Rio de Janeiro, RJ',
     country: 'Brasil',
-    date: '13 a 22 de Setembro',
+    date: '18 a 27 de Setembro de 2026 / Temporada Oficial',
     season: 'Primavera',
     category: 'Grandes Festivais',
     tag: 'Música Global',
     image: '/images/events/rock-in-rio.jpg',
     description: 'O maior festival de música e entretenimento do planeta, reunindo lendas do rock, pop mundial e megaestruturas na Cidade do Rock.',
     venue: 'Parque Olímpico — Cidade do Rock',
-    ticketUrl: 'https://www.eventbrite.com/d/brazil/festivais-musica/',
+    ticketUrl: 'https://rockinrio.com/',
     averageTicket: 'R$ 495 — R$ 1.250'
   },
   {
@@ -50,14 +50,14 @@ export const EVENTS = [
     title: 'Natal Luz de Gramado',
     city: 'Gramado, RS',
     country: 'Brasil',
-    date: '24 de Outubro a 18 de Janeiro',
+    date: '23 de Outubro de 2026 a 17 de Janeiro de 2027',
     season: 'Primavera / Verão',
     category: 'Família & Espetáculo',
     tag: 'Espetáculo de Luzes',
     image: '/images/events/natal-luz.jpg',
     description: 'Milhões de lâmpadas transformam a serra gaúcha no maior espetáculo natalino a céu aberto do Brasil com desfiles e orquestras no lago.',
     venue: 'Serra Park e Lago Joaquina Rita Bier',
-    ticketUrl: 'https://www.sympla.com.br/busca/natal-luz-gramado',
+    ticketUrl: 'https://natalluzdegramado.com.br/',
     averageTicket: 'R$ 190 — R$ 520'
   },
   {
@@ -65,14 +65,14 @@ export const EVENTS = [
     title: 'GP São Paulo de Fórmula 1',
     city: 'São Paulo, SP',
     country: 'Brasil',
-    date: '07 a 09 de Novembro',
+    date: '06 a 08 de Novembro de 2026 / Temporada 2027',
     season: 'Primavera',
     category: 'Esporte & Luxo',
     tag: 'Motorsport VIP',
     image: '/images/events/f1-interlagos.jpg',
     description: 'A emoção máxima do automobilismo internacional no histórico circuito de Interlagos com hospitalidade de classe mundial e lounges VIP.',
     venue: 'Autódromo José Carlos Pace (Interlagos)',
-    ticketUrl: 'https://www.eventbrite.com/d/brazil/formula-1/',
+    ticketUrl: 'https://f1saopaulo.com.br/',
     averageTicket: 'R$ 890 — R$ 8.900'
   },
   {
@@ -80,14 +80,14 @@ export const EVENTS = [
     title: 'Oktoberfest Blumenau',
     city: 'Blumenau, SC',
     country: 'Brasil',
-    date: '08 a 26 de Outubro',
+    date: '07 a 25 de Outubro de 2026 / Temporada 2027',
     season: 'Primavera',
     category: 'Gastronomia & Cultura',
     tag: 'Tradição Germânica',
     image: '/images/events/oktoberfest.jpg',
     description: 'A maior festa da cerveja das Américas, celebrando a rica gastronomia alemã, trajes típicos e os melhores chopes artesanais do país.',
     venue: 'Parque Vila Germânica',
-    ticketUrl: 'https://www.sympla.com.br/busca/oktoberfest-blumenau',
+    ticketUrl: 'https://oktoberfestblumenau.com.br/',
     averageTicket: 'R$ 60 — R$ 160'
   },
   {
@@ -95,14 +95,14 @@ export const EVENTS = [
     title: 'Torneio de Roland Garros',
     city: 'Paris',
     country: 'França',
-    date: '25 de Maio a 08 de Junho',
+    date: '24 de Maio a 07 de Junho de 2026 / Temporada 2027',
     season: 'Primavera Europeia',
     category: 'Internacionais',
     tag: 'Tênis de Elite',
     image: '/images/events/roland-garros.jpg',
     description: 'O ápice do tênis mundial no lendário saibro parisiense, cercado pelo glamour da alta sociedade europeia e da alta gastronomia.',
     venue: 'Stade Roland Garros, Bois de Boulogne',
-    ticketUrl: 'https://www.eventbrite.com/d/france--paris/roland-garros/',
+    ticketUrl: 'https://www.rolandgarros.com/',
     averageTicket: '€ 120 — € 850'
   },
   {
@@ -110,14 +110,14 @@ export const EVENTS = [
     title: 'Hanami — Festival das Cerejeiras em Flor',
     city: 'Quioto & Tóquio',
     country: 'Japão',
-    date: '25 de Março a 10 de Abril',
+    date: '25 de Março a 15 de Abril de 2026 / Temporada 2027',
     season: 'Primavera',
     category: 'Internacionais',
     tag: 'Natureza & Tradição',
     image: '/images/events/sakura.jpg',
     description: 'A celebração do florescer das cerejeiras sob templos centenários e castelos imperiais com piqueniques tradicionais ao ar livre.',
     venue: 'Parque Ueno e Caminho dos Filósofos em Quioto',
-    ticketUrl: 'https://www.eventbrite.com/d/japan/cherry-blossom/',
+    ticketUrl: 'https://www.japan.travel/pt/spot/',
     averageTicket: 'Entrada Franca / Cerimônias de Chá: R$ 120'
   }
 ];

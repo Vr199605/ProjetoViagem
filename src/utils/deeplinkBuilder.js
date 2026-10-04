@@ -134,7 +134,12 @@ export function extractAirportCode(text, defaultCode = 'GRU') {
     'punta cana': 'PUJ',
     'amalfi': 'FCO',
     'positano': 'NAP',
-    'nápoles': 'NAP'
+    'nápoles': 'NAP',
+    'santorini': 'JTR',
+    'cusco': 'CUZ',
+    'machu picchu': 'CUZ',
+    'campos do jordão': 'GRU',
+    'campos do jordao': 'GRU'
   };
 
   for (const [key, code] of Object.entries(map)) {
@@ -393,7 +398,7 @@ export function buildAirbnbUrl({ destination = 'Gramado', checkIn, checkOut, adu
 
 export function buildSymplaUrl(query = 'festivais') {
   const clean = query.split('(')[0].trim();
-  return `https://www.sympla.com.br/busca/${encodeURIComponent(clean)}`;
+  return `https://www.sympla.com.br/eventos?s=${encodeURIComponent(clean)}`;
 }
 
 export function buildEventbriteUrl(query = 'festivais e cultura') {
