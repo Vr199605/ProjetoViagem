@@ -71,26 +71,26 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
       <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 shadow-xl transition-all">
         
         {/* Top Patent Golden Ribbon */}
-        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-2.5 sm:px-3 text-center font-bold tracking-wider flex items-center justify-center gap-1.5 shadow-inner overflow-hidden w-full max-w-full min-w-0">
+        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-2.5 sm:px-3 text-center font-bold tracking-wider flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 shadow-inner overflow-hidden w-full max-w-full">
           <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
-          <span className="block truncate max-w-[78vw] sm:max-w-none text-center">
-            Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+          <span className="text-center leading-tight">
+            Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400 font-extrabold">{CONFIG.PATENT_CREDIT}</strong>
           </span>
           <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
           
           {/* Logo with Golden & Emerald Glow */}
-          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
               <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-navy-950" />
             </div>
-            <div className="min-w-0">
-              <span className="font-serif text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-wider text-white block leading-tight drop-shadow-md truncate">
-                VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1">AI</span>
+            <div className="shrink-0">
+              <span className="font-serif text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-wider text-white flex items-center leading-tight drop-shadow-md shrink-0">
+                VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1 shrink-0">AI</span>
               </span>
-              <span className="text-[9px] sm:text-[11px] tracking-widest text-blue-200 uppercase font-semibold hidden xs:block truncate">
+              <span className="text-[9px] sm:text-[11px] tracking-widest text-blue-200 uppercase font-semibold hidden sm:block truncate">
                 Turismo Inteligente & Global
               </span>
             </div>
@@ -116,26 +116,24 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
           </nav>
 
           {/* Action Buttons: PWA Install & Access Platform */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {onOpenInstallModal && (
               <button
                 onClick={onOpenInstallModal}
-                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 hover:text-amber-200 text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] cursor-pointer shrink-0"
+                className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 hover:text-amber-200 text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] cursor-pointer"
                 title="Instalar VOYAGER AI na Tela Inicial"
               >
                 <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
-                <span className="hidden xs:inline">Instalar App</span>
-                <span className="xs:hidden">App</span>
+                <span>Instalar App</span>
               </button>
             )}
 
             <button
               onClick={onEnterPlatform}
-              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
             >
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200 shrink-0" />
-              <span className="xs:hidden">Entrar</span>
-              <span className="hidden xs:inline">Acessar Plataforma</span>
+              <span>Acessar Plataforma</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </button>
           </div>

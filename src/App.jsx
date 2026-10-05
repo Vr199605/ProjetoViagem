@@ -224,7 +224,10 @@ export default function App() {
       <ToastNotification toast={toast} onClose={() => setToast(null)} />
 
       {/* Hidden Offscreen Container for Client-Side High-Res PDF Capture */}
-      <div className="fixed -left-[99999px] -top-[99999px] max-w-0 max-h-0 overflow-hidden opacity-0 pointer-events-none z-[-99]" aria-hidden="true">
+      <div 
+        style={{ position: 'fixed', top: 0, left: 0, width: 0, height: 0, overflow: 'hidden', opacity: 0, pointerEvents: 'none', zIndex: -9999 }} 
+        aria-hidden="true"
+      >
         <div ref={printableRef} className="bg-[#FAF9F6] w-[900px]">
           <PDFDocumentTemplate planState={planState} selectedEvents={selectedEvents} />
         </div>

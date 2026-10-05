@@ -19,8 +19,8 @@ export default function ToastNotification({ toast, onClose }) {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 max-w-md w-full animate-bounce-in">
-      <div className="glass-panel bg-white/95 rounded-2xl shadow-luxury p-4 border border-slate-200/80 flex items-start gap-3 backdrop-blur-md">
+    <div className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-[9999] sm:max-w-md animate-bounce-in pointer-events-auto">
+      <div className="glass-panel bg-white/98 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] p-3.5 sm:p-4 border border-slate-200 flex items-start gap-3 backdrop-blur-md">
         {icons[toast.type] || icons.info}
         <div className="flex-1">
           {toast.title && <h4 className="text-sm font-semibold text-navy-900">{toast.title}</h4>}

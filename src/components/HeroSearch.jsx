@@ -450,14 +450,14 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
 
               {/* Flight Round-Trip / Class / Baggage / Stops Controls (Visible on Voos tab) */}
               {activeTab === 'voos' && (
-                <div className="flex flex-wrap items-center justify-start sm:justify-end gap-2">
+                <div className="flex flex-wrap items-center justify-start sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto">
                   
                   {/* Round-trip / One-way */}
-                  <div className="flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-xl text-[11px] sm:text-xs font-semibold">
+                  <div className="inline-flex items-center bg-slate-100 p-0.5 sm:p-1 rounded-xl text-[11px] sm:text-xs font-semibold shrink-0">
                     <button
                       type="button"
                       onClick={() => setIsRoundTrip(true)}
-                      className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all ${
+                      className={`px-2 sm:px-3 py-1 rounded-lg transition-all ${
                         isRoundTrip ? 'bg-white text-navy-900 shadow-2xs font-bold' : 'text-slate-500 hover:text-navy-900'
                       }`}
                     >
@@ -466,7 +466,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     <button
                       type="button"
                       onClick={() => setIsRoundTrip(false)}
-                      className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all ${
+                      className={`px-2 sm:px-3 py-1 rounded-lg transition-all ${
                         !isRoundTrip ? 'bg-white text-navy-900 shadow-2xs font-bold' : 'text-slate-500 hover:text-navy-900'
                       }`}
                     >
@@ -474,11 +474,22 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     </button>
                   </div>
 
+                  {/* Cabin Class */}
+                  <select
+                    value={flightClass}
+                    onChange={(e) => setFlightClass(e.target.value)}
+                    className="text-[11px] sm:text-xs font-medium text-slate-700 bg-slate-100 py-1.5 px-2 sm:px-2.5 rounded-xl border border-transparent focus:outline-none cursor-pointer shrink-0"
+                  >
+                    <option value="Econômica">Econômica</option>
+                    <option value="Premium Economy">Premium</option>
+                    <option value="Executiva">Executiva</option>
+                  </select>
+
                   {/* Baggage Toggle */}
                   <button
                     type="button"
                     onClick={() => setHasCheckedBaggage(!hasCheckedBaggage)}
-                    className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer ${
+                    className={`flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer shrink-0 ${
                       hasCheckedBaggage
                         ? 'bg-amber-500/15 border-amber-400 text-amber-900 shadow-2xs font-bold'
                         : 'bg-slate-100/80 border-transparent text-slate-600 hover:text-navy-900'
@@ -486,7 +497,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     title="Alternar entre mala de mão (10kg) e mala despachada (23kg)"
                   >
                     <Luggage className={`w-3.5 h-3.5 ${hasCheckedBaggage ? 'text-amber-700' : 'text-slate-400'}`} />
-                    <span>{hasCheckedBaggage ? 'Com Mala Despachada (23kg)' : 'Mala de Mão (10kg)'}</span>
+                    <span>{hasCheckedBaggage ? 'Mala 23kg' : 'Mala 10kg'}</span>
                     {hasCheckedBaggage && <Check className="w-3 h-3 text-amber-700 ml-0.5" />}
                   </button>
 
@@ -494,7 +505,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   <button
                     type="button"
                     onClick={() => setDirectOnly(!directOnly)}
-                    className={`flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer ${
+                    className={`flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all border cursor-pointer shrink-0 ${
                       directOnly
                         ? 'bg-emerald-500/15 border-emerald-400 text-emerald-900 shadow-2xs font-bold'
                         : 'bg-slate-100/80 border-transparent text-slate-600 hover:text-navy-900'
@@ -502,20 +513,9 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                     title="Filtrar apenas voos diretos sem escalas"
                   >
                     <Compass className={`w-3.5 h-3.5 ${directOnly ? 'text-emerald-700' : 'text-slate-400'}`} />
-                    <span>{directOnly ? 'Apenas Voos Diretos' : 'Todos os Voos'}</span>
+                    <span>{directOnly ? 'Voos Diretos' : 'Todos'}</span>
                     {directOnly && <Check className="w-3 h-3 text-emerald-700 ml-0.5" />}
                   </button>
-
-                  {/* Cabin Class */}
-                  <select
-                    value={flightClass}
-                    onChange={(e) => setFlightClass(e.target.value)}
-                    className="text-[11px] sm:text-xs font-medium text-slate-700 bg-slate-100 py-1.5 px-2.5 rounded-xl border border-transparent focus:outline-none cursor-pointer"
-                  >
-                    <option value="Econômica">Econômica</option>
-                    <option value="Premium Economy">Premium Economy</option>
-                    <option value="Executiva">Classe Executiva</option>
-                  </select>
                 </div>
               )}
 
@@ -682,14 +682,14 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   <label className="block text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
                     {activeTab === 'voos' ? 'Ida' : 'Check-in'}
                   </label>
-                  <div className="flex items-center gap-1 px-2.5 sm:px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <div className="flex items-center gap-1.5 px-2 sm:px-3 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+                    <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0 hidden sm:block" />
                     <input
                       type="date"
                       min={todayStr}
                       value={checkIn}
                       onChange={handleCheckInChange}
-                      className="w-full bg-transparent text-[11px] sm:text-xs font-medium text-navy-900 focus:outline-none"
+                      className="w-full bg-transparent text-[11px] sm:text-xs font-semibold text-navy-900 focus:outline-none min-w-0"
                     />
                   </div>
                 </div>
@@ -698,19 +698,19 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                   <label className="block text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
                     {activeTab === 'voos' ? 'Volta' : 'Check-out'}
                   </label>
-                  <div className={`flex items-center gap-1 px-2.5 sm:px-3 py-2.5 rounded-2xl border ${
+                  <div className={`flex items-center gap-1.5 px-2 sm:px-3 py-2.5 rounded-2xl border ${
                     !isRoundTrip && activeTab === 'voos' 
                       ? 'bg-slate-100/50 border-slate-200 opacity-50 cursor-not-allowed' 
                       : 'bg-slate-50 border-slate-200/80'
                   }`}>
-                    <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0 hidden sm:block" />
                     <input
                       type="date"
                       min={todayStr}
                       value={checkOut}
                       disabled={!isRoundTrip && activeTab === 'voos'}
                       onChange={handleCheckOutChange}
-                      className="w-full bg-transparent text-[11px] sm:text-xs font-medium text-navy-900 focus:outline-none disabled:cursor-not-allowed"
+                      className="w-full bg-transparent text-[11px] sm:text-xs font-semibold text-navy-900 focus:outline-none disabled:cursor-not-allowed min-w-0"
                     />
                   </div>
                 </div>

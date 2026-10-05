@@ -63,8 +63,8 @@ export default function PDFPreviewModal({
         </div>
 
         {/* Scrollable Document Content */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[#F4F2EC]">
-          <div className="bg-white rounded-2xl shadow-soft border border-slate-200 overflow-hidden">
+        <div className="flex-1 overflow-y-auto overflow-x-auto p-2 sm:p-8 bg-[#F4F2EC]">
+          <div className="bg-white rounded-2xl shadow-soft border border-slate-200 overflow-hidden min-w-[700px] sm:min-w-0">
             <PDFDocumentTemplate planState={planState} selectedEvents={selectedEvents} />
           </div>
         </div>

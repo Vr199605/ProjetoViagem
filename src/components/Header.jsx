@@ -16,26 +16,26 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToL
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 text-white shadow-xl transition-all duration-300">
       
-      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1 px-2.5 sm:px-3 text-center font-bold tracking-wider border-b border-blue-900/50 flex items-center justify-center gap-1.5 overflow-hidden w-full max-w-full min-w-0">
+      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-2.5 sm:px-3 text-center font-bold tracking-wider border-b border-blue-900/50 flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 overflow-hidden w-full max-w-full">
         <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
-        <span className="block truncate max-w-[78vw] sm:max-w-none text-center">
-          Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+        <span className="text-center leading-tight">
+          Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400 font-extrabold">{CONFIG.PATENT_CREDIT}</strong>
         </span>
         <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between gap-2">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
         
         {/* Logo */}
-        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
             <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-navy-950" />
           </div>
-          <div className="min-w-0">
-            <span className="font-serif text-lg sm:text-2xl font-black tracking-wider text-white block leading-tight drop-shadow-sm truncate">
-              VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1">AI</span>
+          <div className="shrink-0">
+            <span className="font-serif text-lg sm:text-2xl font-black tracking-wider text-white flex items-center leading-tight drop-shadow-sm shrink-0">
+              VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1 shrink-0">AI</span>
             </span>
-            <span className="text-[9px] sm:text-[10px] tracking-widest text-blue-200 uppercase font-medium hidden xs:block truncate">
+            <span className="text-[9px] sm:text-[10px] tracking-widest text-blue-200 uppercase font-medium hidden sm:block truncate">
               Curadoria de Viagens • Victor R. C. Moreira
             </span>
           </div>
@@ -138,7 +138,7 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToL
 
       {/* Mobile Drawer Menu - Dark Royal Blue with Zero Overlap */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#06122C]/98 backdrop-blur-2xl border-b-2 border-blue-700/60 p-5 space-y-4 animate-fade-in shadow-2xl text-white">
+        <div className="lg:hidden bg-[#06122C]/98 backdrop-blur-2xl border-b-2 border-blue-700/60 p-4 sm:p-5 space-y-3 sm:space-y-4 animate-fade-in shadow-2xl text-white max-h-[85vh] overflow-y-auto">
           <div className="flex flex-col space-y-2.5 text-sm font-semibold">
             {onBackToLanding && (
               <button

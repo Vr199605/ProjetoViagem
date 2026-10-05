@@ -17,9 +17,9 @@ export default function PWAInstallModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300">
       <div 
-        className="relative w-full max-w-md bg-[#05132D] border border-amber-400/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(251,191,36,0.25)] text-slate-100 overflow-hidden"
+        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#05132D] border border-amber-400/40 rounded-3xl p-5 sm:p-8 shadow-[0_0_50px_rgba(251,191,36,0.25)] text-slate-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Glow ambient background */}

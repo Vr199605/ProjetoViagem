@@ -456,7 +456,11 @@ export default function AIAssistant({
             </div>
 
             {/* QUOTATION SUB-TABS (VOOS / COMPANHIAS / PACOTES / ROTEIRO) */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-blue-900/60 w-full max-w-full">
+            <div className="sm:hidden flex items-center justify-between text-[11px] text-amber-300 mb-2 font-semibold px-1">
+              <span>Opções & Cotações:</span>
+              <span className="text-[10px] text-slate-400">Deslize as abas →</span>
+            </div>
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-blue-900/60 w-full max-w-full -mx-1 px-1">
               <button
                 type="button"
                 onClick={() => setQuoteTab('voos')}
@@ -570,11 +574,11 @@ export default function AIAssistant({
 
                       <div className="mb-3">
                         <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Estimada Total</span>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-black text-amber-300">
+                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
+                          <span className="text-xl sm:text-2xl font-black text-amber-300">
                             R$ {item.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-300">
                             (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
@@ -604,8 +608,8 @@ export default function AIAssistant({
                           : 'bg-navy-950 hover:bg-navy-900 text-white border border-white/20'
                       }`}
                     >
-                      <span>Ir para Passagem no {item.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="truncate">Ir para Passagem no {item.name}</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   </div>
                 ))}
@@ -638,11 +642,11 @@ export default function AIAssistant({
 
                       <div className="mb-3">
                         <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Direta da Companhia</span>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-black text-white">
+                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
+                          <span className="text-xl sm:text-2xl font-black text-white">
                             R$ {airline.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-300">
                             (R$ {airline.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
@@ -670,8 +674,8 @@ export default function AIAssistant({
                       rel="noopener noreferrer"
                       className="w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white shadow-sm"
                     >
-                      <span>Comprar Direto na {airline.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="truncate">Comprar Direto na {airline.name}</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   </div>
                 ))}
@@ -713,11 +717,11 @@ export default function AIAssistant({
                         <span className="text-[10px] uppercase font-bold text-slate-400 block">
                           Pacote Completo ({pkg.durationNights} noites)
                         </span>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-black text-amber-300">
+                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
+                          <span className="text-xl sm:text-2xl font-black text-amber-300">
                             R$ {pkg.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-300">
                             (R$ {pkg.pricePerPerson.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
@@ -751,8 +755,8 @@ export default function AIAssistant({
                           : 'bg-navy-950 hover:bg-navy-900 text-white border border-white/20'
                       }`}
                     >
-                      <span>Ver Pacote no {pkg.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span className="truncate">Ver Pacote no {pkg.name}</span>
+                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   </div>
                 ))}
