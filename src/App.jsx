@@ -8,6 +8,7 @@ import PDFProgressModal from './components/PDFProgressModal';
 import PDFPreviewModal from './components/PDFPreviewModal';
 import PDFDocumentTemplate from './components/PDFDocumentTemplate';
 import ToastNotification from './components/ToastNotification';
+import PWAInstallModal from './components/PWAInstallModal';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
 
@@ -44,6 +45,7 @@ export default function App() {
   const [showProgressModal, setShowProgressModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [hasGeneratedPDF, setHasGeneratedPDF] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   // Hidden print container ref for html2canvas / jsPDF
   const printableRef = useRef(null);
@@ -129,6 +131,11 @@ export default function App() {
             setCurrentView('platform');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }} 
+          onOpenInstallModal={() => setShowInstallModal(true)}
+        />
+        <PWAInstallModal 
+          isOpen={showInstallModal} 
+          onClose={() => setShowInstallModal(false)} 
         />
         <ToastNotification toast={toast} onClose={() => setToast(null)} />
       </div>
@@ -149,6 +156,7 @@ export default function App() {
           setCurrentView('landing');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
+        onOpenInstallModal={() => setShowInstallModal(true)}
       />
 
       {/* 2. Hero Section with Rotating Imagery & Universal Search Box */}
@@ -204,6 +212,12 @@ export default function App() {
         planState={planState}
         selectedEvents={selectedEvents}
         onDownloadAgain={handleDownloadPDF}
+      />
+
+      {/* PWA Installation Modal */}
+      <PWAInstallModal
+        isOpen={showInstallModal}
+        onClose={() => setShowInstallModal(false)}
       />
 
       {/* Toast Notification Container */}

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { 
   Compass, Sparkles, Plane, Building2, Package, ShieldCheck, Check, X, 
   ChevronDown, ArrowRight, ExternalLink, Award, TrendingDown, Layers, 
-  Globe, Users, Calendar, Search, HelpCircle, FileText, Zap, Luggage, Star
+  Globe, Users, Calendar, Search, HelpCircle, FileText, Zap, Luggage, Star,
+  Smartphone, Calculator
 } from 'lucide-react';
 import { CONFIG } from '../config';
 
-export default function LandingPage({ onEnterPlatform }) {
+export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
   const [openFaq, setOpenFaq] = useState(null);
 
   const toggleFaq = (index) => {
@@ -48,6 +49,14 @@ export default function LandingPage({ onEnterPlatform }) {
     {
       q: 'A plataforma é 100% gratuita para o viajante?',
       a: 'Sim, o viajante tem acesso irrestrito e gratuito a todas as cotações, comparadores, filtros de companhias aéreas e gerador de roteiros por IA. Não cobramos nenhuma taxa de intermediação nem adicionamos sobrepreço nas passagens ou hospedagens.'
+    },
+    {
+      q: 'Como instalo o aplicativo do VOYAGER AI diretamente na tela do meu celular?',
+      a: 'É imediato e não consome memória da sua loja de apps! Basta tocar no botão "Instalar App" no topo do site. No iPhone/iPad (Safari), toque no ícone de Compartilhar e selecione "Adicionar à Tela de Início". No Android ou PC (Google Chrome/Edge), um único clique abre o instalador nativo. O ícone oficial do VOYAGER AI ficará salvo na sua tela com abertura ultra-rápida e tela cheia.'
+    },
+    {
+      q: 'Como funciona a Calculadora de Custo Total por Pessoa em 5 categorias?',
+      a: 'Nossa calculadora inteligente desmembra qualquer orçamento em 5 fatias essenciais da viagem: Aéreo, Hospedagem, Alimentação Diária, Ingressos de Atrações e Reserva para Compras/Imprevistos. Você pode alternar em tempo real entre visualização "Por Pessoa" ou "Total do Grupo", ajustar o padrão (Econômico, Conforto, Luxo) e exportar tudo perfeitamente diagramado no PDF oficial.'
     },
     {
       q: 'Quem desenvolveu a tecnologia e a patente do VOYAGER AI?',
@@ -106,16 +115,30 @@ export default function LandingPage({ onEnterPlatform }) {
             </button>
           </nav>
 
-          {/* Primary Action Button (Glowing Enchanted CTA) */}
-          <button
-            onClick={onEnterPlatform}
-            className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
-          >
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200 shrink-0" />
-            <span className="xs:hidden">Entrar</span>
-            <span className="hidden xs:inline">Acessar Plataforma</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-          </button>
+          {/* Action Buttons: PWA Install & Access Platform */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {onOpenInstallModal && (
+              <button
+                onClick={onOpenInstallModal}
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 hover:text-amber-200 text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] cursor-pointer shrink-0"
+                title="Instalar VOYAGER AI na Tela Inicial"
+              >
+                <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
+                <span className="hidden xs:inline">Instalar App</span>
+                <span className="xs:hidden">App</span>
+              </button>
+            )}
+
+            <button
+              onClick={onEnterPlatform}
+              className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2.5 sm:py-3 rounded-2xl sm:rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200 shrink-0" />
+              <span className="xs:hidden">Entrar</span>
+              <span className="hidden xs:inline">Acessar Plataforma</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+            </button>
+          </div>
 
         </div>
       </header>
@@ -161,13 +184,22 @@ export default function LandingPage({ onEnterPlatform }) {
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
 
+            {onOpenInstallModal && (
+              <button
+                onClick={onOpenInstallModal}
+                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 hover:bg-amber-500/30 border-2 border-amber-400/70 text-amber-200 hover:text-white font-bold text-xs sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.3)] flex items-center justify-center gap-2.5 cursor-pointer hover:border-amber-300 group"
+              >
+                <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+                <span>Instalar App no Celular</span>
+              </button>
+            )}
+
             <button
               onClick={() => scrollTo('comparativo')}
-              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-blue-950/80 to-navy-900/80 hover:bg-blue-900/80 border-2 border-amber-400/60 text-amber-200 hover:text-white font-bold text-xs sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.2)] flex items-center justify-center gap-2 cursor-pointer hover:border-amber-300"
+              className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl bg-blue-950/70 hover:bg-blue-900/80 border border-blue-400/40 text-slate-200 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 fill-amber-300 shrink-0" />
-              <span>Ver Comparativo com Concorrentes</span>
-              <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 shrink-0" />
+              <span>Comparativo</span>
+              <ChevronDown className="w-3.5 h-3.5 text-amber-300 shrink-0" />
             </button>
           </div>
 
@@ -473,6 +505,42 @@ export default function LandingPage({ onEnterPlatform }) {
 
                 <tr className="hover:bg-blue-950/40 transition-colors">
                   <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                    Calculadora de Custo Total por Pessoa (5 Categorias)
+                  </td>
+                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                    ✓ Sim (Aéreo + Hotel + Alimentação + Ingressos + Extras)
+                  </td>
+                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                    ✕ Apenas passagem
+                  </td>
+                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                    ✕ Apenas pacote bruto
+                  </td>
+                  <td className="py-4 px-4 text-center text-slate-400">
+                    Estimativa manual vaga
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-blue-950/40 transition-colors">
+                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                    Aplicativo Instalável (PWA / Direto na Tela do Celular)
+                  </td>
+                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                    ✓ Sim (iOS Safari & Android Chrome em 1 Clique)
+                  </td>
+                  <td className="py-4 px-4 text-center text-slate-400">
+                    Requer download em lojas
+                  </td>
+                  <td className="py-4 px-4 text-center text-slate-400">
+                    App pesado de loja
+                  </td>
+                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                    ✕ Não possui
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-blue-950/40 transition-colors">
+                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
                     Custo de Uso para o Usuário
                   </td>
                   <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-amber-300">
@@ -507,7 +575,7 @@ export default function LandingPage({ onEnterPlatform }) {
         </div>
       </section>
 
-      {/* 5. OS 4 PILARES TECNOLÓGICOS DO VOYAGER AI */}
+      {/* 5. OS 5 PILARES TECNOLÓGICOS DO VOYAGER AI */}
       <section id="recursos" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
@@ -516,11 +584,11 @@ export default function LandingPage({ onEnterPlatform }) {
             <span>Tecnologia Proprietária & Padrão Internacional</span>
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
-            Os 4 Pilares que tornam o VOYAGER AI uma experiência mágica
+            Os 5 Pilares que tornam o VOYAGER AI uma experiência mágica
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           {/* Pilar 1 */}
           <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-blue-400/30 shadow-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] hover:border-blue-400/60 transition-all duration-300 flex flex-col justify-between backdrop-blur-md">
@@ -595,6 +663,40 @@ export default function LandingPage({ onEnterPlatform }) {
             <div className="mt-5 pt-3.5 border-t border-blue-900/60 text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
               <Check className="w-4 h-4 text-purple-300" />
               <span>Exportação Vetorial Offline</span>
+            </div>
+          </div>
+
+          {/* Pilar 5: Aplicativo Instalável (PWA) & Calculadora */}
+          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-emerald-400/40 shadow-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:border-emerald-400/70 transition-all duration-300 flex flex-col justify-between backdrop-blur-md md:col-span-2 lg:col-span-2">
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-13 h-13 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-sm">
+                  <Smartphone className="w-7 h-7 text-emerald-300" />
+                </div>
+                <div className="w-13 h-13 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center shadow-sm">
+                  <Calculator className="w-7 h-7 text-amber-300" />
+                </div>
+              </div>
+              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
+                5. App Instalável (PWA) & Calculadora de Custos por Pessoa
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+                Instalação direta no celular sem depender de lojas de aplicativos (iOS Safari & Android Chrome), abrindo em tela cheia com visual nativo. Além de uma calculadora financeira que desmembra cada centavo do orçamento em 5 categorias essenciais: Aéreo, Hospedagem, Alimentação, Ingressos e Reserva para Compras.
+              </p>
+            </div>
+            <div className="mt-5 pt-3.5 border-t border-blue-900/60 flex flex-wrap items-center justify-between gap-2">
+              <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>PWA Nativo & Cálculo 5 Categorias</span>
+              </div>
+              {onOpenInstallModal && (
+                <button
+                  onClick={onOpenInstallModal}
+                  className="px-3.5 py-1.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition-colors shadow-sm cursor-pointer"
+                >
+                  Instalar App Agora
+                </button>
+              )}
             </div>
           </div>
 

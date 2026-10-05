@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Compass, Sparkles, MapPin, Calendar, BookOpen, Layers, Menu, X, ShieldCheck } from 'lucide-react';
+import { Compass, Sparkles, MapPin, Calendar, BookOpen, Layers, Menu, X, ShieldCheck, Smartphone } from 'lucide-react';
 import { CONFIG } from '../config';
 
-export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToLanding }) {
+export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToLanding, onOpenInstallModal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollTo = (id) => {
@@ -83,6 +83,18 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToL
         {/* Action Controls & Mobile Hamburger */}
         <div className="flex items-center gap-2 sm:gap-4">
           
+          {/* PWA Install Button (Desktop & Tablet) */}
+          {onOpenInstallModal && (
+            <button
+              onClick={onOpenInstallModal}
+              className="hidden md:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-300 hover:text-amber-200 text-xs font-bold transition-all shadow-[0_0_12px_rgba(251,191,36,0.2)] cursor-pointer"
+              title="Instalar VOYAGER AI no Celular ou Computador"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-amber-400" />
+              <span>Instalar App</span>
+            </button>
+          )}
+
           {/* Gemini AI Status Badge (Desktop) */}
           <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-950/80 border border-blue-400/30 text-xs font-semibold text-slate-200">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -178,6 +190,22 @@ export default function Header({ plannedItemsCount = 0, onOpenPlanner, onBackToL
               </div>
               <span className="text-[10px] bg-amber-400 text-navy-950 font-black px-2 py-0.5 rounded-full">Magia</span>
             </button>
+
+            {onOpenInstallModal && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenInstallModal();
+                }}
+                className="text-left py-3 px-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-amber-500/20 hover:bg-amber-500/30 text-amber-200 font-bold flex items-center justify-between border border-amber-400/50 shadow-sm cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Smartphone className="w-4 h-4 text-amber-400" />
+                  <span>Instalar Aplicativo no Celular</span>
+                </div>
+                <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">PWA</span>
+              </button>
+            )}
           </div>
 
           <div className="pt-3 border-t border-blue-900/60 flex items-center justify-between text-xs text-slate-300">

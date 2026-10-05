@@ -1,0 +1,63 @@
+{
+  "name": "VOYAGER AI - Planejador Mágico de Viagens",
+  "short_name": "VOYAGER AI",
+  "description": "Plataforma Inteligente e Encantada de Cotações, Passagens e Roteiros de Viagens Personalizadas.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#040E24",
+  "theme_color": "#040E24",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "travel",
+    "lifestyle",
+    "productivity"
+  ],
+  "shortcuts": [
+    {
+      "name": "Assistente IA",
+      "short_name": "Assistente",
+      "description": "Crie um novo roteiro e cotação com a Inteligência Artificial",
+      "url": "/?tab=assistant",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Calculadora de Custo",
+      "short_name": "Calculadora",
+      "description": "Desmembre os custos da viagem por pessoa",
+      "url": "/?tab=calculator",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

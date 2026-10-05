@@ -3,7 +3,7 @@ import {
   Sparkles, Send, MapPin, Calendar, DollarSign, Heart, 
   Users, Edit3, ArrowRight, Loader2, Check, FileDown, Eye, AlertCircle, 
   ShieldCheck, Star, ExternalLink, Luggage, Compass, RefreshCw, X, ChevronRight, Award,
-  Plane, Package
+  Plane, Package, PieChart
 } from 'lucide-react';
 import { getAiDestinationSuggestions } from '../services/aiSuggestionEngine';
 import { calculateFlightComparison, calculatePackageComparison } from '../data/quotations';
@@ -11,6 +11,7 @@ import { buildCustomItinerary } from '../data/itineraries';
 import { CONFIG } from '../config';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 import { addDaysToDateStr } from '../utils/deeplinkBuilder';
+import TripCostCalculator from './TripCostCalculator';
 
 const SAMPLE_PROMPTS = [
   "🏰 Quero viajar por 5 dias com minha família e crianças para lugares mágicos com parques e diversão",
@@ -507,7 +508,40 @@ export default function AIAssistant({
                 <Calendar className="w-4 h-4" />
                 <span>Roteiro Dia a Dia Completo</span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => setQuoteTab('calculadora')}
+                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                  quoteTab === 'calculadora'
+                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                }`}
+              >
+                <PieChart className="w-4 h-4" />
+                <span>Calculadora de Custo por Pessoa</span>
+              </button>
             </div>
+
+            {/* TAB CONTENT: CALCULADORA DE CUSTO TOTAL POR PESSOA */}
+            {quoteTab === 'calculadora' && (
+              <div className="mb-8 animate-fade-in">
+                <TripCostCalculator
+                  destination={selectedDestinationItem || planState.destination}
+                  days={selectedDestinationItem?.recommendedDays || planState.days || 5}
+                  travelers={planState.travelers || 2}
+                  onUpdatePlan={(updated) => {
+                    setPlanState(prev => ({
+                      ...prev,
+                      budget: updated.budget,
+                      days: updated.days,
+                      travelers: updated.travelers
+                    }));
+                  }}
+                  onNotify={onNotify}
+                />
+              </div>
+            )}
 
             {/* TAB CONTENT 1: COMPARADORES DE VOOS */}
             {quoteTab === 'voos' && liveFlightQuotes && (

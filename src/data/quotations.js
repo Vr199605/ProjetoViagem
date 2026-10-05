@@ -722,3 +722,171 @@ export function generateQuotationBreakdown({ destination, days = 5, travelers = 
     ]
   };
 }
+
+/**
+ * Calculadora Detalhada de Custo Total por Pessoa
+ * Desmembra o orçamento estimado nas 5 categorias essenciais:
+ * 1. Aéreo
+ * 2. Hospedagem
+ * 3. Alimentação Diária
+ * 4. Ingressos de Atrações
+ * 5. Reserva para Compras / Imprevistos
+ */
+export function calculateDetailedCostBreakdown({
+  destination,
+  days = 5,
+  travelers = 2,
+  tier = 'conforto' // 'economico' | 'conforto' | 'luxo'
+}) {
+  const destName = typeof destination === 'string' ? destination : (destination?.name || 'Gramado');
+  const isIntl = isInternationalDestination(destName) || (destination?.country && destination.country !== 'Brasil');
+  const isThemeParkHub = destName.toLowerCase().includes('orlando') || destName.toLowerCase().includes('carrero');
+  
+  const validDays = Math.max(1, parseInt(days, 10) || 5);
+  const validTravelers = Math.max(1, parseInt(travelers, 10) || 2);
+  const rooms = Math.ceil(validTravelers / 2);
+
+  // 1. Aéreo por Pessoa (Ida e Volta)
+  let flightPerPerson = 0;
+  if (!isIntl) {
+    flightPerPerson = tier === 'economico' ? 680 : tier === 'luxo' ? 1950 : 890;
+  } else {
+    flightPerPerson = tier === 'economico' ? 3850 : tier === 'luxo' ? 11200 : 4750;
+  }
+  const totalFlight = flightPerPerson * validTravelers;
+
+  // 2. Hospedagem (Diária x Quartos x Noites)
+  const dailyBase = destination?.dailyBudget || (isIntl ? 1400 : 650);
+  let hotelNightRate = 0;
+  if (tier === 'economico') {
+    hotelNightRate = Math.max(isIntl ? 550 : 220, Math.round(dailyBase * 0.45));
+  } else if (tier === 'luxo') {
+    hotelNightRate = Math.max(isIntl ? 2600 : 1100, Math.round(dailyBase * 2.2));
+  } else {
+    // Conforto
+    hotelNightRate = Math.max(isIntl ? 980 : 420, Math.round(dailyBase * 0.90));
+  }
+  const totalHotel = hotelNightRate * validDays * rooms;
+  const hotelPerPerson = Math.round(totalHotel / validTravelers);
+
+  // 3. Alimentação Diária por Pessoa
+  let foodPerDay = 0;
+  if (tier === 'economico') {
+    foodPerDay = isIntl ? 190 : 110;
+  } else if (tier === 'luxo') {
+    foodPerDay = isIntl ? 850 : 460;
+  } else {
+    // Conforto
+    foodPerDay = isIntl ? 360 : 210;
+  }
+  const foodPerPerson = foodPerDay * validDays;
+  const totalFood = foodPerPerson * validTravelers;
+
+  // 4. Ingressos de Atrações & Parques por Pessoa
+  let ticketsPerPerson = 0;
+  if (isThemeParkHub) {
+    if (tier === 'economico') ticketsPerPerson = isIntl ? 1600 : 450;
+    else if (tier === 'luxo') ticketsPerPerson = isIntl ? 4500 : 1400;
+    else ticketsPerPerson = isIntl ? 2400 : 750;
+  } else {
+    let ticketsPerDay = 0;
+    if (tier === 'economico') ticketsPerDay = isIntl ? 90 : 50;
+    else if (tier === 'luxo') ticketsPerDay = isIntl ? 420 : 260;
+    else ticketsPerDay = isIntl ? 180 : 110;
+    ticketsPerPerson = ticketsPerDay * validDays;
+  }
+  const totalTickets = ticketsPerPerson * validTravelers;
+
+  // 5. Reserva para Compras / Souvenirs / Extras
+  let shoppingPerPerson = 0;
+  if (tier === 'economico') {
+    shoppingPerPerson = isIntl ? 800 : 350;
+  } else if (tier === 'luxo') {
+    shoppingPerPerson = isIntl ? 5000 : 2200;
+  } else {
+    shoppingPerPerson = isIntl ? 1800 : 750;
+  }
+  const totalShopping = shoppingPerPerson * validTravelers;
+
+  // Custo Consolidado
+  const totalGroup = totalFlight + totalHotel + totalFood + totalTickets + totalShopping;
+  const totalPerPerson = Math.round(totalGroup / validTravelers);
+  const dailyAveragePerPerson = Math.round(totalPerPerson / validDays);
+
+  const categories = [
+    {
+      id: 'aereo',
+      name: 'Aéreo (Passagens)',
+      icon: '✈️',
+      color: '#3B82F6', // Blue
+      bgClass: 'from-blue-500/15 to-blue-600/5 border-blue-500/30 text-blue-300',
+      tagColor: 'bg-blue-500/20 text-blue-300 border-blue-400/40',
+      description: 'Ida e volta para todos os passageiros nas datas selecionadas',
+      costPerPerson: flightPerPerson,
+      costTotal: totalFlight,
+      percentage: Math.round((totalFlight / totalGroup) * 100)
+    },
+    {
+      id: 'hospedagem',
+      name: 'Hospedagem',
+      icon: '🏨',
+      color: '#10B981', // Emerald
+      bgClass: 'from-emerald-500/15 to-emerald-600/5 border-emerald-500/30 text-emerald-300',
+      tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+      description: `${rooms} ${rooms === 1 ? 'quarto' : 'quartos'} • R$ ${hotelNightRate.toLocaleString('pt-BR')}/noite para ${validDays} noites`,
+      costPerPerson: hotelPerPerson,
+      costTotal: totalHotel,
+      percentage: Math.round((totalHotel / totalGroup) * 100)
+    },
+    {
+      id: 'alimentacao',
+      name: 'Alimentação Diária',
+      icon: '🍽️',
+      color: '#F59E0B', // Amber
+      bgClass: 'from-amber-500/15 to-amber-600/5 border-amber-500/30 text-amber-300',
+      tagColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
+      description: `R$ ${foodPerDay.toLocaleString('pt-BR')}/dia por pessoa (café, almoço, jantar e cafés locais)`,
+      costPerPerson: foodPerPerson,
+      costTotal: totalFood,
+      percentage: Math.round((totalFood / totalGroup) * 100)
+    },
+    {
+      id: 'ingressos',
+      name: 'Ingressos de Atrações',
+      icon: '🎟️',
+      color: '#8B5CF6', // Purple
+      bgClass: 'from-purple-500/15 to-purple-600/5 border-purple-500/30 text-purple-300',
+      tagColor: 'bg-purple-500/20 text-purple-300 border-purple-400/40',
+      description: 'Acesso a parques, museus, passeios ecológicos e experiências culturais',
+      costPerPerson: ticketsPerPerson,
+      costTotal: totalTickets,
+      percentage: Math.round((totalTickets / totalGroup) * 100)
+    },
+    {
+      id: 'compras',
+      name: 'Reserva para Compras & Extras',
+      icon: '🛍️',
+      color: '#EC4899', // Pink
+      bgClass: 'from-pink-500/15 to-pink-600/5 border-pink-500/30 text-pink-300',
+      tagColor: 'bg-pink-500/20 text-pink-300 border-pink-400/40',
+      description: 'Souvenirs, compras em shoppings/outlets e reserva de segurança para imprevistos',
+      costPerPerson: shoppingPerPerson,
+      costTotal: totalShopping,
+      percentage: Math.round((totalShopping / totalGroup) * 100)
+    }
+  ];
+
+  return {
+    destinationName: destName,
+    isIntl,
+    days: validDays,
+    travelers: validTravelers,
+    rooms,
+    tier,
+    categories,
+    totalGroup,
+    totalPerPerson,
+    dailyAveragePerPerson
+  };
+}
+

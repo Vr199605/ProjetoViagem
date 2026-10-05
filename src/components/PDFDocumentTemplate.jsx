@@ -1,6 +1,6 @@
 import React from 'react';
 import { Compass, Calendar, MapPin, Users, CheckCircle2, ExternalLink, Sparkles, ShieldCheck, Award } from 'lucide-react';
-import { generateQuotationBreakdown } from '../data/quotations';
+import { generateQuotationBreakdown, calculateDetailedCostBreakdown } from '../data/quotations';
 import { DESTINATIONS } from '../data/destinations';
 import { CONFIG } from '../config';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
@@ -18,6 +18,14 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
     days: planState.days,
     travelers: planState.travelers,
     profile: planState.profile
+  });
+
+  // 5 Categories detailed cost breakdown
+  const detailedCost = calculateDetailedCostBreakdown({
+    destination: destObj,
+    days: planState.days,
+    travelers: planState.travelers,
+    tier: 'conforto'
   });
 
   const itinerary = planState.customItinerary || [];
@@ -174,11 +182,73 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
         </div>
       </section>
 
+      {/* 3. DESMEMBRAMENTO DE CUSTO POR PESSOA (5 CATEGORIAS ESSENCIAIS) */}
+      <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+            <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">3. Desmembramento do Orçamento por Pessoa</h2>
+          </div>
+          <span className="text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-widest font-bold">
+            5 Categorias Essenciais • Padrão Conforto
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-600 mb-5 leading-relaxed">
+          Previsão realista e categorizada para os <strong>{planState.days} dias</strong> de viagem, garantindo clareza total sobre o peso de cada item no custo final.
+        </p>
+
+        <div className="space-y-3 mb-6">
+          {detailedCost.categories.map((cat) => (
+            <div key={cat.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="text-xl p-1.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+                  {cat.icon}
+                </span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-xs text-navy-900">{cat.name}</span>
+                    <span className="text-[10px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">
+                      {cat.percentage}% do total
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">{cat.description}</div>
+                </div>
+              </div>
+
+              <div className="text-right shrink-0">
+                <div className="font-bold text-sm text-navy-900">
+                  R$ {cat.costPerPerson.toLocaleString('pt-BR')} <span className="text-[10px] font-normal text-slate-500">/ pessoa</span>
+                </div>
+                <div className="text-[10px] text-slate-400">
+                  Total grupo: R$ {cat.costTotal.toLocaleString('pt-BR')}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-300 flex items-center justify-between">
+          <div>
+            <div className="text-xs font-bold text-emerald-950">Custo Total Consolidado por Pessoa</div>
+            <div className="text-[10px] text-emerald-700">Todas as 5 categorias somadas para a viagem completa</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xl font-black text-emerald-800 font-serif">
+              R$ {detailedCost.totalPerPerson.toLocaleString('pt-BR')}
+            </div>
+            <div className="text-[10px] text-emerald-800 font-semibold">
+              Média Diária: R$ {detailedCost.dailyAveragePerPerson.toLocaleString('pt-BR')} / dia por pessoa
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 4. ITINERÁRIO DIA A DIA DETALHADO */}
       <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
         <div className="flex items-center gap-2 mb-6">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">3. Itinerário Dia a Dia Detalhado</h2>
+          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">4. Itinerário Dia a Dia Detalhado</h2>
         </div>
 
         <div className="space-y-6">
@@ -253,7 +323,7 @@ export default function PDFDocumentTemplate({ planState, selectedEvents = [] }) 
       <section className="mb-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft">
         <div className="flex items-center gap-2 mb-4">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">4. Orçamento Consolidado</h2>
+          <h2 className="font-serif text-xl sm:text-2xl text-navy-900 font-bold">5. Resumo Orçamentário Final</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
