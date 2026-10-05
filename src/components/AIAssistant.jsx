@@ -3,9 +3,12 @@ import {
   Sparkles, Send, MapPin, Calendar, DollarSign, Heart, 
   Users, Edit3, ArrowRight, Loader2, Check, FileDown, Eye, AlertCircle, 
   ShieldCheck, Star, ExternalLink, Luggage, Compass, RefreshCw, X, ChevronRight, Award,
-  Plane, Package, PieChart
+  Plane, Package, PieChart, Search, Globe, Lightbulb
 } from 'lucide-react';
-import { getAiDestinationSuggestions } from '../services/aiSuggestionEngine';
+import { getAiDestinationSuggestions, DESTINATION_DATABASE } from '../services/aiSuggestionEngine';
+import { getAiQuestionAnswer, analyzeUserQuery } from '../services/placeRecommendationService';
+import { askGeminiQuestion } from '../services/geminiService';
+import { searchWikipediaLive, buildGoogleSearchUrl, buildGoogleMapsUrl } from '../services/webSearchService';
 import { calculateFlightComparison, calculatePackageComparison } from '../data/quotations';
 import { buildCustomItinerary } from '../data/itineraries';
 import { CONFIG } from '../config';
@@ -14,10 +17,10 @@ import { addDaysToDateStr } from '../utils/deeplinkBuilder';
 import TripCostCalculator from './TripCostCalculator';
 
 const SAMPLE_PROMPTS = [
-  "🏰 Quero viajar por 5 dias com minha família e crianças para lugares mágicos com parques e diversão",
-  "🍷 Romance a dois por 4 dias com lareira, vinhedos, clima de serra e alta gastronomia",
-  "🐬 5 dias relaxando em praias paradisíacas com águas mornas e piscinas naturais cristalinas",
-  "🗼 6 dias inesquecíveis na Europa com castelos de contos de fadas, arte e museus icônicos"
+  "💍 Eu gostaria de pedir minha namorada em casamento no Rio de Janeiro, quais lugares você me sugere?",
+  "🍷 Quais os melhores bistrôs e restaurantes românticos com lareira em Gramado e Canela?",
+  "🌅 Onde ver o pôr do sol mais espetacular e reservado em Fernando de Noronha?",
+  "🏰 Quais castelos e cidades de conto de fadas conhecer em uma viagem à Europa?"
 ];
 
 export default function AIAssistant({ 
@@ -33,9 +36,15 @@ export default function AIAssistant({
   const [isProcessingAI, setIsProcessingAI] = useState(false);
   const [editingField, setEditingField] = useState(null);
 
-  // Suggestions & Selection State
+  // Suggestions & Question Answering State
   const [suggestedDestinations, setSuggestedDestinations] = useState(null);
   const [selectedDestinationItem, setSelectedDestinationItem] = useState(null);
+  const [aiQuestionAnswer, setAiQuestionAnswer] = useState(null);
+
+  // In-page live Web Search State
+  const [webSearchQuery, setWebSearchQuery] = useState('');
+  const [isSearchingWeb, setIsSearchingWeb] = useState(false);
+  const [customWebResults, setCustomWebResults] = useState([]);
 
   // Flight & Package Quotation Filters
   const [hasCheckedBaggage, setHasCheckedBaggage] = useState(false);
@@ -94,28 +103,82 @@ export default function AIAssistant({
     setLivePackageQuotes(packages);
   };
 
-  // Handle User Input Submission
+  // Handle User Input Submission (Questions, Place Recommendations, or Dream Trips)
   const handleSendPrompt = async (textToSend) => {
     const query = textToSend || inputText;
     if (!query.trim()) return;
 
     setIsProcessingAI(true);
     try {
-      // Simulate real-time Enchanted AI Concierge analysis
-      await new Promise(r => setTimeout(r, 650));
+      // 1. Check if Gemini AI responds live with API key
+      let geminiAnswer = null;
+      try {
+        geminiAnswer = await askGeminiQuestion({ prompt: query });
+      } catch (e) {
+        console.warn('Gemini question call skipped/failed:', e);
+      }
+
+      let answer = null;
+      if (geminiAnswer && geminiAnswer.places && geminiAnswer.places.length > 0) {
+        const destName = geminiAnswer.destinationName || 'Destino Sugerido';
+        const matched = DESTINATION_DATABASE.find(d => 
+          d.name.toLowerCase().includes(destName.toLowerCase()) ||
+          destName.toLowerCase().includes(d.name.toLowerCase())
+        ) || DESTINATION_DATABASE[0];
+
+        const enrichedPlaces = geminiAnswer.places.map((p, idx) => ({
+          id: `gemini-place-${idx}`,
+          name: p.name,
+          neighborhood: p.neighborhood || destName,
+          category: p.category || 'Destaque Selecionado',
+          icon: p.icon || '✨',
+          whyIdeal: p.whyIdeal,
+          goldenTip: p.goldenTip,
+          googleSearchUrl: buildGoogleSearchUrl(p.name, destName, query),
+          googleMapsUrl: buildGoogleMapsUrl(p.name, destName)
+        }));
+
+        // Search live Wikipedia for extra web grounding
+        const wikiArticles = await searchWikipediaLive(`${destName} turismo`, 3);
+
+        answer = {
+          success: true,
+          isSpecificQuestion: true,
+          destinationName: destName,
+          title: geminiAnswer.title || `Sugestões Especializadas para: "${query}"`,
+          overview: geminiAnswer.overview,
+          places: enrichedPlaces,
+          wikiArticles,
+          matchedDestObj: matched,
+          isGeminiLive: true,
+          rawPrompt: query
+        };
+      } else {
+        // 2. Use our high-precision Place & Web Search Engine
+        answer = await getAiQuestionAnswer(query);
+      }
+
+      setAiQuestionAnswer(answer);
+
+      // 3. Also generate destination cards to provide broader alternatives
       const suggestions = getAiDestinationSuggestions(query);
       setSuggestedDestinations(suggestions);
-      setSelectedDestinationItem(null); // Let the user choose!
+
+      // Clear any previous custom web search
+      setCustomWebResults([]);
+      setWebSearchQuery('');
 
       onNotify?.({
         type: 'success',
         title: '✨ Sugestões Mágicas Prontas!',
-        message: `O Concierge VOYAGER AI selecionou ${suggestions.length} destinos perfeitos para o seu pedido. Escolha o seu favorito!`
+        message: answer?.title || `O Concierge VOYAGER AI preparou as melhores sugestões para sua pergunta.`
       });
 
-      // Smooth scroll down to suggestions
-      const el = document.getElementById('sugestoes-ia');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      // Smooth scroll down to answers
+      setTimeout(() => {
+        const el = document.getElementById('resposta-ia-pergunta') || document.getElementById('sugestoes-ia');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
 
     } catch (err) {
       console.error(err);
@@ -126,6 +189,27 @@ export default function AIAssistant({
       });
     } finally {
       setIsProcessingAI(false);
+    }
+  };
+
+  // Quick In-Page Web Search Handler
+  const handleQuickWebSearch = async (e) => {
+    if (e) e.preventDefault();
+    if (!webSearchQuery.trim()) return;
+
+    setIsSearchingWeb(true);
+    try {
+      const results = await searchWikipediaLive(webSearchQuery.trim(), 4);
+      setCustomWebResults(results);
+      onNotify?.({
+        type: 'success',
+        title: '🌐 Pesquisa Concluída',
+        message: `Encontramos ${results.length} resultados na web para "${webSearchQuery}".`
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSearchingWeb(false);
     }
   };
 
@@ -194,11 +278,11 @@ export default function AIAssistant({
           </div>
 
           <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight leading-tight drop-shadow-md">
-            Descreva seu sonho de viagem em linguagem natural.
+            Faça qualquer pergunta sobre lugares, roteiros ou destinos dos seus sonhos.
           </h2>
 
           <p className="mt-3 text-xs sm:text-base text-slate-200 font-light leading-relaxed">
-            Diga como você sonha viajar. Nossa IA analisa seu estilo, sugere <strong className="text-amber-300 font-semibold">múltiplos destinos mágicos</strong> para você escolher com 1 clique e gera na hora todas as cotações em tempo real com roteiro dia a dia.
+            Diga o que você procura: sugestões de lugares para pedir em casamento, restaurantes românticos, mirantes ao pôr do sol ou roteiros pelo Brasil e pelo mundo. Nossa IA responde suas dúvidas, recomenda pontos exclusivos e busca na web!
           </p>
 
         </div>
@@ -211,15 +295,15 @@ export default function AIAssistant({
               rows={3}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder="Ex: Quero viajar por 5 dias com minha família e crianças para lugares com parques temáticos e diversão, orçamento em torno de R$ 6.000..."
+              placeholder="Faça qualquer pergunta sobre lugares... Ex: Eu gostaria de pedir minha namorada em casamento no Rio de Janeiro, quais lugares você me sugere?"
               className="w-full bg-transparent text-sm sm:text-base font-normal text-white placeholder-slate-400 focus:outline-none resize-none leading-relaxed"
               disabled={isProcessingAI || isGenerating}
             />
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 mt-2 border-t border-blue-900/60">
               <span className="text-[11px] sm:text-xs text-slate-300 flex items-center gap-1.5">
-                <Star className="w-3.5 h-3.5 text-amber-300 fill-amber-300 shrink-0" />
-                <span>Clique em enviar para a IA sugerir os melhores destinos para você escolher</span>
+                <Globe className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                <span>Nossa IA responde qualquer pergunta sobre lugares com dicas exclusivas e busca na web</span>
               </span>
 
               <button
@@ -231,12 +315,12 @@ export default function AIAssistant({
                 {isProcessingAI ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin text-amber-200" />
-                    <span>Consultando Destinos Mágicos...</span>
+                    <span>Consultando IA & Buscando na Web...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Pedir Sugestões à IA</span>
+                    <span>Perguntar à IA & Buscar na Web</span>
                   </>
                 )}
               </button>
@@ -269,6 +353,243 @@ export default function AIAssistant({
             ))}
           </div>
         </div>
+
+        {/* 4. AI QUESTION ANSWER & SPECIFIC PLACE RECOMMENDATIONS */}
+        {aiQuestionAnswer && (
+          <div id="resposta-ia-pergunta" className="relative z-10 mb-10 pt-6 border-t border-blue-900/60 animate-fade-in">
+            
+            {/* Header Badge & Title */}
+            <div className="mb-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold mb-3 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>Resposta Especializada do Concierge IA • Conectado à Web & Mapas</span>
+                <Globe className="w-3.5 h-3.5 text-sky-400" />
+              </div>
+
+              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                {aiQuestionAnswer.title}
+              </h3>
+
+              {/* Conversational Overview Callout */}
+              <div className="mt-4 p-4 sm:p-5 rounded-2xl bg-[#07193C]/90 border border-blue-500/30 text-slate-200 text-xs sm:text-sm leading-relaxed font-light backdrop-blur-md">
+                <p className="font-normal text-white">
+                  {aiQuestionAnswer.overview}
+                </p>
+              </div>
+            </div>
+
+            {/* Grid of Recommended Places */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+              {aiQuestionAnswer.places.map((place) => (
+                <div
+                  key={place.id}
+                  className="bg-[#071736]/90 border border-blue-500/30 hover:border-amber-400/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between transition-all hover:scale-[1.01]"
+                >
+                  <div>
+                    {/* Top Row: Icon & Category */}
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-2xl p-2 rounded-2xl bg-white/5 border border-white/10 shrink-0">
+                          {place.icon}
+                        </span>
+                        <div>
+                          <h4 className="font-serif text-lg font-bold text-white leading-snug">
+                            {place.name}
+                          </h4>
+                          <span className="text-[11px] text-amber-300 flex items-center gap-1 mt-0.5">
+                            <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                            <span className="truncate">{place.neighborhood}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <span className="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-900/60 text-blue-200 border border-blue-400/30 mb-3">
+                      {place.category}
+                    </span>
+
+                    {/* Why Ideal Description */}
+                    <p className="text-xs text-slate-200 leading-relaxed font-light mb-4">
+                      {place.whyIdeal}
+                    </p>
+
+                    {/* Golden Tip Callout */}
+                    <div className="p-3 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-xs text-amber-100 mb-4 font-light">
+                      <strong className="text-amber-300 font-bold block mb-1 flex items-center gap-1.5">
+                        <Star className="w-3.5 h-3.5 fill-amber-300" />
+                        Dica de Ouro do Concierge:
+                      </strong>
+                      <span>{place.goldenTip}</span>
+                    </div>
+                  </div>
+
+                  {/* Web Search & Maps Action Buttons */}
+                  <div className="pt-3 border-t border-blue-900/60 grid grid-cols-2 gap-2">
+                    <a
+                      href={place.googleSearchUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2.5 px-3 rounded-xl bg-blue-950/80 hover:bg-blue-900 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 border border-blue-400/30 transition-colors shadow-sm"
+                      title="Buscar avaliações, fotos e detalhes recentes no Google"
+                    >
+                      <Search className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                      <span className="truncate">Buscar na Web</span>
+                      <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                    </a>
+
+                    <a
+                      href={place.googleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2.5 px-3 rounded-xl bg-[#09241E] hover:bg-[#0E352B] text-emerald-300 text-[11px] font-bold flex items-center justify-center gap-1.5 border border-emerald-500/40 transition-colors shadow-sm"
+                      title="Ver localização, fotos 360° e rotas no Google Maps"
+                    >
+                      <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span className="truncate">Ver no Maps</span>
+                      <ExternalLink className="w-3 h-3 text-emerald-400/70 shrink-0" />
+                    </a>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+
+            {/* Bridge CTA: Escolher Este Destino para Cotação de Voos e Roteiro */}
+            {aiQuestionAnswer.matchedDestObj && (
+              <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#071E3D] via-[#0B254E] to-[#071E3D] border-2 border-amber-400/50 shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4 text-white mb-8">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold mb-1.5">
+                    <Plane className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Conectar Sugestões ao Planejador</span>
+                  </div>
+                  <h4 className="font-serif text-lg sm:text-xl font-bold text-white">
+                    Deseja viajar para {aiQuestionAnswer.destinationName}?
+                  </h4>
+                  <p className="text-xs text-slate-300 font-light mt-0.5">
+                    Selecione este destino com 1 clique para ver voos em tempo real, 20 companhias, pacotes e roteiro dia a dia.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleChooseDestination(aiQuestionAnswer.matchedDestObj)}
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-black tracking-wide transition-all shadow-[0_0_25px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40 hover:scale-105 shrink-0"
+                >
+                  <Sparkles className="w-4 h-4 text-amber-200" />
+                  <span>Cotar Viagem para {aiQuestionAnswer.destinationName}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {/* Live Web Intelligence Drawer (Wikipedia & Real-time Web Search) */}
+            <div className="bg-[#05112B]/90 rounded-3xl p-5 sm:p-6 border border-blue-500/30 mb-8 backdrop-blur-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-blue-900/60">
+                <div>
+                  <h4 className="font-serif text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-sky-400" />
+                    <span>Resultados Conectados da Web & Enciclopédia de Viagem</span>
+                  </h4>
+                  <p className="text-xs text-slate-300 font-light mt-0.5">
+                    Informações e artigos verificados na web sobre os locais recomendados:
+                  </p>
+                </div>
+
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent(aiQuestionAnswer.rawPrompt)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-blue-900/60 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto border border-blue-400/30"
+                >
+                  <Search className="w-3.5 h-3.5 text-sky-300" />
+                  <span>Ver Todos os Resultados no Google</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+
+              {/* Wikipedia Articles List */}
+              {aiQuestionAnswer.wikiArticles && aiQuestionAnswer.wikiArticles.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                  {aiQuestionAnswer.wikiArticles.map((art, idx) => (
+                    <a
+                      key={idx}
+                      href={art.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3.5 rounded-2xl bg-[#08183A] hover:bg-[#0D2454] border border-blue-500/20 hover:border-amber-400/40 transition-all block group"
+                    >
+                      <div className="font-bold text-xs text-white group-hover:text-amber-300 flex items-center justify-between gap-1 mb-1">
+                        <span className="truncate">{art.title}</span>
+                        <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                      </div>
+                      <p className="text-[11px] text-slate-300 line-clamp-2 font-light">
+                        {art.snippet}
+                      </p>
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {/* In-page live Web Search Input */}
+              <form onSubmit={handleQuickWebSearch} className="flex flex-col sm:flex-row items-center gap-2 pt-2">
+                <div className="relative flex-1 w-full">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={webSearchQuery}
+                    onChange={(e) => setWebSearchQuery(e.target.value)}
+                    placeholder={`Pesquisar mais sobre ${aiQuestionAnswer.destinationName} ou qualquer outro ponto turístico na web...`}
+                    className="w-full bg-[#08183A] border border-blue-500/40 focus:border-amber-400 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSearchingWeb || !webSearchQuery.trim()}
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  {isSearchingWeb ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Buscando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Globe className="w-3.5 h-3.5" />
+                      <span>Buscar na Web</span>
+                    </>
+                  )}
+                </button>
+              </form>
+
+              {/* Custom Web Search Results */}
+              {customWebResults && customWebResults.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-blue-900/40 space-y-2 animate-fade-in">
+                  <span className="text-[11px] font-bold text-amber-300 block">
+                    Resultados ao vivo para "{webSearchQuery}":
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {customWebResults.map((res, i) => (
+                      <a
+                        key={i}
+                        href={res.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-start justify-between gap-2"
+                      >
+                        <div>
+                          <strong className="text-xs text-white block">{res.title}</strong>
+                          <p className="text-[11px] text-slate-300 line-clamp-2">{res.snippet}</p>
+                        </div>
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
 
         {/* 4. MULTI-DESTINATION SUGGESTIONS SECTION (A IA SUGERE VÁRIOS LUGARES) */}
         {suggestedDestinations && (

@@ -118,3 +118,61 @@ Solicitação do viajante: "${prompt}"`;
     };
   }
 }
+
+/**
+ * Direct Question Answering with Gemini for place recommendations, proposals, dining, etc.
+ * @param {Object} params
+ * @returns {Promise<Object|null>}
+ */
+export async function askGeminiQuestion({ prompt, userApiKey }) {
+  const apiKey = userApiKey || CONFIG.GEMINI_API_KEY || (typeof localStorage !== 'undefined' ? localStorage.getItem('voyager_gemini_key') : '');
+  if (!apiKey) return null;
+
+  try {
+    const systemPrompt = `Você é o Concierge Mágico e especialista em viagens do VOYAGER AI.
+O usuário fez a seguinte pergunta ou pedido sobre viagens/lugares: "${prompt}".
+
+Responda em português estruturando ESTRITAMENTE em formato JSON válido (sem tags markdown):
+{
+  "destinationName": "Nome da cidade/região principal mencionada",
+  "title": "Título elegante para a resposta (ex: Lugares Mágicos para Pedido de Casamento no Rio de Janeiro)",
+  "overview": "Uma introdução encantadora, inspiradora e detalhada de 2 a 3 parágrafos respondendo diretamente à pergunta do usuário",
+  "places": [
+    {
+      "name": "Nome exato do local ou restaurante",
+      "neighborhood": "Bairro ou região",
+      "category": "Categoria (ex: Mirante Panorâmico, Alta Gastronomia, Pôr do Sol)",
+      "icon": "Emoji representativo",
+      "whyIdeal": "Explicação apaixonada de por que este local é perfeito para a pergunta do usuário",
+      "goldenTip": "Dica de ouro prática do Concierge (horários, reservas, segredos locais)"
+    }
+  ]
+}`;
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: systemPrompt }] }],
+          generationConfig: { temperature: 0.4, maxOutputTokens: 1500 }
+        })
+      }
+    );
+
+    if (!response.ok) return null;
+    const data = await response.json();
+    const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!candidateText) return null;
+
+    const jsonMatch = candidateText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return null;
+
+    return JSON.parse(jsonMatch[0]);
+  } catch (e) {
+    console.warn('Gemini question call failed, using local engine:', e.message);
+    return null;
+  }
+}
+
