@@ -7,8 +7,11 @@ import {
   buildMaxMilhasUrl, 
   buildKayakUrl,
   buildAirlineUrl,
+  buildAirlineGoogleFlightsUrl,
+  AIRLINE_DOMAINS,
+  extractAirportCode,
   buildPackageUrl
-} from '../utils/deeplinkBuilder';
+} from '../utils/deeplinkBuilder.js';
 
 // -------------------------------------------------------------
 // 1. COMPARATORS & METASEARCH PLATFORMS
@@ -424,6 +427,65 @@ export function isInternationalDestination(destination = '') {
  * Enhanced flight comparison across OTAs and Official Airlines
  * with real-time baggage calculation and non-stop flight adjustments
  */
+// Helper to calculate realistic baseline benchmark price based on route distance and airports
+function getRouteBaseBenchmarkPrice(origin, destination) {
+  const orig = extractAirportCode(origin, 'GRU').toUpperCase();
+  const dest = extractAirportCode(destination, 'POA').toUpperCase();
+  const isIntl = isInternationalDestination(destination);
+
+  if (isIntl) {
+    const southAmerica = ['EZE', 'AEP', 'SCL', 'LIM', 'BOG', 'MDZ', 'BRC', 'MVD'];
+    const northAmerica = ['MIA', 'MCO', 'JFK', 'LAX', 'ORD', 'ATL', 'IAH'];
+    const europe = ['LIS', 'OPO', 'MAD', 'BCN', 'CDG', 'FCO', 'LHR', 'AMS', 'FRA', 'BER', 'ZRH'];
+    const middleEastAsia = ['DXB', 'DOH', 'IST', 'HND', 'NRT', 'KIX'];
+
+    if (southAmerica.includes(dest)) return 1750;
+    if (northAmerica.includes(dest)) return 4150;
+    if (europe.includes(dest)) return 4850;
+    if (middleEastAsia.includes(dest)) return 7950;
+    return 4400;
+  }
+
+  // Domestic route realistic benchmarks
+  const spAirports = ['GRU', 'CGH', 'VCP'];
+  const rioAirports = ['GIG', 'SDU'];
+
+  // Ponte aérea Rio - São Paulo (tarifa histórica média R$ 420 RT / R$ 240 OW)
+  if ((spAirports.includes(orig) && rioAirports.includes(dest)) || (rioAirports.includes(orig) && spAirports.includes(dest))) {
+    return 420;
+  }
+  // Sudeste próximo: SP/Rio - Belo Horizonte / Curitiba / Vitória
+  if (['CNF', 'CWB', 'VIX'].includes(dest)) {
+    return 540;
+  }
+  // Sul: Porto Alegre, Florianópolis, Navegantes
+  if (['POA', 'FLN', 'NVT'].includes(dest)) {
+    return 740;
+  }
+  // Centro-Oeste: Brasília, Goiânia, Cuiabá, Campo Grande
+  if (['BSB', 'GYN', 'CGB', 'CGR'].includes(dest)) {
+    return 690;
+  }
+  // Nordeste: Salvador, Recife, Fortaleza, Maceió, Natal, João Pessoa, Porto Seguro
+  if (['SSA', 'REC', 'FOR', 'NAT', 'MCZ', 'JPA', 'AJU', 'BPS', 'IOS'].includes(dest)) {
+    return 1050;
+  }
+  // Norte / Amazônia: Manaus, Belém, Palmas, Santarém, São Luís
+  if (['MAO', 'BEL', 'PMW', 'STM', 'SLZ', 'RBR', 'PVH', 'BVB', 'MCP'].includes(dest)) {
+    return 1250;
+  }
+  // Fernando de Noronha (destino ecológico com malha restrita)
+  if (dest === 'FEN') {
+    return 2150;
+  }
+
+  return 790;
+}
+
+/**
+ * Enhanced flight comparison across OTAs and Official Airlines
+ * with real-time baggage calculation and non-stop flight adjustments
+ */
 export function calculateFlightComparison({
   origin = 'São Paulo (GRU)',
   destination = 'Gramado (POA)',
@@ -437,10 +499,11 @@ export function calculateFlightComparison({
 }) {
   const isIntl = isInternationalDestination(destination);
 
-  // Base flight price benchmark per person
-  let basePrice = isIntl ? 4350 : 790;
+  // 1. Base route benchmark pricing per person
+  let basePrice = getRouteBaseBenchmarkPrice(origin, destination);
   if (!roundTrip) {
-    basePrice = Math.round(basePrice * 0.58);
+    // One-way fares are typically 56% of round-trip rates
+    basePrice = Math.round(basePrice * 0.56);
   }
 
   // Seat class multiplier
@@ -556,6 +619,9 @@ export function calculateFlightComparison({
     if (airline.id === 'airfrance' || airline.id === 'lufthansa') airlineSpread = 1.08;
 
     const airlineUnitPrice = Math.round(unitPriceWithBaggage * airlineSpread);
+    const officialBookingUrl = buildAirlineUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly });
+    const googleFlightsUrl = buildAirlineGoogleFlightsUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly });
+    const officialWebsite = AIRLINE_DOMAINS[airline.id] || 'site oficial';
 
     return {
       id: airline.id,
@@ -567,11 +633,14 @@ export function calculateFlightComparison({
       color: airline.color,
       badge: airline.badge,
       hub: airline.hub,
+      officialWebsite,
       baggagePolicy: checkedBaggage ? 'Mala 23kg inclusa no cálculo' : airline.baggagePolicy,
       perk: airline.perk,
       pricePerAdult: airlineUnitPrice,
       totalPrice: airlineUnitPrice * adults,
-      url: buildAirlineUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly })
+      url: officialBookingUrl,
+      officialBookingUrl,
+      googleFlightsUrl
     };
   });
 
@@ -583,11 +652,13 @@ export function calculateFlightComparison({
       destination,
       isIntl,
       roundTrip,
+      tripTypeLabel: roundTrip ? 'Ida e Volta' : 'Somente Ida',
       adults,
       seatClass,
       checkedBaggage,
       directOnly,
       baggageFeePerPerson: baggageFeeTotalPerPerson,
+      verificationNote: 'Tarifas oficiais verificadas em tempo real ao clicar. Os dados de pesquisa são transmitidos diretamente para o site oficial.',
       timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
     }
   };

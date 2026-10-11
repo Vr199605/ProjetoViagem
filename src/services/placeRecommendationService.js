@@ -295,6 +295,354 @@ export const CURATED_PLACES_KNOWLEDGE = {
         ]
       }
     }
+  },
+
+  // 5. SÃO PAULO
+  'saopaulo': {
+    destinationName: 'São Paulo',
+    state: 'São Paulo',
+    country: 'Brasil',
+    airportCode: 'GRU',
+    intents: {
+      casamento: {
+        title: 'Locais Românticos e Exclusivos para Pedido de Casamento em São Paulo',
+        overview: 'A maior metrópole da América Latina reserva refúgios sofisticados, palacetes escondidos, alta gastronomia estrelada e vistas panorâmicas de tirar o fôlego:',
+        places: [
+          {
+            id: 'sp-prop-1',
+            name: 'Terraço Itália (Restaurante e Piano Bar)',
+            neighborhood: 'República / Centro Histórico',
+            category: 'Ícone Panorâmico & Tradição',
+            icon: '🏙️',
+            whyIdeal: 'No 41º e 42º andares do Edifício Itália, com vista de 360 graus para o mar de luzes de São Paulo, acompanhado por iluminação intimista de velas e música clássica ao vivo.',
+            goldenTip: 'Reserve a Mesa dos Namorados na Sala Nobre ou no Piano Bar com antecedência, solicitando serviço de espumante e sobremesa personalizada para a aliança.',
+            searchQuery: 'pedido de casamento Terraco Italia Sao Paulo',
+            mapsQuery: 'Terraco Italia Sao Paulo'
+          },
+          {
+            id: 'sp-prop-2',
+            name: 'Palácio Tangará (Oetker Collection)',
+            neighborhood: 'Panamby / Parque Burle Marx',
+            category: 'Luxo 5★ & Oásis Verde Urbano',
+            icon: '🏰',
+            whyIdeal: 'Um hotel palaciano cercado pela Mata Atlântica nativa do Parque Burle Marx. Oferece jantares ao ar livre com vista para as piscinas de mármore e alta gastronomia do chef Jean-Georges Vongerichten.',
+            goldenTip: 'Agende um jantar privativo em uma das cabanas do jardim à luz de tochas ou no terraço da suíte executiva.',
+            searchQuery: 'pedido de casamento Palacio Tangara Sao Paulo',
+            mapsQuery: 'Palacio Tangara Sao Paulo'
+          },
+          {
+            id: 'sp-prop-3',
+            name: 'Skye Restaurante & Rooftop Bar (Hotel Unique)',
+            neighborhood: 'Jardins',
+            category: 'Design Contemporâneo & Piscina Vermelha',
+            icon: '🍸',
+            whyIdeal: 'Rooftop icônico no topo do Hotel Unique com vista panorâmica aberta para o Parque Ibirapuera e o horizonte de arranha-céus da Avenida Paulista.',
+            goldenTip: 'Vá no início da noite (19h30) para pegar a transição do crepúsculo. Peça uma mesa rente ao parapeito de vidro de frente para o skyline.',
+            searchQuery: 'pedido de casamento Skye Hotel Unique Sao Paulo',
+            mapsQuery: 'Skye Bar Hotel Unique Sao Paulo'
+          }
+        ]
+      }
+    }
+  },
+
+  // 6. SALVADOR & TRANCOSO
+  'salvador': {
+    destinationName: 'Salvador & Trancoso',
+    state: 'Bahia',
+    country: 'Brasil',
+    airportCode: 'SSA',
+    intents: {
+      casamento: {
+        title: 'Cenários Encantadores para Pedido de Casamento na Bahia',
+        overview: 'A Bahia une o misticismo colonial, falésias coloridas, praias virgens e pores do sol dourados que criam memórias para a vida inteira:',
+        places: [
+          {
+            id: 'ssa-prop-1',
+            name: 'Igrejinha de São João Batista no Quadrado de Trancoso',
+            neighborhood: 'Trancoso, Porto Seguro',
+            category: 'Vila Histórica & Vista para o Mar',
+            icon: '⛪',
+            whyIdeal: 'Atrás da capela caiada de branco do século XVII há um mirante natural com vista aberta para o mar esmeralda e coqueirais. À noite, o Quadrado é iluminado apenas por luminárias artesanais nas árvores.',
+            goldenTip: 'Faça o pedido no final da tarde no gramado atrás da igrejinha, seguido de um jantar à luz de velas no Restaurante Capim Santo ou Jacaré do Brasil.',
+            searchQuery: 'pedido de casamento Quadrado Trancoso mirante igrejinha',
+            mapsQuery: 'Igreja Sao Joao Batista Quadrado Trancoso'
+          },
+          {
+            id: 'ssa-prop-2',
+            name: 'Ponta de Humaitá & Forte de Monte Serrat',
+            neighborhood: 'Cidade Baixa, Salvador',
+            category: 'Pôr do Sol Mágico na Baía de Todos-os-Santos',
+            icon: '🌅',
+            whyIdeal: 'Um pequeno promontório com um farol rústico e um mosteiro colonial debruçados sobre as águas calmas da Baía de Todos-os-Santos. É o pôr do sol mais sereno de Salvador.',
+            goldenTip: 'Aproveite o horário entre 17h10 e 17h40. O reflexo do sol na água com os barcos de pescadores ao fundo cria o enquadramento perfeito.',
+            searchQuery: 'pedido de casamento Ponta de Humaita Salvador',
+            mapsQuery: 'Ponta de Humaita Salvador'
+          },
+          {
+            id: 'ssa-prop-3',
+            name: 'Praia do Espelho (Curuípe)',
+            neighborhood: 'Litoral Sul da Bahia',
+            category: 'Piscinas Naturais & Falésias Brancas',
+            icon: '🏝️',
+            whyIdeal: 'Eleita uma das praias mais bonitas do mundo. Na maré baixa, a água cristalina forma espelhos d’água perfeitos refletindo as falésias brancas e os coqueirais.',
+            goldenTip: 'Consulte a tábua de marés para ir em dia de maré baixa (0.0 a 0.3) e reserve uma esteira balinesa privativa na Pousada do Outeiro.',
+            searchQuery: 'pedido de casamento Praia do Espelho Bahia',
+            mapsQuery: 'Praia do Espelho Bahia'
+          }
+        ]
+      }
+    }
+  },
+
+  // 7. MARAGOGI & ROTA DOS MILAGRES
+  'maragogi': {
+    destinationName: 'Maragogi & Rota dos Milagres',
+    state: 'Alagoas',
+    country: 'Brasil',
+    airportCode: 'MCZ',
+    intents: {
+      casamento: {
+        title: 'Paraísos de Águas Turquesa para Pedido de Casamento em Alagoas',
+        overview: 'Conhecido como o Caribe Brasileiro, Alagoas oferece as piscinas naturais mais cristalinas do país, praias desertas e a icônica Capela dos Milagres:',
+        places: [
+          {
+            id: 'mcz-prop-1',
+            name: 'Capela dos Milagres (Praia do Marceneiro)',
+            neighborhood: 'São Miguel dos Milagres',
+            category: 'Arquitetura Rústica Chic & Praia Deserta',
+            icon: '💍',
+            whyIdeal: 'Construída na areia da praia cercada por coqueiros e brisa morna. É o cenário de casamentos mais sonhado do Brasil.',
+            goldenTip: 'Vá ao amanhecer ou no final da tarde quando o acesso externo pela praia está completamente vazio e com iluminação dourada suave.',
+            searchQuery: 'pedido de casamento Capela dos Milagres Alagoas',
+            mapsQuery: 'Capela dos Milagres Sao Miguel dos Milagres'
+          },
+          {
+            id: 'mcz-prop-2',
+            name: 'Piscinas Naturais de Maragogi (Galés) em Barco Privativo',
+            neighborhood: 'Maragogi',
+            category: 'Caribe Brasileiro & Vida Marinha',
+            icon: '🤿',
+            whyIdeal: 'Bancos de corais a 6 km da costa com água tão transparente quanto uma piscina aquecida. Peixes coloridos nadando ao redor criam uma atmosfera paradisíaca.',
+            goldenTip: 'Contrate uma lancha privativa antes dos catamarãs comerciais (saia às 7h30 da manhã em maré baixa) para ter a piscina só para vocês.',
+            searchQuery: 'pedido de casamento piscinas naturais lancha privativa Maragogi',
+            mapsQuery: 'Gales de Maragogi Alagoas'
+          },
+          {
+            id: 'mcz-prop-3',
+            name: 'Praia de Antunes ao Pôr do Sol',
+            neighborhood: 'Maragogi',
+            category: 'Coqueiro Inclinado & Mar Calmo',
+            icon: '🌴',
+            whyIdeal: 'Areia fina branca, mar calmo sem ondas de tom azul bebê e os famosos coqueiros inclinados para o mar.',
+            goldenTip: 'Caminhe no final da tarde em direção à ponta deserta da enseada, longe das barracas centrais.',
+            searchQuery: 'pedido de casamento Praia de Antunes Maragogi',
+            mapsQuery: 'Praia de Antunes Maragogi'
+          }
+        ]
+      }
+    }
+  },
+
+  // 8. LENÇÓIS MARANHENSES
+  'lencois': {
+    destinationName: 'Lençóis Maranhenses',
+    state: 'Maranhão',
+    country: 'Brasil',
+    airportCode: 'SLZ',
+    intents: {
+      casamento: {
+        title: 'Cenários Monumentais para Pedido de Casamento nos Lençóis Maranhenses',
+        overview: 'O único deserto com milhares de lagoas cristalinas do mundo. Um cenário surreal de dunas brancas ondulantes que parece outro planeta:',
+        places: [
+          {
+            id: 'slz-prop-1',
+            name: 'Lagoa Bonita no Alto das Grandes Dunas',
+            neighborhood: 'Barreirinhas',
+            category: 'Dunas Monumentais & Pôr do Sol Dourado',
+            icon: '🏜️',
+            whyIdeal: 'Subir a duna de 30 metros e contemplar o infinito mar de areia branca pontilhado por lagoas azul-turquesa até o horizonte.',
+            goldenTip: 'Fique até o pôr do sol, quando o vento sopra suavemente e as dunas ganham tonalidades douradas e lilases. É um dos momentos mais poéticos da Terra.',
+            searchQuery: 'pedido de casamento Lagoa Bonita Lencois Maranhenses',
+            mapsQuery: 'Lagoa Bonita Lencois Maranhenses'
+          },
+          {
+            id: 'slz-prop-2',
+            name: 'Povoado de Atins & Foz do Rio Preguiças',
+            neighborhood: 'Atins',
+            category: 'Charme Rústico & Encontro do Rio com o Mar',
+            icon: '🌊',
+            whyIdeal: 'Ruas de areia fofa, pousadas de charme com redes na varanda e o encontro das águas doces do rio com o oceano Atlântico.',
+            goldenTip: 'Agende um passeio de quadriciclo privativo até as lagoas remotas da época e jante no famoso Restaurante do Sr. Antônio ou da Dona Luzia.',
+            searchQuery: 'pedido de casamento Atins Lencois Maranhenses',
+            mapsQuery: 'Atins Maranhao'
+          }
+        ]
+      }
+    }
+  },
+
+  // 9. ROMA
+  'roma': {
+    destinationName: 'Roma',
+    state: 'Lazio',
+    country: 'Itália',
+    airportCode: 'FCO',
+    intents: {
+      casamento: {
+        title: 'Locais Históricos e Apaixonantes para Pedido de Casamento em Roma',
+        overview: 'A Cidade Eterna respira romantismo clássico em cada esquina, com fontes barrocas, ruínas milenares e terraços com vista para cúpulas históricas:',
+        places: [
+          {
+            id: 'fco-prop-1',
+            name: 'Giardino degli Aranci (Jardim das Laranjeiras no Monte Aventino)',
+            neighborhood: 'Aventino',
+            category: 'Mirante dos Apaixonados & Cúpula de São Pedro',
+            icon: '🍊',
+            whyIdeal: 'Jardim perfumado de laranjeiras com uma vista panorâmica arrebatadora de Roma, emoldurando a silhueta da Basílica de São Pedro no horizonte ao entardecer.',
+            goldenTip: 'Vá às 17h e, após o pedido, caminhe 100 metros até o famoso "Buraco da Fechadura" da Ordem de Malta para ver a cúpula emoldurada.',
+            searchQuery: 'pedido de casamento Giardino degli Aranci Roma',
+            mapsQuery: 'Giardino degli Aranci Roma'
+          },
+          {
+            id: 'fco-prop-2',
+            name: 'Ponte Sant’Angelo com Vista para o Castelo',
+            neighborhood: 'Ponte / Vaticano',
+            category: 'Esculturas de Bernini & Rio Tibre',
+            icon: '🏰',
+            whyIdeal: 'Ponte de pedestres ladeada por anjos de mármore esculpidos por Bernini, com o imponente Castel Sant’Angelo iluminado ao fundo refletindo no rio.',
+            goldenTip: 'Caminhe na ponte no final da noite (após as 22h), quando os turistas se dispersam e a iluminação amarelada dá um ar de filme renascentista.',
+            searchQuery: 'pedido de casamento Ponte Sant Angelo Roma',
+            mapsQuery: 'Ponte Sant Angelo Roma'
+          },
+          {
+            id: 'fco-prop-3',
+            name: 'Fontana di Trevi ao Amanhecer',
+            neighborhood: 'Trevi',
+            category: 'A Fonte Mais Lendária do Mundo',
+            icon: '⛲',
+            whyIdeal: 'A lenda diz que jogar uma moeda garante o retorno a Roma, mas se ajoelhar com a aliança diante das águas azuis da obra-prima barroca é inigualável.',
+            goldenTip: 'Chegue entre 6h30 e 7h da manhã. A praça estará completamente deserta, permitindo um momento silencioso e íntimo sem multidões.',
+            searchQuery: 'pedido de casamento Fontana di Trevi amanhecer Roma',
+            mapsQuery: 'Fontana di Trevi Roma'
+          }
+        ]
+      }
+    }
+  },
+
+  // 10. QUIOTO & TÓQUIO
+  'kyoto': {
+    destinationName: 'Quioto & Tóquio',
+    state: 'Kansai / Kanto',
+    country: 'Japão',
+    airportCode: 'HND',
+    intents: {
+      casamento: {
+        title: 'Locais Mágicos e Poéticos para Pedido de Casamento no Japão',
+        overview: 'O Japão combina a serenidade de templos milenares, jardins zen e bosques de bambu com a modernidade reluzente de rooftops futuristas:',
+        places: [
+          {
+            id: 'tyo-prop-1',
+            name: 'Floresta de Bambu de Arashiyama ao Amanhecer',
+            neighborhood: 'Quioto',
+            category: 'Natureza Zen & Tradição Milenar',
+            icon: '🎋',
+            whyIdeal: 'Caminhar entre os colossos de bambu verde que estalam suavemente ao vento, criando uma trilha sonora natural de tranquilidade e reverência.',
+            goldenTip: 'Vá às 7h da manhã antes da chegada dos grupos turísticos. A luz da manhã cortando as copas de bambu cria feixes de luz cinematográficos.',
+            searchQuery: 'pedido de casamento Arashiyama Bamboo Forest Kyoto',
+            mapsQuery: 'Arashiyama Bamboo Grove Kyoto'
+          },
+          {
+            id: 'tyo-prop-2',
+            name: 'Shibuya Sky Rooftop Observation Deck',
+            neighborhood: 'Shibuya, Tóquio',
+            category: 'Futurismo & Horizonte 360° com Monte Fuji',
+            icon: '✨',
+            whyIdeal: 'Um terraço ao ar livre a 229 metros de altura debruçado sobre o cruzamento mais famoso do mundo, com vista do Monte Fuji no crepúsculo.',
+            goldenTip: 'Compre o ingresso do horário do pôr do sol (sunset slot) com 4 semanas de antecedência e vá ao corner de vidro no canto noroeste.',
+            searchQuery: 'pedido de casamento Shibuya Sky rooftop Tokyo',
+            mapsQuery: 'SHIBUYA SKY Tokyo'
+          }
+        ]
+      }
+    }
+  },
+
+  // 11. NOVA YORK
+  'novayork': {
+    destinationName: 'Nova York',
+    state: 'Nova York',
+    country: 'Estados Unidos',
+    airportCode: 'JFK',
+    intents: {
+      casamento: {
+        title: 'Locais Cinematográficos para Pedido de Casamento em Nova York',
+        overview: 'A capital do mundo é o cenário de centenas de histórias de amor. Para um pedido clássico ou nas alturas, aqui estão os pontos perfeitos:',
+        places: [
+          {
+            id: 'nyc-prop-1',
+            name: 'Bow Bridge & Bethesda Terrace no Central Park',
+            neighborhood: 'Central Park / Manhattan',
+            category: 'Romance Clássico no Coração do Parque',
+            icon: '🍂',
+            whyIdeal: 'A graciosa ponte de ferro fundido do século XIX curvando-se sobre o lago calmo, cercada por árvores frondosas e barcos a remo.',
+            goldenTip: 'Alugue um barquinho no Loeb Boathouse e faça o pedido no centro do lago com a ponte ao fundo, ou caminhe pela ponte no início da manhã.',
+            searchQuery: 'pedido de casamento Bow Bridge Central Park New York',
+            mapsQuery: 'Bow Bridge Central Park NYC'
+          },
+          {
+            id: 'nyc-prop-2',
+            name: 'The Edge NYC (Hudson Yards)',
+            neighborhood: 'Hudson Yards, Manhattan',
+            category: 'O Deck Suspenso Mais Alto do Hemisfério Ocidental',
+            icon: '🏙️',
+            whyIdeal: 'Plataforma ao ar livre a 335 metros de altura com piso de vidro transparente e paredes inclinadas projetando-se sobre Manhattan.',
+            goldenTip: 'Reserve o pacote sunset com taça de champanhe no bar de vidro e posicione-se na ponta oriental (The Eastern Point).',
+            searchQuery: 'pedido de casamento The Edge Hudson Yards New York',
+            mapsQuery: 'Edge NYC Hudson Yards'
+          }
+        ]
+      }
+    }
+  },
+
+  // 12. LISBOA & SINTRA
+  'lisboa': {
+    destinationName: 'Lisboa & Sintra',
+    state: 'Distrito de Lisboa',
+    country: 'Portugal',
+    airportCode: 'LIS',
+    intents: {
+      casamento: {
+        title: 'Castelos e Miradouros Mágicos para Pedido de Casamento em Portugal',
+        overview: 'A luz única de Lisboa, as colinas históricas com azulejos e os palácios de contos de fadas de Sintra criam uma atmosfera romântica sem igual:',
+        places: [
+          {
+            id: 'lis-prop-1',
+            name: 'Palácio Nacional da Pena & Jardins de Sintra',
+            neighborhood: 'Sintra (a 30 min de Lisboa)',
+            category: 'Conto de Fadas Romântico no Topo da Serra',
+            icon: '🏰',
+            whyIdeal: 'Um castelo de cores vibrantes (amarelo e vermelho) erguido sobre a rocha em meio a uma floresta mística envolta em névoa. Parece saído de um livro de princesas.',
+            goldenTip: 'Suba até o mirante da Cruz Alta nos jardins do palácio para ver o castelo por inteiro entre os pinheiros e o oceano ao fundo.',
+            searchQuery: 'pedido de casamento Palacio da Pena Sintra Portugal',
+            mapsQuery: 'Palacio Nacional da Pena Sintra'
+          },
+          {
+            id: 'lis-prop-2',
+            name: 'Miradouro de Santa Luzia & Miradouro das Portas do Sol',
+            neighborhood: 'Alfama, Lisboa',
+            category: 'Azulejos Portugueses & Vista para o Rio Tejo',
+            icon: '⛵',
+            whyIdeal: 'Pérgula florida coberta por buganvílias roxas, painéis de azulejos azuis e vista deslumbrante para o casario branco de Alfama e o Tejo.',
+            goldenTip: 'Vá na primeira hora da manhã (8h) para desfrutar da pérgula sem movimento antes da passagem dos bondes elétricos.',
+            searchQuery: 'pedido de casamento Miradouro de Santa Luzia Alfama Lisboa',
+            mapsQuery: 'Miradouro de Santa Luzia Lisboa'
+          }
+        ]
+      }
+    }
   }
 };
 
@@ -407,14 +755,179 @@ export function analyzeUserQuery(prompt) {
     }
   }
 
+  // 4. Detect General Travel Logistics / Advice Intent
+  let isLogistics = false;
+  let logisticsTopic = null;
+
+  if (clean.includes('época') || clean.includes('epoca') || clean.includes('quando ir') || clean.includes('melhor mes') || clean.includes('melhor mês') || clean.includes('clima')) {
+    isLogistics = true;
+    logisticsTopic = 'melhor_epoca';
+  } else if (clean.includes('bagagem') || clean.includes('mala de mão') || clean.includes('mala de mao') || clean.includes('10kg') || clean.includes('23kg') || clean.includes('despachada') || clean.includes('franquia')) {
+    isLogistics = true;
+    logisticsTopic = 'bagagem';
+  } else if (clean.includes('visto') || clean.includes('passaporte') || clean.includes('vacina') || clean.includes('documento') || clean.includes('rg') || clean.includes('fronteira')) {
+    isLogistics = true;
+    logisticsTopic = 'documentos';
+  } else if (clean.includes('economizar') || clean.includes('mais barato') || clean.includes('desconto em passagem') || clean.includes('comprar passagem') || clean.includes('menor preço')) {
+    isLogistics = true;
+    logisticsTopic = 'economia';
+  }
+
   return {
     isQuestion,
     intent,
+    isLogistics,
+    logisticsTopic,
     destinationKey,
     detectedCity,
     rawPrompt: prompt
   };
 }
+
+// CURATED FACTUAL LOGISTICS ANSWERS FOR GENERAL TRAVEL INQUIRIES
+const LOGISTICS_KNOWLEDGE = {
+  melhor_epoca: {
+    title: 'Guia Factual: Melhores Épocas para Viajar por Região',
+    overview: 'Escolher a época certa faz toda a diferença para evitar chuvas, temporadas de tempestades ou superlotação. Apresentamos o calendário factual por região:',
+    places: [
+      {
+        id: 'log-epoca-1',
+        name: 'Litoral Nordestino (Alagoas, Bahia, Ceará, Pernambuco, RN)',
+        neighborhood: 'Nordeste do Brasil',
+        category: 'Sol Garantido & Mar Cristalino',
+        icon: '☀️',
+        whyIdeal: 'Entre setembro e março o Nordeste registra os menores índices pluviométricos e águas calmas e translúcidas, ideais para piscinas naturais.',
+        goldenTip: 'Evite os meses de abril a julho em Alagoas, Pernambuco e Salvador, que correspondem à quadra chuvosa do litoral oriental.'
+      },
+      {
+        id: 'log-epoca-2',
+        name: 'Serra Gaúcha (Gramado, Canela e Vale dos Vinhedos)',
+        neighborhood: 'Rio Grande do Sul',
+        category: 'Frio Acolhedor & Alta Temporada',
+        icon: '🍷',
+        whyIdeal: 'Para curtir frio, lareira, fondue e vinhedos, de maio a agosto. Para o espetáculo do Natal Luz, de novembro a meados de janeiro.',
+        goldenTip: 'Entre março e abril as temperaturas são amenas e a serra fica com belíssimas cores de outono com preços mais em conta.'
+      },
+      {
+        id: 'log-epoca-3',
+        name: 'Europa Ocidental (França, Itália, Portugal, Espanha)',
+        neighborhood: 'Europa',
+        category: 'Primavera e Outono Perfeitos',
+        icon: '🏰',
+        whyIdeal: 'Maio a junho e setembro a outubro oferecem temperaturas agradáveis (18°C a 24°C), dias longos de sol e cidades sem o calor sufocante e filas de julho/agosto.',
+        goldenTip: 'Em julho e agosto as capitais europeias ficam lotadas e muitos comércios locais fecham para férias de verão.'
+      },
+      {
+        id: 'log-epoca-4',
+        name: 'Caribe e América do Norte (Cancún, Miami, Orlando)',
+        neighborhood: 'Caribe & Estados Unidos',
+        category: 'Fora da Temporada de Furacões',
+        icon: '🏖️',
+        whyIdeal: 'De dezembro a abril o clima é seco, estável e com brisa perfeita. Em Orlando, o outono (outubro/novembro) tem parques com filas reduzidas.',
+        goldenTip: 'A temporada oficial de furacões no Caribe e Flórida ocorre de junho a novembro, com pico em agosto e setembro.'
+      }
+    ]
+  },
+  bagagem: {
+    title: 'Regras Oficiais de Bagagem: Mala de Mão (10kg) e Despachada (23kg)',
+    overview: 'De acordo com a Resolução nº 400 da ANAC e normas internacionais da IATA, aqui estão as regras factuais vigentes para voos nacionais e internacionais:',
+    places: [
+      {
+        id: 'log-bag-1',
+        name: 'Mala de Bordo / Mala de Mão (10kg Gratuita)',
+        neighborhood: 'Cabine da Aeronave',
+        category: 'Direito Regulamentado por Lei',
+        icon: '🎒',
+        whyIdeal: 'No Brasil, todos os passageiros têm direito a 1 mala de mão de até 10kg sem cobrança adicional, mais 1 item pessoal (mochila ou bolsa que caiba sob o assento dianteiro).',
+        goldenTip: 'As dimensões máximas oficiais são 55 cm de altura x 35 cm de largura x 25 cm de profundidade (incluindo rodinhas e alças).'
+      },
+      {
+        id: 'log-bag-2',
+        name: 'Mala Despachada (23kg em Voos Nacionais e Internacionais)',
+        neighborhood: 'Porão da Aeronave',
+        category: 'Franquia Adquirida ou Tarifa Top',
+        icon: '🧳',
+        whyIdeal: 'Cada peça despachada deve ter até 23kg e soma máxima de dimensões (altura + largura + comprimento) de até 158 cm.',
+        goldenTip: 'Comprar a franquia de bagagem com antecedência pelo app ou site oficial da companhia aérea custa cerca de 50% menos do que pagar no balcão do aeroporto.'
+      },
+      {
+        id: 'log-bag-3',
+        name: 'Líquidos e Itens Proibidos em Voos Internacionais',
+        neighborhood: 'Segurança Aeroportuária',
+        category: 'Norma Internacional IATA',
+        icon: '🧴',
+        whyIdeal: 'Em voos internacionais, líquidos na bagagem de mão devem estar em frascos individuais de no máximo 100ml cada, dentro de um saco plástico transparente selável de até 1 litro.',
+        goldenTip: 'Eletrônicos com baterias de lítio (laptops, powerbanks) DEVEM ir obrigatoriamente na mala de mão, nunca no porão despachado.'
+      }
+    ]
+  },
+  documentos: {
+    title: 'Documentação Oficial Exigida para Viagens Nacionais e Internacionais',
+    overview: 'Para garantir um embarque sem contratempos, confira as regras oficiais de identificação e vistos para viajantes brasileiros:',
+    places: [
+      {
+        id: 'log-doc-1',
+        name: 'Voos Nacionais e Países do Mercosul',
+        neighborhood: 'Brasil, Argentina, Chile, Uruguai, Paraguai, Peru',
+        category: 'Dispensa de Passaporte',
+        icon: '🪪',
+        whyIdeal: 'Brasileiros podem viajar para países do Mercosul portando apenas a Carteira de Identidade (RG) original em bom estado emitida há menos de 10 anos.',
+        goldenTip: 'Atenção: A CNH (Carteira Nacional de Habilitação) é aceita para voos dentro do Brasil, mas NÃO é aceita para cruzar fronteiras internacionais do Mercosul.'
+      },
+      {
+        id: 'log-doc-2',
+        name: 'Europa (Espaço Schengen: França, Itália, Portugal, etc.)',
+        neighborhood: '27 Países Europeus',
+        category: 'Passaporte Válido + Seguro Obrigatório',
+        icon: '🇪🇺',
+        whyIdeal: 'Brasileiros não precisam de visto para turismo de até 90 dias. É obrigatório passaporte com validade mínima de 3 meses além da estadia e seguro viagem com cobertura de € 30.000.',
+        goldenTip: 'Tenha em mãos no desembarque a passagem de retorno emitida e o comprovante de hospedagem ou carta-convite.'
+      },
+      {
+        id: 'log-doc-3',
+        name: 'Estados Unidos & Japão',
+        neighborhood: 'América do Norte e Ásia',
+        category: 'Visto Americano e Isenção Japonesa',
+        icon: '🇺🇸',
+        whyIdeal: 'Para os EUA é obrigatório visto B1/B2 válido e passaporte válido. Para o Japão, brasileiros portadores de passaporte comum estão ISENTOS de visto desde outubro de 2023 para estadias de até 90 dias.',
+        goldenTip: 'Preencha o formulário Visit Japan Web antes de embarcar para o Japão para agilizar imigração e alfândega por QR Code.'
+      }
+    ]
+  },
+  economia: {
+    title: 'Estratégias Comprovadas para Economizar na Compra de Passagens Aéreas',
+    overview: 'Comprar passagens pelo melhor preço exige técnica e uso inteligente dos comparadores oficiais. Confira as melhores práticas:',
+    places: [
+      {
+        id: 'log-eco-1',
+        name: 'Janela Ideal de Compra de Passagens',
+        neighborhood: 'Timing Tarifário',
+        category: 'Menor Preço Médio',
+        icon: '📅',
+        whyIdeal: 'Para voos nacionais: entre 30 e 60 dias de antecedência (alta temporada: 60 a 90 dias). Para voos internacionais: entre 60 e 120 dias antes do embarque.',
+        goldenTip: 'Comprar com mais de 6 meses de antecedência ou em cima da hora quase sempre resulta em tarifas inflacionadas pelas tabelas das companhias.'
+      },
+      {
+        id: 'log-eco-2',
+        name: 'Voos às Terças, Quartas e Sábados',
+        neighborhood: 'Dias Estratégicos da Semana',
+        category: 'Menor Demanda Corporativa',
+        icon: '✈️',
+        whyIdeal: 'Sextas e domingos são os dias mais concorridos e caros devido a viajantes executivos e viagens de fim de semana.',
+        goldenTip: 'Utilize o calendário flexível do Google Flights ou Skyscanner para visualizar os dias com menores tarifas no mês inteiro.'
+      },
+      {
+        id: 'log-eco-3',
+        name: 'Compare Sempre o Site Oficial da Companhia',
+        neighborhood: 'LATAM, GOL, Azul, TAP, Air France',
+        category: 'Sem Taxas Ocultas de Intermediação',
+        icon: '💳',
+        whyIdeal: 'Agências online terceirizadas costumam cobrar taxas extras de remarcação e bagagem. Comprar direto no site oficial da cia garante pontuação integral de milhas e suporte direto.',
+        goldenTip: 'Nosso comparador disponibiliza o link direto do motor oficial da cia com os parâmetros já preenchidos.'
+      }
+    ]
+  }
+};
 
 /**
  * Main Answer Engine: Answers ANY question with rich places, web search links, maps & tips
@@ -423,9 +936,34 @@ export function analyzeUserQuery(prompt) {
  */
 export async function getAiQuestionAnswer(prompt) {
   const analysis = analyzeUserQuery(prompt);
-  const { destinationKey, detectedCity, intent } = analysis;
+  const { destinationKey, detectedCity, intent, isLogistics, logisticsTopic } = analysis;
 
-  // 1. Check if we have pre-curated deep knowledge
+  // 1. Check if user asked a general travel logistics / planning question
+  if (isLogistics && logisticsTopic && LOGISTICS_KNOWLEDGE[logisticsTopic]) {
+    const logData = LOGISTICS_KNOWLEDGE[logisticsTopic];
+    const enrichedPlaces = logData.places.map(place => ({
+      ...place,
+      googleSearchUrl: buildGoogleSearchUrl(place.name, '', prompt),
+      googleMapsUrl: buildGoogleMapsUrl(place.name, '')
+    }));
+
+    const wikiArticles = await searchWikipediaLive(`${prompt} viagem`, 3);
+
+    return {
+      success: true,
+      isSpecificQuestion: true,
+      destinationName: 'Dicas Gerais de Viagem',
+      country: 'Brasil e Mundo',
+      title: logData.title,
+      overview: logData.overview,
+      places: enrichedPlaces,
+      wikiArticles,
+      matchedDestObj: DESTINATION_DATABASE[0],
+      rawPrompt: prompt
+    };
+  }
+
+  // 2. Check if we have pre-curated deep knowledge for specific destination
   if (destinationKey && CURATED_PLACES_KNOWLEDGE[destinationKey]) {
     const destData = CURATED_PLACES_KNOWLEDGE[destinationKey];
     const intentData = destData.intents[intent] || destData.intents['casamento'] || Object.values(destData.intents)[0];
@@ -463,11 +1001,11 @@ export async function getAiQuestionAnswer(prompt) {
     };
   }
 
-  // 2. Dynamic Place Synthesis for ANY city/topic in Brazil or the World!
+  // 3. Dynamic Place Synthesis for ANY city/topic in Brazil or the World!
   // Uses real-time Wikipedia search to find iconic landmarks & spots of that city
   const wikiResults = await searchWikipediaLive(`${detectedCity} turismo pontos turisticos`, 6);
 
-  // Generate 4 to 6 custom recommendations based on Wikipedia extracts & city knowledge
+  // Generate custom recommendations based on Wikipedia extracts & city knowledge
   const dynamicPlaces = [];
 
   if (wikiResults.length > 0) {

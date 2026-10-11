@@ -47,9 +47,10 @@ export default function AIAssistant({
   const [customWebResults, setCustomWebResults] = useState([]);
 
   // Flight & Package Quotation Filters
+  const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [hasCheckedBaggage, setHasCheckedBaggage] = useState(false);
   const [directOnly, setDirectOnly] = useState(false);
-  const [quoteTab, setQuoteTab] = useState('voos'); // 'voos', 'companhias', 'pacotes', 'roteiro'
+  const [quoteTab, setQuoteTab] = useState('voos'); // 'voos', 'companhias', 'pacotes', 'roteiro', 'calculadora'
 
   // Computed live quotes
   const [liveFlightQuotes, setLiveFlightQuotes] = useState(null);
@@ -63,12 +64,12 @@ export default function AIAssistant({
       // Pre-select matching current planState
       const matching = initial.find(d => d.name.toLowerCase().includes(planState.destination.toLowerCase().slice(0, 5))) || initial[0];
       setSelectedDestinationItem(matching);
-      recalculateQuotes(matching, hasCheckedBaggage, directOnly);
+      recalculateQuotes(matching, hasCheckedBaggage, directOnly, isRoundTrip);
     }
   }, []);
 
   // Recalculate quotation matrix for a destination
-  const recalculateQuotes = (destItem, baggage, nonstop) => {
+  const recalculateQuotes = (destItem, baggage = hasCheckedBaggage, nonstop = directOnly, roundTrip = isRoundTrip) => {
     if (!destItem) return;
     const todayStr = new Date().toISOString().split('T')[0];
     const defaultDepart = addDaysToDateStr(todayStr, 30);
@@ -81,8 +82,8 @@ export default function AIAssistant({
       origin: planState.origin || 'São Paulo (GRU / CGH / VCP)',
       destination: destItem.name,
       departDate: activeDepart,
-      returnDate: activeReturn,
-      roundTrip: true,
+      returnDate: roundTrip ? activeReturn : '',
+      roundTrip: roundTrip,
       adults: planState.travelers || 2,
       seatClass: 'Econômica',
       checkedBaggage: baggage,
@@ -246,7 +247,7 @@ export default function AIAssistant({
     const next = !hasCheckedBaggage;
     setHasCheckedBaggage(next);
     if (selectedDestinationItem) {
-      recalculateQuotes(selectedDestinationItem, next, directOnly);
+      recalculateQuotes(selectedDestinationItem, next, directOnly, isRoundTrip);
     }
   };
 
@@ -254,7 +255,14 @@ export default function AIAssistant({
     const next = !directOnly;
     setDirectOnly(next);
     if (selectedDestinationItem) {
-      recalculateQuotes(selectedDestinationItem, hasCheckedBaggage, next);
+      recalculateQuotes(selectedDestinationItem, hasCheckedBaggage, next, isRoundTrip);
+    }
+  };
+
+  const handleToggleRoundTrip = (val) => {
+    setIsRoundTrip(val);
+    if (selectedDestinationItem) {
+      recalculateQuotes(selectedDestinationItem, hasCheckedBaggage, directOnly, val);
     }
   };
 
@@ -744,12 +752,34 @@ export default function AIAssistant({
                 </div>
               </div>
 
-              {/* Luggage & Direct Filters */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full md:w-auto">
+              {/* Trip Type, Luggage & Direct Filters */}
+              <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                {/* Round Trip vs One Way Toggle */}
+                <div className="inline-flex items-center bg-[#05112B]/90 border border-blue-500/40 p-1 rounded-xl text-xs font-semibold shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleToggleRoundTrip(true)}
+                    className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                      isRoundTrip ? 'bg-amber-400 text-navy-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    Ida e Volta
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleToggleRoundTrip(false)}
+                    className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                      !isRoundTrip ? 'bg-amber-400 text-navy-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    Somente Ida
+                  </button>
+                </div>
+
                 <button
                   type="button"
                   onClick={handleToggleBaggage}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 ${
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
                     hasCheckedBaggage
                       ? 'bg-amber-400 text-navy-950 border-amber-300 shadow-md font-black'
                       : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
@@ -757,13 +787,13 @@ export default function AIAssistant({
                   title="Alternar mala de mão vs despachada"
                 >
                   <Luggage className="w-3.5 h-3.5 shrink-0" />
-                  <span>{hasCheckedBaggage ? 'Mala Despachada (23kg)' : 'Mala de Mão (10kg)'}</span>
+                  <span>{hasCheckedBaggage ? 'Mala 23kg' : 'Mala 10kg'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleToggleDirect}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 ${
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
                     directOnly
                       ? 'bg-emerald-500 text-white border-emerald-400 shadow-md font-black'
                       : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
@@ -771,7 +801,7 @@ export default function AIAssistant({
                   title="Alternar voos diretos"
                 >
                   <Compass className="w-3.5 h-3.5 shrink-0" />
-                  <span>{directOnly ? 'Apenas Voos Diretos' : 'Todos os Voos'}</span>
+                  <span>{directOnly ? 'Voos Diretos' : 'Todos'}</span>
                 </button>
               </div>
             </div>
@@ -989,15 +1019,40 @@ export default function AIAssistant({
                       </div>
                     </div>
 
-                    <a
-                      href={airline.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white shadow-sm"
-                    >
-                      <span className="truncate">Comprar Direto na {airline.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-                    </a>
+                    <div className="space-y-1.5 pt-2 border-t border-blue-900/60">
+                      <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                        <span className="font-semibold text-sky-400 truncate">
+                          🌐 {airline.officialWebsite}
+                        </span>
+                        <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded font-bold text-slate-300 shrink-0">
+                          {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}
+                        </span>
+                      </div>
+
+                      <a
+                        href={airline.officialBookingUrl || airline.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white shadow-sm"
+                        title={`Ir para o site oficial da ${airline.name} com rota, datas e passageiros preenchidos`}
+                      >
+                        <span className="truncate">Comprar no Site Oficial da {airline.name}</span>
+                        <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+                      </a>
+
+                      {airline.googleFlightsUrl && (
+                        <a
+                          href={airline.googleFlightsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-1.5 px-2.5 rounded-lg text-[10px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-300 hover:text-white bg-blue-950/60 hover:bg-blue-900/80 border border-blue-500/30"
+                          title={`Comparar voos da ${airline.name} no Google Flights`}
+                        >
+                          <span className="truncate">Ver filtro da {airline.name} no Google Flights</span>
+                          <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

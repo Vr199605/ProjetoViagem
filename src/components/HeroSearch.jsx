@@ -145,21 +145,18 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   const handleCheckInChange = (e) => {
     const newCheckIn = e.target.value;
     setCheckIn(newCheckIn);
-    // If checkOut is set and is earlier than newCheckIn, adjust checkOut forward safely
-    if (newCheckIn && checkOut && newCheckIn > checkOut) {
-      const adjusted = addDaysToDateStr(newCheckIn, 4);
-      setCheckOut(adjusted);
-      onNotify?.({
-        type: 'info',
-        title: 'Datas Ajustadas',
-        message: 'A data de volta foi ajustada para após a data de partida.'
-      });
+    // If checkIn is set and valid, auto-suggest return date to 4 days later if empty or earlier
+    if (newCheckIn && newCheckIn.length === 10) {
+      if (!checkOut || checkOut < newCheckIn) {
+        const adjusted = addDaysToDateStr(newCheckIn, 4);
+        setCheckOut(adjusted);
+      }
     }
   };
 
   const handleCheckOutChange = (e) => {
     const newCheckOut = e.target.value;
-    // ALWAYS allow the user to set checkOut without blocking keystrokes or intermediate years
+    // Set checkOut freely without blocking keystrokes or intermediate years
     setCheckOut(newCheckOut);
     if (newCheckOut && newCheckOut.length === 10 && checkIn && checkIn.length === 10) {
       if (newCheckOut < checkIn) {
@@ -221,7 +218,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
         origin: originQuery,
         destination: destinationQuery,
         departDate: activeCheckIn,
-        returnDate: activeCheckOut,
+        returnDate: isRoundTrip ? activeCheckOut : '',
         roundTrip: isRoundTrip,
         adults,
         seatClass: flightClass,
@@ -696,20 +693,21 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
 
                 <div>
                   <label className="block text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-                    {activeTab === 'voos' ? 'Volta' : 'Check-out'}
+                    {activeTab === 'voos' ? (isRoundTrip ? 'Volta' : 'Volta (Somente Ida)') : 'Check-out'}
                   </label>
                   <div className={`flex items-center gap-1.5 px-2 sm:px-3 py-2.5 rounded-2xl border ${
                     !isRoundTrip && activeTab === 'voos' 
-                      ? 'bg-slate-100/50 border-slate-200 opacity-50 cursor-not-allowed' 
+                      ? 'bg-slate-100/50 border-slate-200 opacity-60 cursor-not-allowed' 
                       : 'bg-slate-50 border-slate-200/80'
                   }`}>
                     <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0 hidden sm:block" />
                     <input
                       type="date"
-                      min={todayStr}
-                      value={checkOut}
+                      min={checkIn || todayStr}
+                      value={!isRoundTrip && activeTab === 'voos' ? '' : checkOut}
                       disabled={!isRoundTrip && activeTab === 'voos'}
                       onChange={handleCheckOutChange}
+                      placeholder={!isRoundTrip && activeTab === 'voos' ? 'Não aplicável' : ''}
                       className="w-full bg-transparent text-[11px] sm:text-xs font-semibold text-navy-900 focus:outline-none disabled:cursor-not-allowed min-w-0"
                     />
                   </div>
@@ -1036,15 +1034,40 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                             </div>
                           </div>
 
-                          <a
-                            href={airline.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 text-white shadow-2xs"
-                          >
-                            <span>Comprar Direto na {airline.name}</span>
-                            <ExternalLink className="w-3.5 h-3.5" />
-                          </a>
+                          <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                            <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+                              <span className="font-semibold text-blue-700 truncate">
+                                🌐 {airline.officialWebsite}
+                              </span>
+                              <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded font-semibold text-slate-600 shrink-0">
+                                {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}
+                              </span>
+                            </div>
+
+                            <a
+                              href={airline.officialBookingUrl || airline.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 text-white shadow-2xs"
+                              title={`Ir para o site oficial da ${airline.name} com rota, datas e passageiros preenchidos`}
+                            >
+                              <span>Comprar no Site Oficial da {airline.name}</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+
+                            {airline.googleFlightsUrl && (
+                              <a
+                                href={airline.googleFlightsUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full py-1.5 px-2.5 rounded-lg text-[10px] sm:text-[11px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-600 hover:text-navy-900 hover:bg-slate-100 border border-slate-200"
+                                title={`Comparar voos da ${airline.name} no Google Flights`}
+                              >
+                                <span>Ver filtro da {airline.name} no Google Flights</span>
+                                <ExternalLink className="w-3 h-3 text-slate-400" />
+                              </a>
+                            )}
+                          </div>
 
                         </div>
                       ))}
