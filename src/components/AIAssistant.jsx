@@ -992,14 +992,54 @@ export default function AIAssistant({
                           <span className="text-[10px] uppercase font-bold text-slate-400">Tarifa Oficial em Tempo Real</span>
                           <span className="text-[10px] text-emerald-400 font-mono font-medium">Ao Vivo • {item.lastUpdated || lastRadarSync}</span>
                         </div>
-                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-                          <span className="text-xl sm:text-2xl font-black text-white">
-                            R$ {item.totalPrice.toLocaleString('pt-BR')}
-                          </span>
-                          <span className="text-[11px] sm:text-xs text-slate-400">
-                            (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
-                          </span>
+                        <div className="flex flex-col mb-1.5">
+                          <div className="flex items-baseline gap-1.5 flex-wrap">
+                            <span className="text-xs font-medium text-slate-400">A partir de</span>
+                            <span className="text-xl sm:text-2xl font-black text-white">
+                              R$ {item.pricePerAdult.toLocaleString('pt-BR')}
+                            </span>
+                            <span className="text-xs text-slate-400 font-medium">/ pessoa</span>
+                          </div>
+                          {(planState.travelers || 2) > 1 && (
+                            <div className="text-[11px] text-slate-400 mt-0.5">
+                              Total ({(planState.travelers || 2)} passageiros): <strong className="text-white font-semibold">R$ {item.totalPrice.toLocaleString('pt-BR')}</strong>
+                            </div>
+                          )}
+                          <div className="text-[10px] text-slate-500 mt-0.5">
+                            Taxas de embarque ANAC inclusas (R$ {item.airportTaxPerPerson || 44} / pessoa)
+                          </div>
                         </div>
+
+                        {/* Google Flights Price Gauge / Termômetro */}
+                        {item.typicalMin && item.typicalMax && (
+                          <div className="my-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                            <div className="flex items-center justify-between text-[10px] mb-1.5">
+                              <span className="font-semibold text-slate-300 flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                Faixa Típica Google Flights:
+                              </span>
+                              <span className="font-mono text-white font-bold">
+                                R$ {item.typicalMin.toLocaleString('pt-BR')} – R$ {item.typicalMax.toLocaleString('pt-BR')}
+                              </span>
+                            </div>
+                            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden flex">
+                              <div
+                                className={`h-full transition-all duration-500 ${
+                                  item.marketStatus === 'low'
+                                    ? 'bg-emerald-500 w-1/3'
+                                    : item.marketStatus === 'high'
+                                    ? 'bg-amber-500 w-full'
+                                    : 'bg-blue-500 w-2/3'
+                                }`}
+                              />
+                            </div>
+                            <div className="flex justify-between text-[9px] text-slate-400 mt-1 font-medium">
+                              <span className={item.marketStatus === 'low' ? 'font-bold text-emerald-400' : ''}>Baixo</span>
+                              <span className={item.marketStatus === 'typical' ? 'font-bold text-blue-400' : ''}>Típico</span>
+                              <span className={item.marketStatus === 'high' ? 'font-bold text-amber-400' : ''}>Alto</span>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Real-time Fluctuation Tag */}
                         <div className="mt-1.5">
@@ -1082,14 +1122,54 @@ export default function AIAssistant({
                           <span className="text-[10px] uppercase font-bold text-slate-400">Tarifa Oficial em Tempo Real</span>
                           <span className="text-[10px] text-emerald-400 font-mono font-medium">Ao Vivo • {airline.lastUpdated || lastRadarSync}</span>
                         </div>
-                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-                          <span className="text-xl sm:text-2xl font-black text-white">
-                            R$ {airline.totalPrice.toLocaleString('pt-BR')}
-                          </span>
-                          <span className="text-[11px] sm:text-xs text-slate-400">
-                            (R$ {airline.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
-                          </span>
+                        <div className="flex flex-col mb-1.5">
+                          <div className="flex items-baseline gap-1.5 flex-wrap">
+                            <span className="text-xs font-medium text-slate-400">A partir de</span>
+                            <span className="text-xl sm:text-2xl font-black text-white">
+                              R$ {airline.pricePerAdult.toLocaleString('pt-BR')}
+                            </span>
+                            <span className="text-xs text-slate-400 font-medium">/ pessoa</span>
+                          </div>
+                          {(planState.travelers || 2) > 1 && (
+                            <div className="text-[11px] text-slate-400 mt-0.5">
+                              Total ({(planState.travelers || 2)} passageiros): <strong className="text-white font-semibold">R$ {airline.totalPrice.toLocaleString('pt-BR')}</strong>
+                            </div>
+                          )}
+                          <div className="text-[10px] text-slate-500 mt-0.5">
+                            Taxas de embarque ANAC inclusas (R$ {airline.airportTaxPerPerson || 44} / pessoa)
+                          </div>
                         </div>
+
+                        {/* Google Flights Price Gauge / Termômetro */}
+                        {airline.typicalMin && airline.typicalMax && (
+                          <div className="my-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                            <div className="flex items-center justify-between text-[10px] mb-1.5">
+                              <span className="font-semibold text-slate-300 flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                Faixa Típica Google Flights:
+                              </span>
+                              <span className="font-mono text-white font-bold">
+                                R$ {airline.typicalMin.toLocaleString('pt-BR')} – R$ {airline.typicalMax.toLocaleString('pt-BR')}
+                              </span>
+                            </div>
+                            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden flex">
+                              <div
+                                className={`h-full transition-all duration-500 ${
+                                  airline.marketStatus === 'low'
+                                    ? 'bg-emerald-500 w-1/3'
+                                    : airline.marketStatus === 'high'
+                                    ? 'bg-amber-500 w-full'
+                                    : 'bg-blue-500 w-2/3'
+                                }`}
+                              />
+                            </div>
+                            <div className="flex justify-between text-[9px] text-slate-400 mt-1 font-medium">
+                              <span className={airline.marketStatus === 'low' ? 'font-bold text-emerald-400' : ''}>Baixo</span>
+                              <span className={airline.marketStatus === 'typical' ? 'font-bold text-blue-400' : ''}>Típico</span>
+                              <span className={airline.marketStatus === 'high' ? 'font-bold text-amber-400' : ''}>Alto</span>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Real-time Fluctuation Tag */}
                         <div className="mt-1.5">

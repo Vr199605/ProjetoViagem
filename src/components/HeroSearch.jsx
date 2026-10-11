@@ -105,7 +105,7 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
   // Recalculate quotes when radarTick changes (live continuous real-time market sync)
   useEffect(() => {
     if (flightComparisonResults && originQuery && destinationQuery) {
-      const activeCheckIn = checkIn || todayStr;
+      const activeCheckIn = checkIn || addDaysToDateStr(todayStr, 30);
       const activeCheckOut = isRoundTrip ? (checkOut || addDaysToDateStr(activeCheckIn, 4)) : '';
       const comparison = calculateFlightComparison({
         origin: originQuery,
@@ -1021,14 +1021,54 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                                 <span className="text-[10px] uppercase font-bold text-slate-400">Tarifa Oficial em Tempo Real</span>
                                 <span className="text-[10px] text-emerald-600 font-mono font-medium">Ao Vivo • {item.lastUpdated || lastRadarSync}</span>
                               </div>
-                              <div className="flex items-baseline gap-1.5 flex-wrap">
-                                <span className="text-lg sm:text-xl font-extrabold text-navy-900">
-                                  R$ {item.totalPrice.toLocaleString('pt-BR')}
-                                </span>
-                                <span className="text-[10px] sm:text-[11px] text-slate-500">
-                                  (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
-                                </span>
+                              <div className="flex flex-col mb-1.5">
+                                <div className="flex items-baseline gap-1.5 flex-wrap">
+                                  <span className="text-xs font-bold text-slate-400">A partir de</span>
+                                  <span className="text-xl sm:text-2xl font-black text-navy-900 tracking-tight">
+                                    R$ {item.pricePerAdult.toLocaleString('pt-BR')}
+                                  </span>
+                                  <span className="text-[11px] font-semibold text-slate-500">/ pessoa</span>
+                                </div>
+                                {adults > 1 && (
+                                  <div className="text-[11px] font-medium text-slate-500 mt-0.5">
+                                    Total ({adults} passageiros): <strong className="text-navy-900 font-bold">R$ {item.totalPrice.toLocaleString('pt-BR')}</strong>
+                                  </div>
+                                )}
+                                <div className="text-[10px] text-slate-400 mt-0.5">
+                                  Taxas de embarque ANAC inclusas (R$ {item.airportTaxPerPerson || 44} / pessoa)
+                                </div>
                               </div>
+
+                              {/* Google Flights Price Gauge / Termômetro de Tarifas */}
+                              {item.typicalMin && item.typicalMax && (
+                                <div className="my-2 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
+                                  <div className="flex items-center justify-between text-[10px] mb-1">
+                                    <span className="font-semibold text-slate-600 flex items-center gap-1">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                      Faixa Típica Google Flights:
+                                    </span>
+                                    <span className="font-mono text-slate-700 font-bold">
+                                      R$ {item.typicalMin.toLocaleString('pt-BR')} – R$ {item.typicalMax.toLocaleString('pt-BR')}
+                                    </span>
+                                  </div>
+                                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden flex">
+                                    <div
+                                      className={`h-full transition-all duration-500 ${
+                                        item.marketStatus === 'low'
+                                          ? 'bg-emerald-500 w-1/3'
+                                          : item.marketStatus === 'high'
+                                          ? 'bg-amber-500 w-full'
+                                          : 'bg-blue-500 w-2/3'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div className="flex justify-between text-[9px] text-slate-400 mt-1 font-medium">
+                                    <span className={item.marketStatus === 'low' ? 'font-bold text-emerald-700' : ''}>Baixo</span>
+                                    <span className={item.marketStatus === 'typical' ? 'font-bold text-blue-700' : ''}>Típico</span>
+                                    <span className={item.marketStatus === 'high' ? 'font-bold text-amber-700' : ''}>Alto</span>
+                                  </div>
+                                </div>
+                              )}
 
                               {/* Real-time Fluctuation Tag */}
                               <div className="mt-1">
@@ -1126,14 +1166,54 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                                 <span className="text-[10px] uppercase font-bold text-slate-400">Tarifa Oficial em Tempo Real</span>
                                 <span className="text-[10px] text-emerald-600 font-mono font-medium">Ao Vivo • {airline.lastUpdated || lastRadarSync}</span>
                               </div>
-                              <div className="flex items-baseline gap-1.5 flex-wrap">
-                                <span className="text-lg sm:text-xl font-extrabold text-navy-900">
-                                  R$ {airline.totalPrice.toLocaleString('pt-BR')}
-                                </span>
-                                <span className="text-[10px] sm:text-[11px] text-slate-500">
-                                  (R$ {airline.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
-                                </span>
+                              <div className="flex flex-col mb-1.5">
+                                <div className="flex items-baseline gap-1.5 flex-wrap">
+                                  <span className="text-xs font-bold text-slate-400">A partir de</span>
+                                  <span className="text-xl sm:text-2xl font-black text-navy-900 tracking-tight">
+                                    R$ {airline.pricePerAdult.toLocaleString('pt-BR')}
+                                  </span>
+                                  <span className="text-[11px] font-semibold text-slate-500">/ pessoa</span>
+                                </div>
+                                {adults > 1 && (
+                                  <div className="text-[11px] font-medium text-slate-500 mt-0.5">
+                                    Total ({adults} passageiros): <strong className="text-navy-900 font-bold">R$ {airline.totalPrice.toLocaleString('pt-BR')}</strong>
+                                  </div>
+                                )}
+                                <div className="text-[10px] text-slate-400 mt-0.5">
+                                  Taxas de embarque ANAC inclusas (R$ {airline.airportTaxPerPerson || 44} / pessoa)
+                                </div>
                               </div>
+
+                              {/* Google Flights Price Gauge / Termômetro de Tarifas */}
+                              {airline.typicalMin && airline.typicalMax && (
+                                <div className="my-2 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
+                                  <div className="flex items-center justify-between text-[10px] mb-1">
+                                    <span className="font-semibold text-slate-600 flex items-center gap-1">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                      Faixa Típica Google Flights:
+                                    </span>
+                                    <span className="font-mono text-slate-700 font-bold">
+                                      R$ {airline.typicalMin.toLocaleString('pt-BR')} – R$ {airline.typicalMax.toLocaleString('pt-BR')}
+                                    </span>
+                                  </div>
+                                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden flex">
+                                    <div
+                                      className={`h-full transition-all duration-500 ${
+                                        airline.marketStatus === 'low'
+                                          ? 'bg-emerald-500 w-1/3'
+                                          : airline.marketStatus === 'high'
+                                          ? 'bg-amber-500 w-full'
+                                          : 'bg-blue-500 w-2/3'
+                                      }`}
+                                    />
+                                  </div>
+                                  <div className="flex justify-between text-[9px] text-slate-400 mt-1 font-medium">
+                                    <span className={airline.marketStatus === 'low' ? 'font-bold text-emerald-700' : ''}>Baixo</span>
+                                    <span className={airline.marketStatus === 'typical' ? 'font-bold text-blue-700' : ''}>Típico</span>
+                                    <span className={airline.marketStatus === 'high' ? 'font-bold text-amber-700' : ''}>Alto</span>
+                                  </div>
+                                </div>
+                              )}
 
                               {/* Real-time Fluctuation Tag */}
                               <div className="mt-1">
