@@ -4,7 +4,7 @@ import { CONFIG } from '../config';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#020611] text-white pt-14 sm:pt-16 pb-12 border-t border-blue-900/60 w-full max-w-full overflow-hidden">
+    <footer className="bg-slate-950 text-white pt-14 sm:pt-16 pb-12 border-t border-slate-800 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-10 mb-12">
@@ -67,10 +67,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright & Patent credits */}
-        <div className="pt-8 border-t border-navy-800 flex flex-col md:flex-row items-center justify-between text-[11px] text-slate-400 gap-3 text-center md:text-left">
+        <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between text-[11px] text-slate-400 gap-3 text-center md:text-left">
           <div>
             <p>© {new Date().getFullYear()} VOYAGER AI. Todos os direitos reservados.</p>
-            <p className="text-emerald-400 font-semibold mt-0.5">
+            <p className="text-slate-300 font-semibold mt-0.5">
               Idealizado e Desenvolvido por Victor Ricardo de Carvalho Moreira
             </p>
           </div>

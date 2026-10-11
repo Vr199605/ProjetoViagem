@@ -65,52 +65,51 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030814] text-slate-100 selection:bg-emerald-500 selection:text-white font-sans antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white font-sans antialiased overflow-x-hidden">
       
-      {/* 1. TOP STICKY NAVBAR - ENCHANTED ROYAL NAVY & GOLD */}
-      <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#040C1E]/95 border-b border-blue-900/60 shadow-xl transition-all">
+      {/* 1. TOP STICKY NAVBAR - CLEAN OBSIDIAN SLATE */}
+      <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-slate-950/95 border-b border-slate-800 shadow-sm transition-all">
         
-        {/* Top Patent Golden Ribbon */}
-        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white text-[10px] sm:text-xs py-1.5 px-2.5 sm:px-3 text-center font-bold tracking-wider flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 shadow-inner overflow-hidden w-full max-w-full">
-          <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
+        {/* Top Patent Ribbon */}
+        <div className="bg-slate-900 border-b border-slate-800 text-slate-300 text-[10px] sm:text-xs py-1.5 px-3 text-center font-medium tracking-wide flex flex-wrap items-center justify-center gap-1.5 overflow-hidden w-full max-w-full">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span className="text-center leading-tight">
-            Tecnologia & Patente: <strong className="text-amber-200 underline decoration-amber-400 font-extrabold">{CONFIG.PATENT_CREDIT}</strong>
+            Tecnologia & Patente: <strong className="text-slate-100 font-semibold">{CONFIG.PATENT_CREDIT}</strong>
           </span>
-          <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
           
-          {/* Logo with Golden & Emerald Glow */}
-          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-navy-950 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] shrink-0 group-hover:scale-105 transition-transform">
-              <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-navy-950" />
+          {/* Logo */}
+          <div className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:bg-emerald-500 transition-colors">
+              <Compass className="w-5 h-5 text-white" />
             </div>
             <div className="shrink-0">
-              <span className="font-serif text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-wider text-white flex items-center leading-tight drop-shadow-md shrink-0">
-                VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-1.5 py-0.5 rounded-full ml-1 shrink-0">AI</span>
+              <span className="font-serif text-lg sm:text-2xl font-bold tracking-wider text-white flex items-center leading-tight shrink-0">
+                VOYAGER <span className="font-sans text-[10px] sm:text-xs tracking-widest uppercase font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.5 rounded ml-1.5 shrink-0">AI</span>
               </span>
-              <span className="text-[9px] sm:text-[11px] tracking-widest text-blue-200 uppercase font-semibold hidden sm:block truncate">
-                Turismo Inteligente & Global
+              <span className="text-[9px] sm:text-[11px] tracking-widest text-slate-400 uppercase font-medium hidden sm:block truncate">
+                Metabusca & Inteligência Operacional
               </span>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-xs sm:text-sm font-semibold text-slate-200">
-            <button onClick={() => scrollTo('problema-solucao')} className="hover:text-amber-300 transition-colors cursor-pointer py-1">
+          <nav className="hidden lg:flex items-center gap-7 text-xs sm:text-sm font-medium text-slate-300">
+            <button onClick={() => scrollTo('problema-solucao')} className="hover:text-white transition-colors cursor-pointer py-1">
               Por que o Voyager?
             </button>
-            <button onClick={() => scrollTo('comparativo')} className="hover:text-amber-300 transition-colors cursor-pointer py-1">
+            <button onClick={() => scrollTo('comparativo')} className="hover:text-white transition-colors cursor-pointer py-1">
               Diferenciais vs Concorrentes
             </button>
-            <button onClick={() => scrollTo('recursos')} className="hover:text-amber-300 transition-colors cursor-pointer py-1">
-              Recursos Exclusivos
+            <button onClick={() => scrollTo('recursos')} className="hover:text-white transition-colors cursor-pointer py-1">
+              Recursos Operacionais
             </button>
-            <button onClick={() => scrollTo('investidores')} className="hover:text-amber-300 transition-colors cursor-pointer py-1">
+            <button onClick={() => scrollTo('investidores')} className="hover:text-white transition-colors cursor-pointer py-1">
               Visão de Mercado & Patente
             </button>
-            <button onClick={() => scrollTo('faq')} className="hover:text-amber-300 transition-colors cursor-pointer py-1">
+            <button onClick={() => scrollTo('faq')} className="hover:text-white transition-colors cursor-pointer py-1">
               FAQ
             </button>
           </nav>
@@ -120,19 +119,18 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
             {onOpenInstallModal && (
               <button
                 onClick={onOpenInstallModal}
-                className="hidden sm:flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 hover:text-amber-200 text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(251,191,36,0.2)] cursor-pointer"
+                className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-200 hover:text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer"
                 title="Instalar VOYAGER AI na Tela Inicial"
               >
-                <Smartphone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
+                <Smartphone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>Instalar App</span>
               </button>
             )}
 
             <button
               onClick={onEnterPlatform}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 border border-emerald-300/40 cursor-pointer shrink-0"
+              className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold tracking-wide transition-colors shadow-2xs cursor-pointer shrink-0"
             >
-              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-200 shrink-0" />
               <span>Acessar Plataforma</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </button>
@@ -141,87 +139,80 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
         </div>
       </header>
 
-      {/* 2. HERO SECTION - ENCHANTED TWILIGHT NIGHT */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#030814] via-[#081838] to-[#040E24] text-white pt-10 sm:pt-24 pb-16 sm:pb-32 border-b border-blue-900/40 w-full max-w-full">
+      {/* 2. HERO SECTION */}
+      <section className="relative overflow-hidden bg-slate-950 text-white pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-slate-800 w-full max-w-full">
         
-        {/* Starlight Ambient Glows (Fairy-tale Lights) */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-blue-600/25 via-emerald-500/20 to-amber-500/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-12 left-10 w-72 h-72 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 text-center z-10">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           
-          {/* Magic Badge */}
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-blue-900/60 via-emerald-950/60 to-blue-900/60 border border-emerald-400/40 text-emerald-300 text-[11px] sm:text-sm font-bold mb-5 sm:mb-7 shadow-[0_0_25px_rgba(16,185,129,0.3)] animate-fade-in backdrop-blur-md max-w-full">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
-            <span className="truncate">Metabusca Universal & IA dos Sonhos</span>
-            <Star className="w-3 h-3 text-amber-300 fill-amber-300 shrink-0" />
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-semibold mb-5 sm:mb-6 animate-fade-in">
+            <Compass className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span>Metabusca Universal em Tempo Real & Concierge por IA</span>
           </div>
 
-          {/* Main Title - Crystal-clear White with Golden Highlights */}
-          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight leading-tight sm:leading-snug max-w-5xl mx-auto text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
+          {/* Main Title */}
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold tracking-tight leading-tight sm:leading-snug max-w-5xl mx-auto text-white">
             O Primeiro Ecossistema Global que Unifica Metabusca em Tempo Real, 
-            <span className="block mt-2 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(251,191,36,0.4)]">
+            <span className="block mt-2 text-emerald-400">
               20 Companhias Aéreas e Roteiros por IA em um Só Lugar.
             </span>
           </h1>
 
-          {/* Subtitle - High Contrast, Easy to Read */}
-          <p className="mt-4 sm:mt-8 text-sm sm:text-base lg:text-xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed drop-shadow-sm px-1">
-            Pare de perder horas abrindo 15 abas e redigitando origem, destino e datas. O <strong className="text-white font-bold underline decoration-emerald-400">VOYAGER AI</strong> compara simultaneamente Google Flights, Skyscanner, Decolar, 123 Milhas, Kayak e 20 companhias oficiais, enviando você direto para a compra com trechos e malas pré-selecionados — além de criar roteiros dia a dia completos com IA e exportação em PDF.
+          {/* Subtitle */}
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed px-1">
+            Pare de perder horas abrindo 15 abas e redigitando origem, destino e datas. O <strong className="text-white font-semibold">VOYAGER AI</strong> compara simultaneamente Google Flights, Skyscanner, Decolar, 123 Milhas, Kayak e 20 companhias oficiais, enviando você direto para a compra com trechos e malas pré-selecionados — além de criar roteiros dia a dia completos com IA e exportação em PDF.
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <button
               onClick={onEnterPlatform}
-              className="w-full sm:w-auto px-7 sm:px-9 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-sm sm:text-lg transition-all duration-300 shadow-[0_0_35px_rgba(16,185,129,0.6)] hover:scale-105 flex items-center justify-center gap-2.5 sm:gap-3 border border-emerald-300/50 cursor-pointer group"
+              className="w-full sm:w-auto px-7 sm:px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm sm:text-base transition-colors shadow-sm flex items-center justify-center gap-2.5 cursor-pointer group"
             >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-200 group-hover:rotate-12 transition-transform shrink-0" />
               <span>Acessar Plataforma VOYAGER AI</span>
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform shrink-0" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform shrink-0" />
             </button>
 
             {onOpenInstallModal && (
               <button
                 onClick={onOpenInstallModal}
-                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 hover:bg-amber-500/30 border-2 border-amber-400/70 text-amber-200 hover:text-white font-bold text-xs sm:text-base transition-all duration-300 shadow-[0_0_20px_rgba(251,191,36,0.3)] flex items-center justify-center gap-2.5 cursor-pointer hover:border-amber-300 group"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-200 hover:text-white font-medium text-xs sm:text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+                <Smartphone className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Instalar App no Celular</span>
               </button>
             )}
 
             <button
               onClick={() => scrollTo('comparativo')}
-              className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl bg-blue-950/70 hover:bg-blue-900/80 border border-blue-400/40 text-slate-200 hover:text-white font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white font-medium text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <span>Comparativo</span>
-              <ChevronDown className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+              <span>Ver Comparativo</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             </button>
           </div>
 
-          {/* Key Trust Stats Bar - Dark Royal Cards with Golden Accents */}
-          <div className="mt-10 sm:mt-18 pt-6 sm:pt-8 border-t border-blue-900/60 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6 text-center">
+          {/* Key Trust Stats Bar */}
+          <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 text-center">
             
-            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-2xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">20+</div>
-              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Companhias Oficiais</div>
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xs">
+              <div className="text-2xl sm:text-3xl font-bold text-white font-serif">20+</div>
+              <div className="text-xs font-medium text-slate-400 mt-1">Companhias Oficiais</div>
             </div>
 
-            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-2xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">6 Líderes</div>
-              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Metabuscadores</div>
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xs">
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-400 font-serif">6 Líderes</div>
+              <div className="text-xs font-medium text-slate-400 mt-1">Metabuscadores</div>
             </div>
 
-            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-2xl sm:text-4xl font-black text-amber-300 font-serif drop-shadow-sm">7 Operadoras</div>
-              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Pacotes Completos</div>
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xs">
+              <div className="text-2xl sm:text-3xl font-bold text-white font-serif">7 Operadoras</div>
+              <div className="text-xs font-medium text-slate-400 mt-1">Pacotes Completos</div>
             </div>
 
-            <div className="p-3 sm:p-5 rounded-2xl bg-[#091C3E]/90 border border-blue-500/30 shadow-lg backdrop-blur-md">
-              <div className="text-2xl sm:text-4xl font-black text-emerald-400 font-serif drop-shadow-sm">Zero</div>
-              <div className="text-[11px] sm:text-sm font-semibold text-slate-200 mt-1">Taxas Ocultas</div>
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xs">
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-400 font-serif">Zero</div>
+              <div className="text-xs font-medium text-slate-400 mt-1">Taxas Ocultas</div>
             </div>
 
           </div>
@@ -229,90 +220,89 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
         </div>
       </section>
 
-      {/* 3. O PROBLEMA VS A SOLUÇÃO - HIGH CONTRAST */}
-      <section id="problema-solucao" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
+      {/* 3. O PROBLEMA VS A SOLUÇÃO */}
+      <section id="problema-solucao" className="py-14 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
-        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>A Dor do Mercado vs A Solução VOYAGER AI</span>
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
+            <Compass className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Desafios do Mercado vs Solução VOYAGER</span>
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
-            Planejar uma viagem hoje é exaustivo. <br />
-            <span className="text-emerald-400">O VOYAGER AI transforma tudo em encanto e agilidade.</span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-2 font-bold tracking-tight">
+            Planejar uma viagem não precisa ser exaustivo. <br />
+            <span className="text-emerald-400">O VOYAGER AI traz eficiência operacional e transparência total.</span>
           </h2>
-          <p className="text-slate-300 text-sm sm:text-base mt-3 max-w-2xl mx-auto">
-            Veja a comparação entre a experiência cansativa dos sites convencionais e a magia integrada da nossa plataforma.
+          <p className="text-slate-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto font-normal">
+            Veja a comparação entre a experiência cansativa dos sites convencionais e a integração ágil da nossa plataforma.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Card: O Jeito Antigo */}
-          <div className="bg-[#1A0B14]/90 rounded-3xl p-7 sm:p-9 border-2 border-rose-500/40 shadow-2xl relative overflow-hidden backdrop-blur-md">
-            <div className="absolute top-0 right-0 bg-rose-600 text-white text-[11px] font-extrabold uppercase px-4 py-1.5 rounded-bl-xl shadow-md">
-              Como as pessoas sofrem hoje
+          {/* Card: O Jeito Convencional */}
+          <div className="bg-slate-900/80 rounded-2xl p-6 sm:p-8 border border-rose-900/30 relative overflow-hidden shadow-xs">
+            <div className="absolute top-0 right-0 bg-rose-950 text-rose-300 border-l border-b border-rose-900/50 text-[11px] font-semibold uppercase px-3 py-1 rounded-bl-lg">
+              Fluxo Convencional
             </div>
             
-            <div className="w-13 h-13 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center mb-5 text-xl font-bold">
+            <div className="w-10 h-10 rounded-xl bg-rose-950/60 border border-rose-900/50 text-rose-400 flex items-center justify-center mb-5 text-base font-bold">
               ✕
             </div>
 
-            <h3 className="font-serif text-2xl font-bold text-white mb-5 flex items-center gap-2">
-              <span>O Jeito Antigo: Lento, Cansativo e Caro</span>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mb-4">
+              O Jeito Antigo: Lento e Fragmentado
             </h3>
 
-            <ul className="space-y-4 text-sm text-slate-300">
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">✕</span>
-                <span><strong className="text-white">15 abas abertas no navegador:</strong> Você passa horas navegando entre buscadores diferentes tentando adivinhar qual tem o menor preço.</span>
+            <ul className="space-y-3.5 text-sm text-slate-300 font-normal">
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-rose-950 text-rose-400 border border-rose-900/50 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✕</span>
+                <span><strong className="text-white font-medium">Dezenas de abas abertas:</strong> Você gasta horas navegando entre buscadores diferentes tentando deduzir qual tem o menor preço real.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">✕</span>
-                <span><strong className="text-white">Redigitação cansativa:</strong> Cada site em que você clica pede novamente cidade de origem, destino, datas e quantidade de adultos.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-rose-950 text-rose-400 border border-rose-900/50 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✕</span>
+                <span><strong className="text-white font-medium">Redigitação contínua:</strong> Cada site exige novamente origem, destino, datas e número de passageiros.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">✕</span>
-                <span><strong className="text-white">Taxas surpresa na hora de pagar:</strong> A passagem parecia barata, mas no último passo cobram valores abusivos por mala despachada.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-rose-950 text-rose-400 border border-rose-900/50 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✕</span>
+                <span><strong className="text-white font-medium">Taxas de bagagem ocultas:</strong> A tarifa inicial parece barata, mas no checkout são cobrados acréscimos abusivos de despacho.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">✕</span>
-                <span><strong className="text-white">Sem roteiro planejado:</strong> Você compra a passagem mas não sabe o que fazer a cada dia, perdendo passeios imperdíveis.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-rose-950 text-rose-400 border border-rose-900/50 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✕</span>
+                <span><strong className="text-white font-medium">Ausência de roteiro:</strong> Compra-se a passagem sem um planejamento cronológico do destino, gerando tempo ocioso e estresse.</span>
               </li>
             </ul>
           </div>
 
           {/* Card: O Jeito VOYAGER AI */}
-          <div className="bg-gradient-to-br from-[#06241E]/95 via-[#0A1F3E]/95 to-[#081836]/95 rounded-3xl p-7 sm:p-9 border-2 border-emerald-400 shadow-[0_0_40px_rgba(16,185,129,0.3)] relative overflow-hidden backdrop-blur-md ring-2 ring-emerald-400/40">
-            <div className="absolute top-0 right-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[11px] font-black uppercase px-4 py-1.5 rounded-bl-xl flex items-center gap-1.5 shadow-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-200" />
-              <span>A Magia VOYAGER AI</span>
+          <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 border border-emerald-600/50 relative overflow-hidden shadow-sm">
+            <div className="absolute top-0 right-0 bg-emerald-950/80 text-emerald-400 border-l border-b border-emerald-700/40 text-[11px] font-semibold uppercase px-3 py-1 rounded-bl-lg">
+              VOYAGER AI
             </div>
             
-            <div className="w-13 h-13 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 flex items-center justify-center mb-5 text-xl font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+            <div className="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-700/50 text-emerald-400 flex items-center justify-center mb-5 text-base font-bold">
               ✓
             </div>
 
-            <h3 className="font-serif text-2xl font-bold text-white mb-5 flex items-center gap-2">
-              <span>Com o VOYAGER AI: Tudo Pronto em 1 Clique</span>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mb-4">
+              Com o VOYAGER AI: Eficiência em 1 Clique
             </h3>
 
-            <ul className="space-y-4 text-sm text-slate-100">
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-emerald-500 text-navy-950 flex items-center justify-center shrink-0 mt-0.5 font-black text-xs shadow-sm">✓</span>
-                <span><strong className="text-emerald-300">1 Busca Universal:</strong> Compara simultaneamente Google Flights, Skyscanner, Decolar, 123 Milhas, Kayak e 20 companhias oficiais.</span>
+            <ul className="space-y-3.5 text-sm text-slate-200 font-normal">
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+                <span><strong className="text-emerald-400 font-semibold">1 Busca Integrada:</strong> Compara simultaneamente Google Flights, Skyscanner, Decolar, 123 Milhas, Kayak e 20 companhias oficiais.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-emerald-500 text-navy-950 flex items-center justify-center shrink-0 mt-0.5 font-black text-xs shadow-sm">✓</span>
-                <span><strong className="text-emerald-300">Deep Links Diretos (Zero Redigitação):</strong> Ao clicar no buscador ou na companhia aérea, cai diretamente na tela final de compra com datas e rotas já preenchidas.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+                <span><strong className="text-emerald-400 font-semibold">Deep Links Pré-preenchidos:</strong> Ao clicar, você é direcionado diretamente para a tela final de compra com rota e datas já configuradas.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-emerald-500 text-navy-950 flex items-center justify-center shrink-0 mt-0.5 font-black text-xs shadow-sm">✓</span>
-                <span><strong className="text-emerald-300">Transparência de Mala Despachada (23kg):</strong> Escolha entre mala de mão ou despachada na barra de busca com cálculo de tarifa em tempo real.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+                <span><strong className="text-emerald-400 font-semibold">Transparência de Bagagem (23kg):</strong> Filtro em tempo real para visualizar o custo total com mala despachada sem surpresas no checkout.</span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-emerald-500 text-navy-950 flex items-center justify-center shrink-0 mt-0.5 font-black text-xs shadow-sm">✓</span>
-                <span><strong className="text-emerald-300">Roteiro Personalizado com IA + PDF Offline:</strong> A IA cria seu itinerário dia a dia sob medida, calcula o orçamento diário e permite baixar no celular.</span>
+              <li className="flex items-start gap-2.5">
+                <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">✓</span>
+                <span><strong className="text-emerald-400 font-semibold">Roteiro Estruturado + PDF Offline:</strong> Programação dia a dia calculada com base no seu perfil e disponível para download gratuito no smartphone.</span>
               </li>
             </ul>
           </div>
@@ -321,236 +311,227 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
 
       </section>
 
-      {/* 4. QUADRO COMPARATIVO: VOYAGER AI VS CONCORRENTES - VIBRANT ROYAL CONTRAST */}
-      <section id="comparativo" className="py-18 sm:py-26 bg-[#040C1E] border-y border-blue-900/60 relative w-full max-w-full overflow-hidden">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 w-full max-w-full">
+      {/* 4. QUADRO COMPARATIVO: VOYAGER AI VS CONCORRENTES */}
+      <section id="comparativo" className="py-14 sm:py-20 bg-slate-950 border-y border-slate-800 relative w-full max-w-full overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
           
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-              <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-              <span>Diferenciais Competitivos Incomparáveis</span>
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Diferenciais Competitivos</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
-              Por que o VOYAGER AI supera os gigantes do mercado?
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white font-bold tracking-tight">
+              Comparativo de Recursos e Plataforma
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base mt-3">
-              Confira ponto a ponto as funcionalidades exclusivas que você só encontra reunidas aqui.
+            <p className="text-slate-400 text-sm sm:text-base mt-2">
+              Confira os recursos integrados que você encontra reunidos no VOYAGER AI.
             </p>
           </div>
 
-          {/* Mobile swipe helper */}
-          <div className="sm:hidden flex items-center justify-center gap-1.5 text-[11px] text-amber-300 mb-3 font-semibold bg-amber-400/10 py-1.5 px-3 rounded-full border border-amber-400/20">
-            <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
-            <span>Deslize horizontalmente para comparar colunas →</span>
-          </div>
-
-          {/* Responsive Comparison Table - Deep Royal Midnight */}
-          <div className="w-full max-w-full overflow-x-auto rounded-3xl border-2 border-blue-500/40 shadow-[0_0_40px_rgba(0,0,0,0.6)] bg-[#071329]">
+          {/* Responsive Comparison Table */}
+          <div className="w-full max-w-full overflow-x-auto rounded-2xl border border-slate-800 shadow-sm bg-slate-900">
             <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[680px]">
               
               {/* Header */}
               <thead>
-                <tr className="bg-[#020713] text-white border-b-2 border-blue-600/40">
-                  <th className="py-5 px-5 sm:px-6 font-bold uppercase tracking-wider text-xs text-slate-300">
+                <tr className="bg-slate-950 text-white border-b border-slate-800">
+                  <th className="py-4 px-5 sm:px-6 font-semibold uppercase tracking-wider text-xs text-slate-300">
                     Funcionalidade / Diferencial
                   </th>
-                  <th className="py-5 px-5 sm:px-6 font-black text-center bg-gradient-to-b from-emerald-600 to-teal-700 text-white uppercase tracking-wider text-xs border-x-2 border-emerald-400 shadow-md">
-                    <div className="flex items-center justify-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-amber-200" />
-                      <span>VOYAGER AI</span>
-                    </div>
+                  <th className="py-4 px-5 sm:px-6 font-bold text-center bg-slate-850 text-emerald-400 uppercase tracking-wider text-xs border-x border-slate-800">
+                    VOYAGER AI
                   </th>
-                  <th className="py-5 px-4 font-semibold text-center text-slate-300 text-xs">
+                  <th className="py-4 px-4 font-medium text-center text-slate-400 text-xs">
                     Google Flights / Skyscanner
                   </th>
-                  <th className="py-5 px-4 font-semibold text-center text-slate-300 text-xs">
+                  <th className="py-4 px-4 font-medium text-center text-slate-400 text-xs">
                     Decolar / CVC
                   </th>
-                  <th className="py-5 px-4 font-semibold text-center text-slate-300 text-xs">
+                  <th className="py-4 px-4 font-medium text-center text-slate-400 text-xs">
                     Agências Tradicionais
                   </th>
                 </tr>
               </thead>
 
               {/* Rows */}
-              <tbody className="divide-y divide-blue-900/40">
+              <tbody className="divide-y divide-slate-800 text-slate-300">
                 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Comparação Multiplataforma Simultânea
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (6 Buscadores Líderes)
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-300">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Apenas parceiros deles
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Apenas estoque próprio
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Catálogo de 20 Companhias com Compra Direta
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (20 Cias Oficiais)
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-300">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Parcial
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Cobra comissão de agência
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Taxa de emissão alta
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Redirecionamento Direto sem Redigitar Dados
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Deep Link Ativo)
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-300">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Frequentemente perde parâmetros
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não se aplica
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Filtro Dinâmico de Mala Despachada (23kg)
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Cálculo Transparente)
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Complexo de configurar
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Cobrado no checkout
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Manual
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Matriz de Pacotes Completos em 7 Operadoras
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Decolar, CVC, Azul, Zarpo...)
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não compara pacotes
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Apenas pacote próprio
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Limitado a 1 ou 2 operadoras
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
-                    Gerador de Roteiro Dia a Dia com Inteligência Artificial
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
+                    Gerador de Roteiro Dia a Dia com IA
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Customizado por Perfil)
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não possui
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não possui
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
-                    Roteiro genérico e engessado
+                  <td className="py-3.5 px-4 text-center text-slate-400">
+                    Roteiro genérico
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
-                    Exportação em PDF de Luxo para Celular Offline
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
+                    Exportação em PDF de Alta Resolução Offline
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Funciona Sem Internet)
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não possui
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Apenas comprovante
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Papel impresso
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
                     Calculadora de Custo Total por Pessoa (5 Categorias)
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (Aéreo + Hotel + Alimentação + Ingressos + Extras)
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Apenas passagem
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Apenas pacote bruto
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Estimativa manual vaga
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
-                    Aplicativo Instalável (PWA / Direto na Tela do Celular)
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
+                    Aplicativo Instalável (PWA no Celular)
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-emerald-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ Sim (iOS Safari & Android Chrome em 1 Clique)
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     Requer download em lojas
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-400">
+                  <td className="py-3.5 px-4 text-center text-slate-400">
                     App pesado de loja
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     ✕ Não possui
                   </td>
                 </tr>
 
-                <tr className="hover:bg-blue-950/40 transition-colors">
-                  <td className="py-4 px-5 sm:px-6 font-bold text-white">
-                    Custo de Uso para o Usuário
+                <tr className="hover:bg-slate-850/50 transition-colors">
+                  <td className="py-3.5 px-5 sm:px-6 font-medium text-white">
+                    Custo de Acesso para o Usuário
                   </td>
-                  <td className="py-4 px-5 text-center bg-emerald-950/70 border-x-2 border-emerald-500/50 font-black text-amber-300">
+                  <td className="py-3.5 px-5 text-center bg-slate-850/60 border-x border-slate-800 font-semibold text-emerald-400">
                     ✓ 100% Gratuito
                   </td>
-                  <td className="py-4 px-4 text-center text-emerald-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-slate-300 font-medium">
                     Gratuito
                   </td>
-                  <td className="py-4 px-4 text-center text-slate-300">
+                  <td className="py-3.5 px-4 text-center text-slate-300">
                     Embutido no valor final
                   </td>
-                  <td className="py-4 px-4 text-center text-rose-400 font-semibold">
+                  <td className="py-3.5 px-4 text-center text-rose-400 font-medium">
                     Comissão de 10% a 25%
                   </td>
                 </tr>
@@ -562,11 +543,10 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
           <div className="mt-8 text-center">
             <button
               onClick={onEnterPlatform}
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-sm sm:text-base transition-all duration-300 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:scale-105 border border-emerald-300/40 cursor-pointer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition-colors shadow-2xs cursor-pointer"
             >
-              <Sparkles className="w-5 h-5 text-amber-200" />
               <span>Experimentar Todos os Recursos na Prática</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
@@ -577,120 +557,123 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
       <section id="recursos" className="py-18 sm:py-26 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Tecnologia Proprietária & Padrão Internacional</span>
+            <span>Tecnologia Proprietária & Padrão Global</span>
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
-            Os 5 Pilares que tornam o VOYAGER AI uma experiência mágica
+            Os 5 Pilares Tecnológicos do VOYAGER AI
           </h2>
+          <p className="text-slate-400 text-sm sm:text-base mt-3 max-w-2xl mx-auto font-light">
+            Engenharia de dados em tempo real, inteligência artificial contextual e conexões diretas sem intermediários ocultos.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           {/* Pilar 1 */}
-          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-blue-400/30 shadow-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] hover:border-blue-400/60 transition-all duration-300 flex flex-col justify-between backdrop-blur-md">
+          <div className="bg-slate-900/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm hover:border-slate-700 hover:bg-slate-900 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-13 h-13 rounded-2xl bg-blue-500/20 border border-blue-400/40 text-blue-300 flex items-center justify-center mb-5 shadow-sm">
-                <Plane className="w-7 h-7 text-blue-300" />
+              <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-slate-300 flex items-center justify-center mb-5">
+                <Plane className="w-6 h-6 text-slate-300" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white mb-2.5">
                 1. Metabusca & 20 Cias Oficiais
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
                 Varredura instantânea em Google Flights, Decolar, Skyscanner, Kayak, 123 Milhas, MaxMilhas e compra direta em LATAM, GOL, Azul, TAP, Emirates, Air France e outras 14 cias globais.
               </p>
             </div>
-            <div className="mt-5 pt-3.5 border-t border-blue-900/60 text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="mt-5 pt-3.5 border-t border-slate-800 text-xs font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
               <Check className="w-4 h-4 text-emerald-400" />
               <span>Deep Linking Ativo</span>
             </div>
           </div>
 
           {/* Pilar 2 */}
-          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-emerald-400/30 shadow-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.25)] hover:border-emerald-400/60 transition-all duration-300 flex flex-col justify-between backdrop-blur-md">
+          <div className="bg-slate-900/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm hover:border-slate-700 hover:bg-slate-900 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-13 h-13 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center mb-5 shadow-sm">
-                <Sparkles className="w-7 h-7 text-emerald-300" />
+              <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-emerald-400 flex items-center justify-center mb-5">
+                <Sparkles className="w-6 h-6 text-emerald-400" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
-                2. Inteligência Artificial de Roteiros
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white mb-2.5">
+                2. Curadoria & Inteligência Contextual
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
                 Monta programações completas dia a dia adequadas ao perfil do viajante (Romântico, Luxo, Família, Aventura, Gastronômico) com cálculo de orçamento diário e dicas locais.
               </p>
             </div>
-            <div className="mt-5 pt-3.5 border-t border-blue-900/60 text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Star className="w-4 h-4 fill-amber-300 text-amber-300" />
+            <div className="mt-5 pt-3.5 border-t border-slate-800 text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Star className="w-4 h-4 text-amber-400" />
               <span>Gemini AI Integrado</span>
             </div>
           </div>
 
           {/* Pilar 3 */}
-          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-amber-400/30 shadow-xl hover:shadow-[0_0_30px_rgba(251,191,36,0.25)] hover:border-amber-400/60 transition-all duration-300 flex flex-col justify-between backdrop-blur-md">
+          <div className="bg-slate-900/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm hover:border-slate-700 hover:bg-slate-900 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-13 h-13 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center mb-5 shadow-sm">
-                <Package className="w-7 h-7 text-amber-300" />
+              <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-amber-400 flex items-center justify-center mb-5">
+                <Package className="w-6 h-6 text-amber-400" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white mb-2.5">
                 3. Matriz de Pacotes & Eventos
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
                 Cotação simultânea de pacotes de viagem em 7 operadoras líderes (Decolar, CVC, Azul Viagens, Zarpo, Booking) com integração direta de festivais e eventos culturais mundiais.
               </p>
             </div>
-            <div className="mt-5 pt-3.5 border-t border-blue-900/60 text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-amber-300" />
+            <div className="mt-5 pt-3.5 border-t border-slate-800 text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-400" />
               <span>7 Operadoras Conectadas</span>
             </div>
           </div>
 
           {/* Pilar 4 */}
-          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-purple-400/30 shadow-xl hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] hover:border-purple-400/60 transition-all duration-300 flex flex-col justify-between backdrop-blur-md">
+          <div className="bg-slate-900/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm hover:border-slate-700 hover:bg-slate-900 transition-all duration-200 flex flex-col justify-between">
             <div>
-              <div className="w-13 h-13 rounded-2xl bg-purple-500/20 border border-purple-400/40 text-purple-300 flex items-center justify-center mb-5 shadow-sm">
-                <FileText className="w-7 h-7 text-purple-300" />
+              <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-sky-400 flex items-center justify-center mb-5">
+                <FileText className="w-6 h-6 text-sky-400" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
-                4. Guia em PDF Offline de Luxo
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white mb-2.5">
+                4. Dossiê Executivo em PDF Offline
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
-                Gere e baixe no seu celular um dossiê diagramado com todas as fotos autênticas, itinerário diário, passagens e atrações para consultar durante o voo sem gastar plano de dados.
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+                Gere e baixe no seu celular um dossiê diagramado com fotos editoriais, itinerário diário, passagens e atrações para consultar durante o voo sem consumir dados móveis.
               </p>
             </div>
-            <div className="mt-5 pt-3.5 border-t border-blue-900/60 text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-purple-300" />
+            <div className="mt-5 pt-3.5 border-t border-slate-800 text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-400" />
               <span>Exportação Vetorial Offline</span>
             </div>
           </div>
 
           {/* Pilar 5: Aplicativo Instalável (PWA) & Calculadora */}
-          <div className="bg-[#091B3A]/90 rounded-3xl p-6 sm:p-7 border border-emerald-400/40 shadow-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:border-emerald-400/70 transition-all duration-300 flex flex-col justify-between backdrop-blur-md md:col-span-2 lg:col-span-2">
+          <div className="bg-slate-900/90 rounded-2xl p-6 sm:p-7 border border-slate-800 shadow-sm hover:border-slate-700 hover:bg-slate-900 transition-all duration-200 flex flex-col justify-between md:col-span-2 lg:col-span-2">
             <div>
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-13 h-13 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shadow-sm">
-                  <Smartphone className="w-7 h-7 text-emerald-300" />
+                <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-emerald-400 flex items-center justify-center">
+                  <Smartphone className="w-6 h-6 text-emerald-400" />
                 </div>
-                <div className="w-13 h-13 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center shadow-sm">
-                  <Calculator className="w-7 h-7 text-amber-300" />
+                <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700/60 text-amber-400 flex items-center justify-center">
+                  <Calculator className="w-6 h-6 text-amber-400" />
                 </div>
               </div>
-              <h3 className="font-serif text-xl font-bold text-white mb-2.5">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-white mb-2.5">
                 5. App Instalável (PWA) & Calculadora de Custos por Pessoa
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
-                Instalação direta no celular sem depender de lojas de aplicativos (iOS Safari & Android Chrome), abrindo em tela cheia com visual nativo. Além de uma calculadora financeira que desmembra cada centavo do orçamento em 5 categorias essenciais: Aéreo, Hospedagem, Alimentação, Ingressos e Reserva para Compras.
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+                Instalação direta no celular sem depender de lojas de aplicativos (iOS Safari & Android Chrome), abrindo em tela cheia com visual nativo. Além de uma calculadora financeira que desmembra o orçamento em 5 categorias essenciais: Aéreo, Hospedagem, Alimentação, Ingressos e Reserva para Compras.
               </p>
             </div>
-            <div className="mt-5 pt-3.5 border-t border-blue-900/60 flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="mt-5 pt-3.5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+              <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Check className="w-4 h-4 text-emerald-400" />
                 <span>PWA Nativo & Cálculo 5 Categorias</span>
               </div>
               {onOpenInstallModal && (
                 <button
                   onClick={onOpenInstallModal}
-                  className="px-3.5 py-1.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition-colors shadow-sm cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-750 text-white font-medium text-xs transition-colors border border-slate-700 cursor-pointer shadow-2xs"
                 >
                   Instalar App Agora
                 </button>
@@ -703,82 +686,82 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
       </section>
 
       {/* 6. VISÃO DE MERCADO, INVESTIDORES E PATENTE */}
-      <section id="investidores" className="py-18 sm:py-26 bg-[#030917] text-white border-t border-blue-900/60 relative overflow-hidden w-full max-w-full">
+      <section id="investidores" className="py-18 sm:py-26 bg-slate-950 text-white border-t border-slate-800/80 relative overflow-hidden w-full max-w-full">
         
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           
           <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-            <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-              <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/40 border border-amber-800/50 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               <span>Oportunidade Comercial de Classe Mundial</span>
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
               Por que o VOYAGER AI é um projeto de altíssimo valor de mercado?
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base mt-3">
-              Um modelo de negócios inteligente, escalável e protegido por patente.
+            <p className="text-slate-400 text-sm sm:text-base mt-3">
+              Um modelo de negócios inteligente, escalável e com autoria intelectual registrada.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7">
             
-            <div className="p-7 sm:p-8 rounded-3xl bg-[#081836]/90 border border-blue-400/30 shadow-xl backdrop-blur-md">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 flex items-center justify-center mb-5 font-bold text-xl shadow-sm">
+            <div className="p-7 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+              <div className="w-11 h-11 rounded-xl bg-slate-800 text-emerald-400 border border-slate-700/60 flex items-center justify-center mb-5 font-bold text-lg">
                 📈
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-3">
+              <h3 className="font-serif text-xl font-bold text-white mb-3">
                 Escalabilidade Sem Ativos Físicos
               </h3>
-              <p className="text-sm text-slate-300 leading-relaxed font-light">
-                Diferente de agências tradicionais, o VOYAGER AI não possui custos com estoque de passagens ou quartos. O modelo opera com tecnologia pura de afiliação e deep linking, gerando receita a cada reserva efetuada nos parceiros globais.
+              <p className="text-sm text-slate-400 leading-relaxed font-light">
+                Diferente de agências tradicionais, o VOYAGER AI não possui custos com estoque de passagens ou quartos. O modelo opera com tecnologia de metasearch e deep linking, gerando receita a cada reserva efetuada nos parceiros globais.
               </p>
             </div>
 
-            <div className="p-7 sm:p-8 rounded-3xl bg-[#081836]/90 border border-blue-400/30 shadow-xl backdrop-blur-md">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-400/40 flex items-center justify-center mb-5 font-bold text-xl shadow-sm">
+            <div className="p-7 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+              <div className="w-11 h-11 rounded-xl bg-slate-800 text-amber-400 border border-slate-700/60 flex items-center justify-center mb-5 font-bold text-lg">
                 🎯
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-3">
+              <h3 className="font-serif text-xl font-bold text-white mb-3">
                 Taxa de Conversão Superior
               </h3>
-              <p className="text-sm text-slate-300 leading-relaxed font-light">
+              <p className="text-sm text-slate-400 leading-relaxed font-light">
                 Ao encaminhar o usuário diretamente para o motor de busca com origem, destino, datas e passageiros já preenchidos, o abandono de carrinho é reduzido drasticamente em relação aos links publicitários estáticos convencionais.
               </p>
             </div>
 
-            <div className="p-7 sm:p-8 rounded-3xl bg-[#081836]/90 border border-blue-400/30 shadow-xl backdrop-blur-md">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-300 border border-blue-400/40 flex items-center justify-center mb-5 font-bold text-xl shadow-sm">
+            <div className="p-7 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+              <div className="w-11 h-11 rounded-xl bg-slate-800 text-sky-400 border border-slate-700/60 flex items-center justify-center mb-5 font-bold text-lg">
                 🛡️
               </div>
-              <h3 className="font-serif text-2xl font-bold text-white mb-3">
+              <h3 className="font-serif text-xl font-bold text-white mb-3">
                 Patente & Autoria Registrada
               </h3>
-              <p className="text-sm text-slate-300 leading-relaxed font-light">
-                A unificação da arquitetura de inteligência artificial generativa com metabusca universal e parâmetros de bagagem e escalas dinâmicas é de autoria e patente registradas por <strong className="text-amber-200">Victor Ricardo de Carvalho Moreira</strong>.
+              <p className="text-sm text-slate-400 leading-relaxed font-light">
+                A unificação da arquitetura de inteligência artificial generativa com metabusca universal e parâmetros de bagagem e escalas dinâmicas é de autoria e patente registradas por <strong className="text-slate-200">Victor Ricardo de Carvalho Moreira</strong>.
               </p>
             </div>
 
           </div>
 
-          {/* Patent Highlight Banner - Royal Golden Frame */}
-          <div className="mt-12 p-7 rounded-3xl bg-gradient-to-r from-[#071E3D] via-[#0B254E] to-[#071E3D] border-2 border-amber-400/50 shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col md:flex-row items-center justify-between gap-5">
+          {/* Patent Highlight Banner */}
+          <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm flex flex-col md:flex-row items-center justify-between gap-5">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-navy-950 flex items-center justify-center shrink-0 shadow-lg font-black text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0 font-black text-xl">
                 ★
               </div>
               <div>
-                <div className="font-serif text-xl font-bold text-white flex items-center gap-2">
+                <div className="font-serif text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                   <span>Tecnologia Patenteada & Propriedade Intelectual</span>
                 </div>
-                <div className="text-sm text-amber-200 mt-0.5">
-                  Idealizado, Desenvolvido e Patenteado por: <strong className="text-white underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+                <div className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                  Idealizado, Desenvolvido e Patenteado por: <strong className="text-slate-200">{CONFIG.PATENT_CREDIT}</strong>
                 </div>
               </div>
             </div>
 
             <button
               onClick={onEnterPlatform}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_0_25px_rgba(16,185,129,0.5)] shrink-0 cursor-pointer hover:scale-105"
+              className="px-7 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer shadow-xs"
             >
               Acessar a Plataforma
             </button>
@@ -788,43 +771,43 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
 
       </section>
 
-      {/* 7. PERGUNTAS FREQUENTES (FAQ) - CRYSTAL CLEAR */}
+      {/* 7. PERGUNTAS FREQUENTES (FAQ) */}
       <section id="faq" className="py-18 sm:py-26 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full overflow-hidden">
         
         <div className="text-center mb-14">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-300 bg-amber-400/15 border border-amber-400/40 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Tire Suas Dúvidas</span>
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mt-4 font-bold tracking-tight">
             Perguntas Frequentes (FAQ)
           </h2>
-          <p className="text-slate-300 text-sm sm:text-base mt-3">
+          <p className="text-slate-400 text-sm sm:text-base mt-3">
             Tudo o que você precisa saber sobre o funcionamento e diferenciais do VOYAGER AI.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {FAQ_ITEMS.map((item, idx) => (
             <div
               key={idx}
-              className="bg-[#091C3E]/95 rounded-2xl border border-blue-400/30 shadow-lg overflow-hidden transition-all duration-300 hover:border-amber-400/50 backdrop-blur-md"
+              className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden transition-all duration-200 hover:border-slate-700"
             >
               <button
                 type="button"
                 onClick={() => toggleFaq(idx)}
-                className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-blue-900/30 transition-colors"
+                className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-850/60 transition-colors"
               >
                 <span className="font-serif font-bold text-base sm:text-lg text-white pr-2">
                   {item.q}
                 </span>
-                <span className={`w-8 h-8 rounded-full bg-blue-950 flex items-center justify-center shrink-0 border border-blue-500/40 transition-transform duration-300 ${openFaq === idx ? 'rotate-180 bg-amber-400 text-navy-950 border-amber-300 font-bold' : 'text-slate-300'}`}>
+                <span className={`w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700 transition-transform duration-200 ${openFaq === idx ? 'rotate-180 bg-slate-700 text-white' : 'text-slate-400'}`}>
                   <ChevronDown className="w-4 h-4" />
                 </span>
               </button>
 
               {openFaq === idx && (
-                <div className="px-5 sm:px-6 pb-6 pt-2 text-sm text-slate-200 leading-relaxed border-t border-blue-900/60 animate-fade-in font-light">
+                <div className="px-5 sm:px-6 pb-6 pt-2 text-sm text-slate-300 leading-relaxed border-t border-slate-800 font-light">
                   {item.a}
                 </div>
               )}
@@ -834,39 +817,35 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
 
       </section>
 
-      {/* 8. CALL TO ACTION FINAL - ENCHANTED CASTLE MAGIC VIBES */}
-      <section className="bg-gradient-to-b from-[#07193C] via-[#0A2658] to-[#040F26] text-white py-20 sm:py-28 text-center px-4 relative overflow-hidden border-t border-blue-900/60 w-full max-w-full">
+      {/* 8. CALL TO ACTION FINAL */}
+      <section className="bg-slate-900 border-t border-slate-800 text-white py-18 sm:py-24 text-center px-4 relative overflow-hidden w-full max-w-full">
         
-        {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-emerald-500/20 via-blue-500/25 to-amber-500/20 rounded-full blur-[130px] pointer-events-none" />
-
         <div className="relative max-w-4xl mx-auto z-10">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold mb-7 shadow-[0_0_20px_rgba(251,191,36,0.3)]">
-            <Sparkles className="w-4 h-4" />
-            <span>Sua Próxima Viagem Inesquecível Começa Agora</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-200 text-xs sm:text-sm font-medium mb-6">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>Planejamento Inteligente de Ponta a Ponta</span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-lg">
-            Pronto para viver a verdadeira magia de viajar sem estresse?
+          <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-white">
+            Pronto para planejar sua viagem com precisão e elegância?
           </h2>
 
-          <p className="mt-5 sm:mt-6 text-base sm:text-lg text-slate-200 max-w-2xl mx-auto font-light leading-relaxed drop-shadow-sm">
-            Acesse a plataforma gratuitamente, compare as 20 companhias e metabuscadores em tempo real e deixe a Inteligência Artificial montar seu roteiro completo.
+          <p className="mt-5 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+            Acesse a plataforma gratuitamente, compare as 20 companhias e metabuscadores em tempo real e conte com inteligência contextual para estruturar seu itinerário.
           </p>
 
-          <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:row items-center justify-center gap-4">
             <button
               onClick={onEnterPlatform}
-              className="w-full sm:w-auto px-10 py-4.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-lg transition-all duration-300 shadow-[0_0_40px_rgba(16,185,129,0.6)] hover:scale-105 flex items-center justify-center gap-3 border border-emerald-300/50 cursor-pointer group"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base transition-colors shadow-sm flex items-center justify-center gap-3 cursor-pointer group"
             >
-              <Sparkles className="w-5 h-5 text-amber-200" />
               <span>Entrar na Plataforma VOYAGER AI</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          <p className="text-xs text-slate-400 mt-5">
+          <p className="text-xs text-slate-500 mt-5">
             Acesso imediato • 100% gratuito para o viajante • Sem necessidade de cadastro prévio
           </p>
 
@@ -875,11 +854,11 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
       </section>
 
       {/* 9. FOOTER DA LANDING PAGE */}
-      <footer className="bg-[#020610] border-t border-blue-950 text-slate-400 text-xs py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 text-xs py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
           
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-navy-950 flex items-center justify-center font-black text-xs shadow-md">
+            <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
               V
             </div>
             <span className="font-serif text-white font-bold tracking-wider text-sm">
@@ -888,11 +867,11 @@ export default function LandingPage({ onEnterPlatform, onOpenInstallModal }) {
             <span className="text-slate-500">• Todos os direitos reservados</span>
           </div>
 
-          <div className="text-xs text-slate-300 font-medium">
-            Tecnologia, Arquitetura e Patente desenvolvidos por: <strong className="text-amber-300 underline decoration-amber-400">{CONFIG.PATENT_CREDIT}</strong>
+          <div className="text-xs text-slate-400 font-normal">
+            Tecnologia, Arquitetura e Patente desenvolvidos por: <strong className="text-slate-200">{CONFIG.PATENT_CREDIT}</strong>
           </div>
 
-          <div className="flex items-center gap-5 text-slate-300 font-semibold text-xs">
+          <div className="flex items-center gap-5 text-slate-400 font-medium text-xs">
             <button onClick={onEnterPlatform} className="hover:text-emerald-400 transition-colors cursor-pointer">
               Plataforma
             </button>

@@ -171,8 +171,8 @@ export default function AIAssistant({
 
       onNotify?.({
         type: 'success',
-        title: '✨ Sugestões Mágicas Prontas!',
-        message: answer?.title || `O Concierge VOYAGER AI preparou as melhores sugestões para sua pergunta.`
+        title: 'Sugestões de Roteiro Prontas',
+        message: answer?.title || `O Concierge VOYAGER preparou recomendações personalizadas para sua consulta.`
       });
 
       // Smooth scroll down to answers
@@ -226,7 +226,7 @@ export default function AIAssistant({
       budget: dest.dailyBudget ? (dest.dailyBudget * (dest.recommendedDays || 5) * (prev.travelers || 2)) : prev.budget,
       profile: dest.profile || prev.profile,
       tags: dest.highlights || prev.tags,
-      aiNotes: `Destino ${dest.name} selecionado com curadoria do Concierge Mágico VOYAGER AI.`,
+      aiNotes: `Destino ${dest.name} selecionado com curadoria do Concierge Inteligente VOYAGER.`,
       customItinerary: buildCustomItinerary(dest.name, dest.recommendedDays || prev.days, dest.profile || prev.profile)
     }));
 
@@ -234,8 +234,8 @@ export default function AIAssistant({
 
     onNotify?.({
       type: 'success',
-      title: '🏰 Destino Mágico Selecionado!',
-      message: `Cotações completas e roteiro dia a dia gerados para ${dest.name}.`
+      title: 'Destino Selecionado',
+      message: `Cotações completas e roteiro estruturado gerados para ${dest.name}.`
     });
 
     // Smooth scroll to quotations
@@ -269,66 +269,61 @@ export default function AIAssistant({
   return (
     <section id="assistente-ia" className="py-14 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 scroll-mt-24 w-full max-w-full overflow-hidden">
       
-      {/* ENCHANTED ROYAL CONTAINER - MIDNIGHT ROYAL NAVY & GOLD */}
-      <div className="rounded-3xl sm:rounded-4xl bg-gradient-to-br from-[#040E24] via-[#081A3C] to-[#040C20] border-2 border-blue-500/40 shadow-[0_0_50px_rgba(0,0,0,0.8)] p-4 sm:p-8 lg:p-10 text-white relative overflow-hidden">
-        
-        {/* Fairy Dust & Starlight Glows */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-96 h-96 bg-amber-500/15 rounded-full blur-[100px] pointer-events-none" />
+      {/* REALISTIC EXECUTIVE CONCIERGE CONTAINER */}
+      <div className="rounded-3xl bg-slate-900 border border-slate-800 shadow-xl p-5 sm:p-8 lg:p-10 text-slate-100 relative overflow-hidden">
 
-        {/* 1. HEADER: ENCHANTED CONCIERGE BRANDING */}
+        {/* 1. HEADER: EXECUTIVE CONCIERGE BRANDING */}
         <div className="relative z-10 max-w-3xl mb-7 sm:mb-9">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold tracking-wider mb-4 shadow-[0_0_15px_rgba(251,191,36,0.25)]">
-            <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-            <span>Concierge Mágico VOYAGER AI • Experiência Encantada</span>
-            <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700/80 text-emerald-400 text-xs font-semibold tracking-wide mb-4">
+            <Compass className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Concierge Inteligente VOYAGER • Consultoria & Roteiros Oficiais</span>
           </div>
 
-          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight leading-tight drop-shadow-md">
-            Faça qualquer pergunta sobre lugares, roteiros ou destinos dos seus sonhos.
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-white font-bold tracking-tight leading-tight">
+            Consulte qualquer informação sobre lugares, roteiros ou destinos.
           </h2>
 
-          <p className="mt-3 text-xs sm:text-base text-slate-200 font-light leading-relaxed">
-            Diga o que você procura: sugestões de lugares para pedir em casamento, restaurantes românticos, mirantes ao pôr do sol ou roteiros pelo Brasil e pelo mundo. Nossa IA responde suas dúvidas, recomenda pontos exclusivos e busca na web!
+          <p className="mt-3 text-xs sm:text-base text-slate-300 font-normal leading-relaxed">
+            Diga o que você procura: sugestões de lugares para pedir em casamento, restaurantes românticos, mirantes ao pôr do sol ou roteiros pelo Brasil e pelo mundo. Nossa IA analisa suas preferências, recomenda pontos reais com dados verificados e pesquisa na web.
           </p>
 
         </div>
 
-        {/* 2. CONVERSATIONAL PROMPT BOX - ENCHANTED GOLDEN BORDER */}
+        {/* 2. CONVERSATIONAL PROMPT BOX - REALISTIC EXECUTIVE CONTAINER */}
         <div className="relative z-10 mb-7">
-          <div className="bg-[#071530]/90 rounded-2xl sm:rounded-3xl border-2 border-amber-400/50 shadow-[0_0_30px_rgba(251,191,36,0.15)] focus-within:border-amber-300 focus-within:shadow-[0_0_40px_rgba(251,191,36,0.3)] transition-all p-3.5 sm:p-5 backdrop-blur-md">
+          <div className="bg-slate-950 rounded-2xl border border-slate-700/80 focus-within:border-emerald-500 transition-all p-4 sm:p-5 shadow-inner">
             
             <textarea
               rows={3}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Faça qualquer pergunta sobre lugares... Ex: Eu gostaria de pedir minha namorada em casamento no Rio de Janeiro, quais lugares você me sugere?"
-              className="w-full bg-transparent text-sm sm:text-base font-normal text-white placeholder-slate-400 focus:outline-none resize-none leading-relaxed"
+              className="w-full bg-transparent text-sm sm:text-base font-normal text-white placeholder-slate-500 focus:outline-none resize-none leading-relaxed"
               disabled={isProcessingAI || isGenerating}
             />
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 mt-2 border-t border-blue-900/60">
-              <span className="text-[11px] sm:text-xs text-slate-300 flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                <span>Nossa IA responde qualquer pergunta sobre lugares com dicas exclusivas e busca na web</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 mt-2 border-t border-slate-800">
+              <span className="text-[11px] sm:text-xs text-slate-400 flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span>Respostas com precisão factual, dicas práticas e validação na web</span>
               </span>
 
               <button
                 type="button"
                 onClick={() => handleSendPrompt()}
                 disabled={isProcessingAI || !inputText.trim() || isGenerating}
-                className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-white text-xs sm:text-sm font-extrabold tracking-wide transition-all shadow-[0_0_25px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40 hover:scale-105"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isProcessingAI ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-amber-200" />
-                    <span>Consultando IA & Buscando na Web...</span>
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <span>Consultando & Pesquisando...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Perguntar à IA & Buscar na Web</span>
+                    <span>Enviar Pergunta</span>
                   </>
                 )}
               </button>
@@ -339,9 +334,9 @@ export default function AIAssistant({
 
         {/* 3. QUICK INSPIRATIONAL PROMPTS */}
         <div className="relative z-10 mb-9 sm:mb-11">
-          <span className="block text-[11px] sm:text-xs uppercase tracking-wider font-bold text-amber-300 mb-2.5 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Sugestões Mágicas de Inspiração (Clique para testar):</span>
+          <span className="block text-[11px] sm:text-xs uppercase tracking-wider font-semibold text-slate-400 mb-2.5 flex items-center gap-1.5">
+            <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
+            <span>Exemplos de consultas frequentes:</span>
           </span>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {SAMPLE_PROMPTS.map((sample, idx) => (
@@ -353,9 +348,9 @@ export default function AIAssistant({
                   handleSendPrompt(sample);
                 }}
                 disabled={isProcessingAI || isGenerating}
-                className="text-left text-xs text-slate-200 bg-[#071736]/80 hover:bg-[#0C2454] border border-blue-500/30 hover:border-amber-400/60 p-3 rounded-2xl transition-all shadow-sm flex items-start gap-2 cursor-pointer hover:scale-[1.01]"
+                className="text-left text-xs text-slate-300 bg-slate-950/70 hover:bg-slate-800 hover:text-white border border-slate-800 p-3 rounded-xl transition-all flex items-start gap-2 cursor-pointer"
               >
-                <ChevronRight className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                <ChevronRight className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                 <span className="leading-snug">{sample}</span>
               </button>
             ))}
@@ -364,97 +359,96 @@ export default function AIAssistant({
 
         {/* 4. AI QUESTION ANSWER & SPECIFIC PLACE RECOMMENDATIONS */}
         {aiQuestionAnswer && (
-          <div id="resposta-ia-pergunta" className="relative z-10 mb-10 pt-6 border-t border-blue-900/60 animate-fade-in">
+          <div id="resposta-ia-pergunta" className="relative z-10 mb-10 pt-6 border-t border-slate-800 animate-fade-in">
             
             {/* Header Badge & Title */}
             <div className="mb-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold mb-3 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>Resposta Especializada do Concierge IA • Conectado à Web & Mapas</span>
-                <Globe className="w-3.5 h-3.5 text-sky-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium mb-3">
+                <Globe className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Resposta do Concierge VOYAGER • Informações Fatuais & Web</span>
               </div>
 
-              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
                 {aiQuestionAnswer.title}
               </h3>
 
               {/* Conversational Overview Callout */}
-              <div className="mt-4 p-4 sm:p-5 rounded-2xl bg-[#07193C]/90 border border-blue-500/30 text-slate-200 text-xs sm:text-sm leading-relaxed font-light backdrop-blur-md">
-                <p className="font-normal text-white">
+              <div className="mt-4 p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                <p className="font-normal text-slate-200">
                   {aiQuestionAnswer.overview}
                 </p>
               </div>
             </div>
 
             {/* Grid of Recommended Places */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
               {aiQuestionAnswer.places.map((place) => (
                 <div
                   key={place.id}
-                  className="bg-[#071736]/90 border border-blue-500/30 hover:border-amber-400/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between transition-all hover:scale-[1.01]"
+                  className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all"
                 >
                   <div>
                     {/* Top Row: Icon & Category */}
                     <div className="flex items-start justify-between gap-2 mb-3">
                       <div className="flex items-center gap-2.5">
-                        <span className="text-2xl p-2 rounded-2xl bg-white/5 border border-white/10 shrink-0">
+                        <span className="text-xl p-2 rounded-xl bg-slate-900 border border-slate-800 shrink-0">
                           {place.icon}
                         </span>
                         <div>
-                          <h4 className="font-serif text-lg font-bold text-white leading-snug">
+                          <h4 className="font-serif text-base sm:text-lg font-bold text-white leading-snug">
                             {place.name}
                           </h4>
-                          <span className="text-[11px] text-amber-300 flex items-center gap-1 mt-0.5">
-                            <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                          <span className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                            <MapPin className="w-3 h-3 text-emerald-400 shrink-0" />
                             <span className="truncate">{place.neighborhood}</span>
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    <span className="inline-block text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-900/60 text-blue-200 border border-blue-400/30 mb-3">
+                    <span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800 mb-3">
                       {place.category}
                     </span>
 
                     {/* Why Ideal Description */}
-                    <p className="text-xs text-slate-200 leading-relaxed font-light mb-4">
+                    <p className="text-xs text-slate-300 leading-relaxed font-normal mb-4">
                       {place.whyIdeal}
                     </p>
 
                     {/* Golden Tip Callout */}
-                    <div className="p-3 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-xs text-amber-100 mb-4 font-light">
-                      <strong className="text-amber-300 font-bold block mb-1 flex items-center gap-1.5">
-                        <Star className="w-3.5 h-3.5 fill-amber-300" />
-                        Dica de Ouro do Concierge:
+                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 mb-4">
+                      <strong className="text-amber-300 font-semibold block mb-1 flex items-center gap-1.5">
+                        <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
+                        Dica Prática do Concierge:
                       </strong>
                       <span>{place.goldenTip}</span>
                     </div>
                   </div>
 
                   {/* Web Search & Maps Action Buttons */}
-                  <div className="pt-3 border-t border-blue-900/60 grid grid-cols-2 gap-2">
+                  <div className="pt-3 border-t border-slate-800 grid grid-cols-2 gap-2">
                     <a
                       href={place.googleSearchUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="py-2.5 px-3 rounded-xl bg-blue-950/80 hover:bg-blue-900 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 border border-blue-400/30 transition-colors shadow-sm"
+                      className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-200 hover:text-white text-xs font-medium flex items-center justify-center gap-1.5 border border-slate-800 transition-colors"
                       title="Buscar avaliações, fotos e detalhes recentes no Google"
                     >
-                      <Search className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                      <span className="truncate">Buscar na Web</span>
-                      <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                      <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">Buscar no Google</span>
+                      <ExternalLink className="w-3 h-3 text-slate-500 shrink-0" />
                     </a>
 
                     <a
                       href={place.googleMapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="py-2.5 px-3 rounded-xl bg-[#09241E] hover:bg-[#0E352B] text-emerald-300 text-[11px] font-bold flex items-center justify-center gap-1.5 border border-emerald-500/40 transition-colors shadow-sm"
+                      className="py-2 px-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-emerald-400 hover:text-emerald-300 text-xs font-medium flex items-center justify-center gap-1.5 border border-slate-800 transition-colors"
                       title="Ver localização, fotos 360° e rotas no Google Maps"
                     >
                       <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <span className="truncate">Ver no Maps</span>
-                      <ExternalLink className="w-3 h-3 text-emerald-400/70 shrink-0" />
+                      <ExternalLink className="w-3 h-3 text-emerald-500/70 shrink-0" />
                     </a>
                   </div>
 
@@ -464,26 +458,25 @@ export default function AIAssistant({
 
             {/* Bridge CTA: Escolher Este Destino para Cotação de Voos e Roteiro */}
             {aiQuestionAnswer.matchedDestObj && (
-              <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#071E3D] via-[#0B254E] to-[#071E3D] border-2 border-amber-400/50 shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col sm:flex-row items-center justify-between gap-4 text-white mb-8">
+              <div className="p-5 sm:p-6 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-100 mb-8">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold mb-1.5">
-                    <Plane className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Conectar Sugestões ao Planejador</span>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold mb-2">
+                    <Plane className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Conectar Destino ao Painel de Cotação</span>
                   </div>
                   <h4 className="font-serif text-lg sm:text-xl font-bold text-white">
-                    Deseja viajar para {aiQuestionAnswer.destinationName}?
+                    Deseja planejar sua viagem para {aiQuestionAnswer.destinationName}?
                   </h4>
-                  <p className="text-xs text-slate-300 font-light mt-0.5">
-                    Selecione este destino com 1 clique para ver voos em tempo real, 20 companhias, pacotes e roteiro dia a dia.
+                  <p className="text-xs text-slate-400 font-normal mt-0.5">
+                    Selecione para carregar voos em tempo real, 20 companhias aéreas, pacotes e roteiro dia a dia.
                   </p>
                 </div>
 
                 <button
                   type="button"
                   onClick={() => handleChooseDestination(aiQuestionAnswer.matchedDestObj)}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-white text-xs sm:text-sm font-black tracking-wide transition-all shadow-[0_0_25px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40 hover:scale-105 shrink-0"
+                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer shrink-0"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-200" />
                   <span>Cotar Viagem para {aiQuestionAnswer.destinationName}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -491,15 +484,15 @@ export default function AIAssistant({
             )}
 
             {/* Live Web Intelligence Drawer (Wikipedia & Real-time Web Search) */}
-            <div className="bg-[#05112B]/90 rounded-3xl p-5 sm:p-6 border border-blue-500/30 mb-8 backdrop-blur-md">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-blue-900/60">
+            <div className="bg-slate-950/70 rounded-2xl p-5 sm:p-6 border border-slate-800 mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
                 <div>
                   <h4 className="font-serif text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-sky-400" />
-                    <span>Resultados Conectados da Web & Enciclopédia de Viagem</span>
+                    <Globe className="w-4 h-4 text-emerald-400" />
+                    <span>Artigos e Fontes Verificadas na Web</span>
                   </h4>
-                  <p className="text-xs text-slate-300 font-light mt-0.5">
-                    Informações e artigos verificados na web sobre os locais recomendados:
+                  <p className="text-xs text-slate-400 font-normal mt-0.5">
+                    Informações e dados históricos verificados sobre os locais recomendados:
                   </p>
                 </div>
 
@@ -507,11 +500,11 @@ export default function AIAssistant({
                   href={`https://www.google.com/search?q=${encodeURIComponent(aiQuestionAnswer.rawPrompt)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-blue-900/60 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto border border-blue-400/30"
+                  className="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-colors self-start sm:self-auto border border-slate-700/80"
                 >
-                  <Search className="w-3.5 h-3.5 text-sky-300" />
+                  <Search className="w-3.5 h-3.5 text-slate-400" />
                   <span>Ver Todos os Resultados no Google</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3 h-3 text-slate-400" />
                 </a>
               </div>
 
@@ -524,13 +517,13 @@ export default function AIAssistant({
                       href={art.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3.5 rounded-2xl bg-[#08183A] hover:bg-[#0D2454] border border-blue-500/20 hover:border-amber-400/40 transition-all block group"
+                      className="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 border border-slate-800 hover:border-slate-700 transition-all block group"
                     >
-                      <div className="font-bold text-xs text-white group-hover:text-amber-300 flex items-center justify-between gap-1 mb-1">
+                      <div className="font-semibold text-xs text-slate-200 group-hover:text-emerald-400 flex items-center justify-between gap-1 mb-1">
                         <span className="truncate">{art.title}</span>
-                        <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                        <ExternalLink className="w-3 h-3 text-slate-500 shrink-0" />
                       </div>
-                      <p className="text-[11px] text-slate-300 line-clamp-2 font-light">
+                      <p className="text-[11px] text-slate-400 line-clamp-2 font-normal">
                         {art.snippet}
                       </p>
                     </a>
@@ -541,19 +534,19 @@ export default function AIAssistant({
               {/* In-page live Web Search Input */}
               <form onSubmit={handleQuickWebSearch} className="flex flex-col sm:flex-row items-center gap-2 pt-2">
                 <div className="relative flex-1 w-full">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     value={webSearchQuery}
                     onChange={(e) => setWebSearchQuery(e.target.value)}
                     placeholder={`Pesquisar mais sobre ${aiQuestionAnswer.destinationName} ou qualquer outro ponto turístico na web...`}
-                    className="w-full bg-[#08183A] border border-blue-500/40 focus:border-amber-400 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none"
+                    className="w-full bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSearchingWeb || !webSearchQuery.trim()}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
                 >
                   {isSearchingWeb ? (
                     <>
@@ -571,8 +564,8 @@ export default function AIAssistant({
 
               {/* Custom Web Search Results */}
               {customWebResults && customWebResults.length > 0 && (
-                <div className="mt-3 pt-3 border-t border-blue-900/40 space-y-2 animate-fade-in">
-                  <span className="text-[11px] font-bold text-amber-300 block">
+                <div className="mt-3 pt-3 border-t border-slate-800/80 space-y-2 animate-fade-in">
+                  <span className="text-[11px] font-semibold text-emerald-400 block">
                     Resultados ao vivo para "{webSearchQuery}":
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -582,13 +575,13 @@ export default function AIAssistant({
                         href={res.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-start justify-between gap-2"
+                        className="p-3 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 flex items-start justify-between gap-2"
                       >
                         <div>
                           <strong className="text-xs text-white block">{res.title}</strong>
-                          <p className="text-[11px] text-slate-300 line-clamp-2">{res.snippet}</p>
+                          <p className="text-[11px] text-slate-400 line-clamp-2">{res.snippet}</p>
                         </div>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
                       </a>
                     ))}
                   </div>
@@ -599,45 +592,44 @@ export default function AIAssistant({
           </div>
         )}
 
-        {/* 4. MULTI-DESTINATION SUGGESTIONS SECTION (A IA SUGERE VÁRIOS LUGARES) */}
+        {/* 4. MULTI-DESTINATION SUGGESTIONS SECTION */}
         {suggestedDestinations && (
-          <div id="sugestoes-ia" className="relative z-10 mb-10 pt-6 border-t border-blue-900/60 animate-fade-in">
+          <div id="sugestoes-ia" className="relative z-10 mb-8 pt-6 border-t border-slate-800 animate-fade-in">
             
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
               <div>
-                <h3 className="font-serif text-xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
-                  <Star className="w-5 h-5 text-amber-300 fill-amber-300" />
-                  <span>Destinos Mágicos Sugeridos pela IA</span>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <span>Destinos Recomendados para Sua Viagem</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                  Selecione o destino que mais encanta você para abrir a cotação completa e o roteiro dia a dia:
+                <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                  Selecione uma opção para carregar cotações de passagens em tempo real e o roteiro dia a dia:
                 </p>
               </div>
 
               {selectedDestinationItem && (
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold self-start sm:self-auto shrink-0">
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span>Destino Selecionado: {selectedDestinationItem.name}</span>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium self-start sm:self-auto shrink-0">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Destino Ativo: {selectedDestinationItem.name}</span>
                 </div>
               )}
             </div>
 
             {/* Grid of Interactive Destination Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {suggestedDestinations.map((dest) => {
                 const isCurrent = selectedDestinationItem?.id === dest.id;
 
                 return (
                   <div
                     key={dest.id}
-                    className={`rounded-3xl border-2 transition-all duration-300 overflow-hidden flex flex-col justify-between backdrop-blur-md ${
+                    className={`rounded-2xl border transition-all duration-200 overflow-hidden flex flex-col justify-between ${
                       isCurrent
-                        ? 'bg-gradient-to-b from-[#092B22] to-[#071C38] border-emerald-400 shadow-[0_0_35px_rgba(16,185,129,0.4)] scale-[1.02] ring-2 ring-emerald-400/40'
-                        : 'bg-[#071634]/90 border-blue-500/30 hover:border-amber-400/60 hover:shadow-xl'
+                        ? 'bg-slate-850 border-emerald-500 shadow-sm ring-1 ring-emerald-500/30'
+                        : 'bg-slate-950/80 border-slate-800 hover:border-slate-700 shadow-2xs'
                     }`}
                   >
                     <div>
-                      {/* Image with Magic Badge */}
+                      {/* Image Header */}
                       <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
                         <img
                           src={getAssetUrl(dest.image)}
@@ -646,49 +638,49 @@ export default function AIAssistant({
                           loading="lazy"
                           onError={handleImageError}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#040E24] via-transparent to-transparent opacity-80" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
                         
-                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-1 z-10">
-                          <span className="px-2.5 py-1 rounded-full bg-[#05112B]/90 backdrop-blur-md text-amber-300 text-[10px] font-extrabold uppercase border border-amber-400/40 shadow-sm truncate">
+                        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1 z-10">
+                          <span className="px-2 py-0.5 rounded bg-slate-950/80 text-emerald-400 text-[10px] font-semibold uppercase border border-slate-800 truncate">
                             {dest.magicBadge}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full bg-navy-950/80 text-white text-[10px] font-bold">
+                          <span className="px-2 py-0.5 rounded bg-slate-900/90 text-slate-300 text-[10px] font-medium border border-slate-800">
                             {dest.airportCode}
                           </span>
                         </div>
 
-                        <div className="absolute bottom-2 left-3 right-3 text-xs font-semibold text-slate-200 truncate">
+                        <div className="absolute bottom-2 left-3 right-3 text-xs font-medium text-slate-200 truncate">
                           {dest.state ? `${dest.state}, ` : ''}{dest.country}
                         </div>
                       </div>
 
                       {/* Card Info */}
-                      <div className="p-4 sm:p-5">
-                        <h4 className="font-serif text-xl font-bold text-white mb-2 leading-tight">
+                      <div className="p-4">
+                        <h4 className="font-serif text-lg font-bold text-white mb-2 leading-tight">
                           {dest.name}
                         </h4>
 
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 mb-3 text-xs text-slate-200">
-                          <span className="text-[10px] uppercase font-bold text-amber-300 block mb-0.5">
-                            Por que combina com você:
+                        <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 mb-3 text-xs text-slate-300">
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">
+                            Destaque da Localidade:
                           </span>
-                          <p className="line-clamp-3 leading-snug font-light">
+                          <p className="line-clamp-2 leading-snug font-normal text-slate-300">
                             {dest.whyMatches}
                           </p>
                         </div>
 
-                        <div className="space-y-1.5 text-xs text-slate-300 mb-3">
+                        <div className="space-y-1.5 text-xs text-slate-300 mb-2">
                           <div className="flex items-center justify-between">
-                            <span className="text-slate-400 text-[11px]">Duração ideal:</span>
-                            <span className="font-bold text-white">{dest.recommendedDays} dias</span>
+                            <span className="text-slate-400 text-[11px]">Duração sugerida:</span>
+                            <span className="font-semibold text-white">{dest.recommendedDays} dias</span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-slate-400 text-[11px]">Perfil sugerido:</span>
-                            <span className="font-bold text-emerald-300">{dest.profile}</span>
+                            <span className="text-slate-400 text-[11px]">Perfil:</span>
+                            <span className="font-semibold text-emerald-400">{dest.profile}</span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span className="text-slate-400 text-[11px]">Orçamento médio:</span>
-                            <span className="font-bold text-amber-300">{dest.estimatedBudget}</span>
+                            <span className="font-semibold text-slate-200">{dest.estimatedBudget}</span>
                           </div>
                         </div>
 
@@ -700,22 +692,19 @@ export default function AIAssistant({
                       <button
                         type="button"
                         onClick={() => handleChooseDestination(dest)}
-                        className={`w-full py-3 px-4 rounded-2xl text-xs font-extrabold tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                        className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                           isCurrent
-                            ? 'bg-emerald-500 text-white shadow-soft font-black'
-                            : 'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-navy-950 shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-[1.02]'
+                            ? 'bg-emerald-600 text-white shadow-2xs'
+                            : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700'
                         }`}
                       >
                         {isCurrent ? (
                           <>
-                            <Check className="w-4 h-4 text-white" />
+                            <Check className="w-3.5 h-3.5 text-white" />
                             <span>Destino Selecionado</span>
                           </>
                         ) : (
-                          <>
-                            <Sparkles className="w-4 h-4 text-navy-950" />
-                            <span>Escolher Este Destino</span>
-                          </>
+                          <span>Escolher Este Destino</span>
                         )}
                       </button>
                     </div>
@@ -728,25 +717,24 @@ export default function AIAssistant({
           </div>
         )}
 
-        {/* 5. SELECTED DESTINATION CELEBRATION & QUOTATION MATRIX */}
+        {/* 5. SELECTED DESTINATION SUMMARY & QUOTATION MATRIX */}
         {selectedDestinationItem && (
-          <div id="cotacoes-ia-painel" className="relative z-10 pt-6 border-t-2 border-emerald-500/40 animate-fade-in">
+          <div id="cotacoes-ia-painel" className="relative z-10 pt-6 border-t border-slate-800 animate-fade-in">
             
-            {/* Celebration Header */}
-            <div className="p-4 sm:p-6 rounded-3xl bg-gradient-to-r from-[#06241C] via-[#092244] to-[#06241C] border-2 border-emerald-400/60 shadow-[0_0_35px_rgba(16,185,129,0.3)] mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-navy-950 flex items-center justify-center shrink-0 shadow-lg font-black text-xl">
-                  🏰
+            {/* Active Destination Bar */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-850 border border-slate-800 shadow-sm mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 text-emerald-400 flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Destino Confirmado no Concierge Mágico</span>
+                  <div className="text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
+                    <span>Destino em Cotação Ativa</span>
                   </div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
                     {selectedDestinationItem.name} ({selectedDestinationItem.recommendedDays} dias)
                   </h3>
-                  <p className="text-xs text-slate-300 mt-0.5">
+                  <p className="text-xs text-slate-400 mt-0.5">
                     {selectedDestinationItem.vibe} • Orçamento estimado: {selectedDestinationItem.estimatedBudget}
                   </p>
                 </div>
@@ -755,12 +743,12 @@ export default function AIAssistant({
               {/* Trip Type, Luggage & Direct Filters */}
               <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                 {/* Round Trip vs One Way Toggle */}
-                <div className="inline-flex items-center bg-[#05112B]/90 border border-blue-500/40 p-1 rounded-xl text-xs font-semibold shrink-0">
+                <div className="inline-flex items-center bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs font-medium shrink-0">
                   <button
                     type="button"
                     onClick={() => handleToggleRoundTrip(true)}
                     className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                      isRoundTrip ? 'bg-amber-400 text-navy-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+                      isRoundTrip ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-white'
                     }`}
                   >
                     Ida e Volta
@@ -769,7 +757,7 @@ export default function AIAssistant({
                     type="button"
                     onClick={() => handleToggleRoundTrip(false)}
                     className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                      !isRoundTrip ? 'bg-amber-400 text-navy-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+                      !isRoundTrip ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-white'
                     }`}
                   >
                     Somente Ida
@@ -779,24 +767,24 @@ export default function AIAssistant({
                 <button
                   type="button"
                   onClick={handleToggleBaggage}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
+                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
                     hasCheckedBaggage
-                      ? 'bg-amber-400 text-navy-950 border-amber-300 shadow-md font-black'
-                      : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+                      ? 'bg-slate-800 text-white border-slate-700 font-semibold'
+                      : 'bg-slate-900 hover:bg-slate-800 text-slate-400 border-slate-800'
                   }`}
                   title="Alternar mala de mão vs despachada"
                 >
-                  <Luggage className="w-3.5 h-3.5 shrink-0" />
+                  <Luggage className="w-3.5 h-3.5 shrink-0 text-slate-400" />
                   <span>{hasCheckedBaggage ? 'Mala 23kg' : 'Mala 10kg'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleToggleDirect}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
+                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all border cursor-pointer flex items-center justify-center gap-1.5 shrink-0 ${
                     directOnly
-                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-md font-black'
-                      : 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+                      ? 'bg-emerald-600 text-white border-emerald-500 font-semibold'
+                      : 'bg-slate-900 hover:bg-slate-800 text-slate-400 border-slate-800'
                   }`}
                   title="Alternar voos diretos"
                 >
@@ -807,18 +795,14 @@ export default function AIAssistant({
             </div>
 
             {/* QUOTATION SUB-TABS (VOOS / COMPANHIAS / PACOTES / ROTEIRO) */}
-            <div className="sm:hidden flex items-center justify-between text-[11px] text-amber-300 mb-2 font-semibold px-1">
-              <span>Opções & Cotações:</span>
-              <span className="text-[10px] text-slate-400">Deslize as abas →</span>
-            </div>
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-blue-900/60 w-full max-w-full -mx-1 px-1">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6 border-b border-slate-800 w-full max-w-full -mx-1 px-1">
               <button
                 type="button"
                 onClick={() => setQuoteTab('voos')}
-                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   quoteTab === 'voos'
-                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-900'
                 }`}
               >
                 <Plane className="w-4 h-4" />
@@ -828,10 +812,10 @@ export default function AIAssistant({
               <button
                 type="button"
                 onClick={() => setQuoteTab('companhias')}
-                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   quoteTab === 'companhias'
-                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-900'
                 }`}
               >
                 <Award className="w-4 h-4" />
@@ -841,10 +825,10 @@ export default function AIAssistant({
               <button
                 type="button"
                 onClick={() => setQuoteTab('pacotes')}
-                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   quoteTab === 'pacotes'
-                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-900'
                 }`}
               >
                 <Package className="w-4 h-4" />
@@ -854,27 +838,27 @@ export default function AIAssistant({
               <button
                 type="button"
                 onClick={() => setQuoteTab('roteiro')}
-                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   quoteTab === 'roteiro'
-                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-900'
                 }`}
               >
                 <Calendar className="w-4 h-4" />
-                <span>Roteiro Dia a Dia Completo</span>
+                <span>Roteiro Estruturado</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setQuoteTab('calculadora')}
-                className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   quoteTab === 'calculadora'
-                    ? 'bg-emerald-500 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                    : 'bg-[#08183A] text-slate-300 hover:text-white border border-blue-500/30'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-850 hover:bg-slate-900'
                 }`}
               >
                 <PieChart className="w-4 h-4" />
-                <span>Calculadora de Custo por Pessoa</span>
+                <span>Calculadora de Custos</span>
               </button>
             </div>
 
@@ -904,10 +888,10 @@ export default function AIAssistant({
                 {liveFlightQuotes.otas?.map((item) => (
                   <div
                     key={item.id}
-                    className={`p-5 rounded-3xl border-2 transition-all flex flex-col justify-between ${
+                    className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col justify-between ${
                       item.isBestDeal
-                        ? 'bg-gradient-to-br from-[#07241A] to-[#0A1F3C] border-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.3)]'
-                        : 'bg-[#071736]/90 border-blue-500/30 hover:border-blue-400/60'
+                        ? 'bg-slate-900 border-emerald-500/70 shadow-sm'
+                        : 'bg-slate-950/80 border-slate-800 hover:border-slate-700 shadow-2xs'
                     }`}
                   >
                     <div>
@@ -916,8 +900,8 @@ export default function AIAssistant({
                           <span className="text-xl">{item.logo}</span>
                           <span className="font-bold text-base text-white">{item.name}</span>
                         </div>
-                        <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full ${
-                          item.isBestDeal ? 'bg-emerald-500 text-navy-950' : 'bg-white/10 text-slate-200'
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
+                          item.isBestDeal ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-300'
                         }`}>
                           {item.badge}
                         </span>
@@ -926,25 +910,25 @@ export default function AIAssistant({
                       <div className="mb-3">
                         <span className="text-[10px] uppercase font-bold text-slate-400 block">Tarifa Estimada Total</span>
                         <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-                          <span className="text-xl sm:text-2xl font-black text-amber-300">
+                          <span className="text-xl sm:text-2xl font-black text-white">
                             R$ {item.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-[11px] sm:text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-400">
                             (R$ {item.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
                       </div>
 
                       <div className="flex flex-wrap gap-1.5 mb-3 text-[11px]">
-                        <span className="bg-white/10 text-slate-200 px-2.5 py-0.5 rounded-md font-semibold">
+                        <span className="bg-slate-900 text-slate-300 border border-slate-800 px-2.5 py-0.5 rounded-md font-medium">
                           {hasCheckedBaggage ? '🧳 Mala 23kg inclusa' : '🎒 Apenas Mala de Mão 10kg'}
                         </span>
-                        <span className="bg-white/10 text-slate-200 px-2.5 py-0.5 rounded-md font-semibold">
+                        <span className="bg-slate-900 text-slate-300 border border-slate-800 px-2.5 py-0.5 rounded-md font-medium">
                           {directOnly ? '✈️ Voo Direto' : '✈️ Direto ou Conexão'}
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-300 mb-4 leading-relaxed font-light">
+                      <p className="text-xs text-slate-400 mb-4 leading-relaxed font-normal">
                         {item.perk}
                       </p>
                     </div>
@@ -953,10 +937,10 @@ export default function AIAssistant({
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                         item.isBestDeal
-                          ? 'bg-emerald-500 hover:bg-emerald-400 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                          : 'bg-navy-950 hover:bg-navy-900 text-white border border-white/20'
+                          ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xs'
+                          : 'bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-800 hover:border-slate-700'
                       }`}
                     >
                       <span className="truncate">Ir para Passagem no {item.name}</span>
@@ -973,7 +957,7 @@ export default function AIAssistant({
                 {liveFlightQuotes.airlines?.map((airline) => (
                   <div
                     key={airline.id}
-                    className="p-5 rounded-3xl bg-[#071736]/90 border border-blue-500/30 hover:border-amber-400/50 shadow-md transition-all flex flex-col justify-between"
+                    className="p-4 sm:p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 shadow-2xs transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-3">
@@ -981,12 +965,12 @@ export default function AIAssistant({
                           <span className="text-2xl">{airline.logo}</span>
                           <div>
                             <div className="font-bold text-base text-white">{airline.name}</div>
-                            <div className="text-[10px] font-extrabold text-amber-300 uppercase tracking-wider">
+                            <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
                               IATA: {airline.code} • {airline.country}
                             </div>
                           </div>
                         </div>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-900/60 text-blue-200 border border-blue-400/30">
+                        <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
                           {airline.badge}
                         </span>
                       </div>
@@ -997,35 +981,35 @@ export default function AIAssistant({
                           <span className="text-xl sm:text-2xl font-black text-white">
                             R$ {airline.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-[11px] sm:text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-400">
                             (R$ {airline.pricePerAdult.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
                       </div>
 
-                      <div className="space-y-1 mb-4 text-xs text-slate-300 font-light">
+                      <div className="space-y-1 mb-4 text-xs text-slate-400 font-normal">
                         <div className="flex items-center gap-1.5 text-slate-400">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                           <span className="truncate">{airline.hub}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                           <span>{airline.perk}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-amber-300 font-medium">
-                          <Luggage className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                        <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+                          <Luggage className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                           <span className="truncate">{airline.baggagePolicy}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-1.5 pt-2 border-t border-blue-900/60">
+                    <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
                       <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                        <span className="font-semibold text-emerald-400 flex items-center gap-1">
+                        <span className="font-medium text-emerald-400 flex items-center gap-1">
                           <Check className="w-3 h-3 text-emerald-400" />
-                          <span>Rota e datas 100% preenchidas</span>
+                          <span>Rota e datas pré-preenchidas</span>
                         </span>
-                        <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded font-bold text-slate-300 shrink-0">
+                        <span className="text-[10px] bg-slate-900 px-2 py-0.5 rounded font-medium text-slate-400 shrink-0">
                           {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}
                         </span>
                       </div>
@@ -1034,8 +1018,8 @@ export default function AIAssistant({
                         href={airline.officialBookingUrl || airline.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white shadow-sm"
-                        title={`Emitir voos da ${airline.name} com rota, datas e passageiros 100% preenchidos no motor oficial`}
+                        className="w-full py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-850 text-white border border-slate-800 hover:border-slate-700 shadow-2xs"
+                        title={`Emitir voos da ${airline.name} com rota, datas e passageiros preenchidos no motor oficial`}
                       >
                         <span className="truncate">Emitir Passagem da {airline.name}</span>
                         <ExternalLink className="w-3.5 h-3.5 shrink-0" />
@@ -1045,11 +1029,11 @@ export default function AIAssistant({
                         href={airline.portalUrl || `https://${airline.officialWebsite}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-1.5 px-2.5 rounded-lg text-[10px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-300 hover:text-white bg-blue-950/60 hover:bg-blue-900/80 border border-blue-500/30"
-                        title={`Acessar página inicial da ${airline.name} sem erros`}
+                        className="w-full py-1.5 px-2.5 rounded-lg text-[10px] font-medium flex items-center justify-center gap-1 transition-all text-slate-400 hover:text-slate-200 bg-slate-950 hover:bg-slate-900 border border-slate-850"
+                        title={`Acessar página inicial da ${airline.name}`}
                       >
                         <span className="truncate">Acessar Portal Oficial ({airline.name})</span>
-                        <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                        <ExternalLink className="w-3 h-3 text-slate-500 shrink-0" />
                       </a>
                     </div>
                   </div>
@@ -1057,18 +1041,16 @@ export default function AIAssistant({
               </div>
             )}
 
-            {/* TAB CONTENT 3: PACOTES DE VIAGEM COMPLETOS (7 OPERADORAS) */}
+            {/* TAB CONTENT 3: PACOTES DE VIAGEM COMPLETOS */}
             {quoteTab === 'pacotes' && livePackageQuotes && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                 {livePackageQuotes.map((pkg) => (
                   <div
                     key={pkg.id}
-                    className={`p-5 rounded-3xl border-2 transition-all flex flex-col justify-between ${
+                    className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col justify-between ${
                       pkg.isBestDeal
-                        ? 'bg-gradient-to-br from-[#07241A] to-[#0A1F3C] border-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.3)]'
-                        : pkg.isLuxury
-                        ? 'bg-gradient-to-br from-[#241A07] to-[#0A1F3C] border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.3)]'
-                        : 'bg-[#071736]/90 border-blue-500/30 hover:border-blue-400/60'
+                        ? 'bg-slate-900 border-emerald-500/70 shadow-sm'
+                        : 'bg-slate-950/80 border-slate-800 hover:border-slate-700 shadow-2xs'
                     }`}
                   >
                     <div>
@@ -1077,12 +1059,10 @@ export default function AIAssistant({
                           <span className="text-2xl">{pkg.logo}</span>
                           <span className="font-bold text-base text-white">{pkg.name}</span>
                         </div>
-                        <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full ${
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
                           pkg.isBestDeal 
-                            ? 'bg-emerald-500 text-navy-950' 
-                            : pkg.isLuxury 
-                            ? 'bg-amber-400 text-navy-950' 
-                            : 'bg-white/10 text-slate-200'
+                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' 
+                            : 'bg-slate-800 text-slate-300'
                         }`}>
                           {pkg.badge}
                         </span>
@@ -1093,26 +1073,26 @@ export default function AIAssistant({
                           Pacote Completo ({pkg.durationNights} noites)
                         </span>
                         <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-                          <span className="text-xl sm:text-2xl font-black text-amber-300">
+                          <span className="text-xl sm:text-2xl font-black text-white">
                             R$ {pkg.totalPrice.toLocaleString('pt-BR')}
                           </span>
-                          <span className="text-[11px] sm:text-xs text-slate-300">
+                          <span className="text-[11px] sm:text-xs text-slate-400">
                             (R$ {pkg.pricePerPerson.toLocaleString('pt-BR')} / pessoa)
                           </span>
                         </div>
                       </div>
 
-                      <div className="space-y-1.5 mb-4 text-xs text-slate-200 font-light">
-                        <div className="flex items-center gap-1.5 text-emerald-300 font-medium">
+                      <div className="space-y-1.5 mb-4 text-xs text-slate-300 font-normal">
+                        <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
                           <Check className="w-3.5 h-3.5 shrink-0" />
                           <span>Passagem Aérea Ida e Volta Inclusa</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-emerald-300 font-medium">
+                        <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
                           <Check className="w-3.5 h-3.5 shrink-0" />
                           <span>Hospedagem {pkg.isLuxury ? '5★ Resort Luxo' : '4★ Superior'}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-slate-300">
-                          <Check className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <div className="flex items-center gap-1.5 text-slate-400">
+                          <Check className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                           <span>{pkg.includes}</span>
                         </div>
                       </div>
@@ -1122,12 +1102,10 @@ export default function AIAssistant({
                       href={pkg.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                         pkg.isBestDeal
-                          ? 'bg-emerald-500 hover:bg-emerald-400 text-navy-950 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
-                          : pkg.isLuxury
-                          ? 'bg-amber-400 hover:bg-amber-300 text-navy-950 shadow-[0_0_20px_rgba(251,191,36,0.4)]'
-                          : 'bg-navy-950 hover:bg-navy-900 text-white border border-white/20'
+                          ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                          : 'bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-800 hover:border-slate-700'
                       }`}
                     >
                       <span className="truncate">Ver Pacote no {pkg.name}</span>
@@ -1138,48 +1116,48 @@ export default function AIAssistant({
               </div>
             )}
 
-            {/* TAB CONTENT 4: ROTEIRO DIA A DIA COMPLETO COM IA */}
+            {/* TAB CONTENT 4: ROTEIRO DIA A DIA COMPLETO */}
             {quoteTab === 'roteiro' && planState.customItinerary && (
-              <div className="bg-[#071634]/95 rounded-3xl p-5 sm:p-7 border border-blue-500/30 mb-8 backdrop-blur-md">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-blue-900/60">
+              <div className="bg-slate-950/70 rounded-2xl p-5 sm:p-7 border border-slate-800 mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-slate-800/80">
                   <div className="min-w-0">
                     <h4 className="font-serif text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
-                      <Calendar className="w-5 h-5 text-amber-300 shrink-0" />
+                      <Calendar className="w-5 h-5 text-emerald-400 shrink-0" />
                       <span className="truncate">Roteiro para {planState.destination}</span>
                     </h4>
-                    <p className="text-xs text-slate-300 mt-0.5 truncate">
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">
                       Programação estruturada para {planState.days} dias • Perfil {planState.profile}
                     </p>
                   </div>
-                  <span className="text-xs font-bold text-amber-300 bg-amber-400/20 px-3 py-1 rounded-full border border-amber-400/40 self-start sm:self-auto shrink-0">
-                    IA Concierge
+                  <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30 self-start sm:self-auto shrink-0">
+                    Curadoria Executiva
                   </span>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {planState.customItinerary.map((day, idx) => (
-                    <div key={idx} className="bg-[#0A1D44] p-4 sm:p-5 rounded-2xl border border-blue-400/20">
+                    <div key={idx} className="bg-slate-900/90 p-4 sm:p-5 rounded-xl border border-slate-800/80">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                        <span className="font-serif font-bold text-base text-amber-300">
+                        <span className="font-serif font-bold text-base text-white">
                           Dia {day.day}: {day.title}
                         </span>
-                        <span className="text-[11px] font-bold text-slate-400">
+                        <span className="text-[11px] font-medium text-slate-400">
                           Orçamento médio diário: R$ {day.dailyCost || 600}
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-200 mt-2 font-light">
-                        <div className="bg-white/5 p-2.5 rounded-xl border border-white/5">
-                          <strong className="text-amber-200 block mb-1">Manhã:</strong>
-                          <span>{day.morning}</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300 mt-2 font-normal">
+                        <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-850">
+                          <strong className="text-emerald-400 block mb-1">Manhã:</strong>
+                          <span className="text-slate-300">{day.morning}</span>
                         </div>
-                        <div className="bg-white/5 p-2.5 rounded-xl border border-white/5">
-                          <strong className="text-amber-200 block mb-1">Tarde:</strong>
-                          <span>{day.afternoon}</span>
+                        <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-850">
+                          <strong className="text-emerald-400 block mb-1">Tarde:</strong>
+                          <span className="text-slate-300">{day.afternoon}</span>
                         </div>
-                        <div className="bg-white/5 p-2.5 rounded-xl border border-white/5">
-                          <strong className="text-amber-200 block mb-1">Noite & Gastronomia:</strong>
-                          <span>{day.night}</span>
+                        <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-850">
+                          <strong className="text-emerald-400 block mb-1">Noite & Gastronomia:</strong>
+                          <span className="text-slate-300">{day.night}</span>
                         </div>
                       </div>
                     </div>
@@ -1189,17 +1167,17 @@ export default function AIAssistant({
             )}
 
             {/* 6. PRIMARY ACTION BAR: DOWNLOAD EDITORIAL PDF OFFLINE */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-[#071E3D] via-[#0B254E] to-[#071E3D] border-2 border-amber-400/50 shadow-[0_0_35px_rgba(251,191,36,0.25)] text-white">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-slate-850 border border-slate-800 shadow-md text-slate-100">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[11px] font-bold mb-2">
-                  <Star className="w-3.5 h-3.5 fill-amber-300" />
-                  <span>Passaporte Mágico de Viagem</span>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold mb-2">
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Dossiê Executivo de Viagem</span>
                 </div>
                 <h4 className="font-serif text-lg sm:text-2xl font-bold text-white">
                   Baixe seu Dossiê Completo em PDF para usar offline
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-200 font-light mt-0.5">
-                  Inclui fotos reais dos pontos turísticos, roteiro dia a dia, comparativo de passagens e pacotes no seu celular.
+                <p className="text-xs sm:text-sm text-slate-400 font-normal mt-0.5">
+                  Inclui fotografias autênticas dos pontos turísticos, roteiro dia a dia e comparativo de passagens no seu celular.
                 </p>
               </div>
 
@@ -1208,10 +1186,10 @@ export default function AIAssistant({
                   <button
                     type="button"
                     onClick={onOpenPreview}
-                    className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer border border-white/20"
+                    className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs sm:text-sm font-semibold tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer border border-slate-700"
                   >
                     <Eye className="w-4 h-4 text-emerald-400" />
-                    <span>Pré-visualizar PDF</span>
+                    <span>Visualizar PDF</span>
                   </button>
                 )}
 
@@ -1219,12 +1197,12 @@ export default function AIAssistant({
                   type="button"
                   onClick={onGeneratePDF}
                   disabled={isGenerating}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-white text-xs sm:text-sm font-black tracking-wide transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40 hover:scale-105"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-2xs flex items-center justify-center gap-2 cursor-pointer shrink-0"
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-amber-200" />
-                      <span>Gerando Documento Mágico...</span>
+                      <Loader2 className="w-4 h-4 animate-spin text-white" />
+                      <span>Gerando Documento em PDF...</span>
                     </>
                   ) : (
                     <>

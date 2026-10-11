@@ -125,7 +125,7 @@ export default function App() {
 
   if (currentView === 'landing') {
     return (
-      <div className="min-h-screen bg-[#030814] text-slate-100">
+      <div className="min-h-screen bg-slate-950 text-slate-100">
         <LandingPage 
           onEnterPlatform={() => {
             setCurrentView('platform');
@@ -143,7 +143,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#030814] text-slate-100 selection:bg-amber-400 selection:text-slate-950 w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-600 selection:text-white w-full max-w-full overflow-x-hidden">
       
       {/* 1. Header with Glassmorphism & Navigation */}
       <Header 
