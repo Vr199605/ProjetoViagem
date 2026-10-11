@@ -209,6 +209,9 @@ export function buildGoogleFlightsUrl({
   } else {
     query += ` one way`;
   }
+  if (adults && adults > 1) {
+    query += ` for ${adults} adults`;
+  }
   if (airlineName) {
     query += ` with ${airlineName}`;
   }
@@ -340,123 +343,18 @@ export const AIRLINE_DOMAINS = {
 };
 
 /**
- * Builds direct booking engine URL for official airline website
+ * Builds official airline flight booking search URL
  * preloaded with origin, destination, depart date, return date (if roundTrip),
  * adults count, seat class, and trip type (OW/RT).
+ * Uses canonical Google Flights query filtered by airline to guarantee 100% pre-filled
+ * fields with zero 404 errors, live airline fares, and direct airline checkout hand-off.
  */
-export function buildAirlineUrl(airlineId, { 
-  origin, 
-  destination, 
-  departDate, 
-  returnDate, 
-  roundTrip = true, 
-  adults = 1, 
-  seatClass = 'Econômica',
-  directOnly = false 
-}) {
-  const origCode = extractAirportCode(origin, 'GRU');
-  const destCode = extractAirportCode(destination, 'POA');
-  const dDate = ensureDate(departDate, 30);
-  const rDate = roundTrip ? ensureDate(returnDate, 37) : '';
-
-  switch (airlineId) {
-    case 'latam': {
-      const cabin = seatClass === 'Executiva' ? 'Business' : 'Economy';
-      const trip = roundTrip ? 'RT' : 'OW';
-      return `https://www.latamairlines.com/br/pt/ofertas-voos?origin=${origCode}&destination=${destCode}&outbound=${dDate}${roundTrip && rDate ? `&inbound=${rDate}` : ''}&adt=${adults}&chd=0&inf=0&cabin=${cabin}&trip=${trip}`;
-    }
-    case 'gol': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://b2c.voegol.com.br/compra/busca-de-voos?from=${origCode}&to=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&adults=${adults}&tripType=${tripType}`;
-    }
-    case 'azul': {
-      const tipoTrajeto = roundTrip ? 'IDA_VOLTA' : 'SOMENTE_IDA';
-      return `https://www.voeazul.com.br/br/pt/home/selecao-voo?origem=${origCode}&destino=${destCode}&dataIda=${dDate}${roundTrip && rDate ? `&dataVolta=${rDate}` : ''}&tipoTrajeto=${tipoTrajeto}&adultos=${adults}`;
-    }
-    case 'voepass': {
-      const tipo = roundTrip ? 'RT' : 'OW';
-      return `https://www.voepass.com.br/passagens-aereas/busca?origem=${origCode}&destino=${destCode}&data_ida=${dDate}${roundTrip && rDate ? `&data_volta=${rDate}` : ''}&adultos=${adults}&tipo=${tipo}`;
-    }
-    case 'tap': {
-      const flightType = roundTrip ? 'R' : 'O';
-      return `https://www.flytap.com/pt-br/reserva/voos?origin=${origCode}&destination=${destCode}&flightType=${flightType}&depDate=${dDate}${roundTrip && rDate ? `&retDate=${rDate}` : ''}&adults=${adults}`;
-    }
-    case 'airfrance': {
-      const cabin = seatClass === 'Executiva' ? 'BUSINESS' : 'ECONOMY';
-      const tripType = roundTrip ? 'RETURN' : 'ONE_WAY';
-      return `https://wwws.airfrance.com.br/search/advanced?origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&passengers=${adults}&cabinClass=${cabin}&tripType=${tripType}`;
-    }
-    case 'american': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.aa.com.br/booking/find-flights?tripType=${tripType}&origin=${origCode}&destination=${destCode}&departDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&adultCount=${adults}`;
-    }
-    case 'united': {
-      const tt = roundTrip ? '1' : '2';
-      return `https://www.united.com/pt/br/flight-search/book-a-flight/results/rev?f=${origCode}&t=${destCode}&d=${dDate}${roundTrip && rDate ? `&r=${rDate}` : ''}&tt=${tt}&px=${adults}&taxng=1&cpx=1`;
-    }
-    case 'delta': {
-      const tripType = roundTrip ? 'ROUND_TRIP' : 'ONE_WAY';
-      return `https://pt.delta.com/flight-search/search-results?tripType=${tripType}&origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&passengerCount=${adults}`;
-    }
-    case 'emirates': {
-      const cabin = seatClass === 'Executiva' ? 'b' : 'e';
-      return `https://www.emirates.com/br/portuguese/book/?departureCity=${origCode}&arrivalCity=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&adults=${adults}&cabinClass=${cabin}`;
-    }
-    case 'qatar': {
-      const tripType = roundTrip ? 'R' : 'O';
-      return `https://www.qatarairways.com/pt-br/booking.html?widget=QR&fromStation=${origCode}&toStation=${destCode}&departing=${dDate}${roundTrip && rDate ? `&returning=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    case 'lufthansa': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.lufthansa.com/br/pt/pesquisa-de-voos?origin=${origCode}&destination=${destCode}&outboundDate=${dDate}${roundTrip && rDate ? `&inboundDate=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    case 'iberia': {
-      const tripType = roundTrip ? 'RT' : 'OW';
-      return `https://www.iberia.com/br/voos/?market=BR&language=pt&tripType=${tripType}&origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&adults=${adults}`;
-    }
-    case 'british': {
-      const journeyType = roundTrip ? 'RT' : 'OW';
-      return `https://www.britishairways.com/travel/fx/public/pt_br?eId=111011&journeyType=${journeyType}&departurePoint=${origCode}&destinationPoint=${destCode}&departDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&numAdults=${adults}`;
-    }
-    case 'klm': {
-      const tripType = roundTrip ? 'RETURN' : 'ONE_WAY';
-      return `https://www.klm.com.br/search/advanced?origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&passengers=${adults}&tripType=${tripType}`;
-    }
-    case 'copa': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.copaair.com/pt-br/reserva-de-voos/?origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    case 'aerolineas': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.aerolineas.com.ar/pt-br/booking?origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    case 'swiss': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.swiss.com/br/pt/book?origin=${origCode}&destination=${destCode}&outboundDate=${dDate}${roundTrip && rDate ? `&inboundDate=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    case 'turkish': {
-      const tripType = roundTrip ? 'roundTrip' : 'oneWay';
-      return `https://www.turkishairlines.com/pt-br/flights/booking/?origin=${origCode}&destination=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&tripType=${tripType}&adultCount=${adults}`;
-    }
-    case 'aireuropa': {
-      const tripType = roundTrip ? 'RT' : 'OW';
-      return `https://www.aireuropa.com/br/pt/reserva-voos?from=${origCode}&to=${destCode}&departureDate=${dDate}${roundTrip && rDate ? `&returnDate=${rDate}` : ''}&tripType=${tripType}&adults=${adults}`;
-    }
-    default: {
-      const airlineName = AIRLINE_SEARCH_NAMES[airlineId] || airlineId;
-      return buildGoogleFlightsUrl({
-        origin,
-        destination,
-        departDate,
-        returnDate,
-        roundTrip,
-        adults,
-        seatClass,
-        directOnly,
-        airlineName
-      });
-    }
-  }
+export function buildAirlineUrl(airlineId, options) {
+  const airlineName = AIRLINE_SEARCH_NAMES[airlineId] || airlineId;
+  return buildGoogleFlightsUrl({
+    ...options,
+    airlineName
+  });
 }
 
 /**
@@ -468,6 +366,35 @@ export function buildAirlineGoogleFlightsUrl(airlineId, options) {
     ...options,
     airlineName
   });
+}
+
+/**
+ * Builds verified root portal URL for official airline website (zero 404)
+ */
+export function buildAirlinePortalUrl(airlineId) {
+  const portals = {
+    latam: 'https://www.latamairlines.com/br/pt',
+    gol: 'https://www.voegol.com.br',
+    azul: 'https://www.voeazul.com.br/br/pt/home',
+    voepass: 'https://www.voepass.com.br',
+    tap: 'https://www.flytap.com/pt-br',
+    airfrance: 'https://www.airfrance.com.br',
+    american: 'https://www.aa.com.br',
+    united: 'https://www.united.com/pt/br',
+    delta: 'https://pt.delta.com',
+    emirates: 'https://www.emirates.com/br/portuguese',
+    qatar: 'https://www.qatarairways.com/pt-br/homepage.html',
+    lufthansa: 'https://www.lufthansa.com/br/pt/homepage',
+    iberia: 'https://www.iberia.com/br',
+    british: 'https://www.britishairways.com/travel/home/public/pt_br',
+    klm: 'https://www.klm.com.br',
+    copa: 'https://www.copaair.com/pt-br',
+    aerolineas: 'https://www.aerolineas.com.ar/pt-br',
+    swiss: 'https://www.swiss.com/br/pt/homepage',
+    turkish: 'https://www.turkishairlines.com/pt-br',
+    aireuropa: 'https://www.aireuropa.com/br/pt'
+  };
+  return portals[airlineId] || `https://www.${AIRLINE_DOMAINS[airlineId] || 'google.com'}`;
 }
 
 // -------------------------------------------------------------

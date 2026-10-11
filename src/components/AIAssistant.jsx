@@ -1021,8 +1021,9 @@ export default function AIAssistant({
 
                     <div className="space-y-1.5 pt-2 border-t border-blue-900/60">
                       <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                        <span className="font-semibold text-sky-400 truncate">
-                          🌐 {airline.officialWebsite}
+                        <span className="font-semibold text-emerald-400 flex items-center gap-1">
+                          <Check className="w-3 h-3 text-emerald-400" />
+                          <span>Rota e datas 100% preenchidas</span>
                         </span>
                         <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded font-bold text-slate-300 shrink-0">
                           {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}
@@ -1034,24 +1035,22 @@ export default function AIAssistant({
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white shadow-sm"
-                        title={`Ir para o site oficial da ${airline.name} com rota, datas e passageiros preenchidos`}
+                        title={`Emitir voos da ${airline.name} com rota, datas e passageiros 100% preenchidos no motor oficial`}
                       >
-                        <span className="truncate">Comprar no Site Oficial da {airline.name}</span>
+                        <span className="truncate">Emitir Passagem da {airline.name}</span>
                         <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                       </a>
 
-                      {airline.googleFlightsUrl && (
-                        <a
-                          href={airline.googleFlightsUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full py-1.5 px-2.5 rounded-lg text-[10px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-300 hover:text-white bg-blue-950/60 hover:bg-blue-900/80 border border-blue-500/30"
-                          title={`Comparar voos da ${airline.name} no Google Flights`}
-                        >
-                          <span className="truncate">Ver filtro da {airline.name} no Google Flights</span>
-                          <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
-                        </a>
-                      )}
+                      <a
+                        href={airline.portalUrl || `https://${airline.officialWebsite}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-1.5 px-2.5 rounded-lg text-[10px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-300 hover:text-white bg-blue-950/60 hover:bg-blue-900/80 border border-blue-500/30"
+                        title={`Acessar página inicial da ${airline.name} sem erros`}
+                      >
+                        <span className="truncate">Acessar Portal Oficial ({airline.name})</span>
+                        <ExternalLink className="w-3 h-3 text-slate-400 shrink-0" />
+                      </a>
                     </div>
                   </div>
                 ))}

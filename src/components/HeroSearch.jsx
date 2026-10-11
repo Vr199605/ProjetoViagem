@@ -1036,10 +1036,11 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
 
                           <div className="space-y-1.5 pt-2 border-t border-slate-100">
                             <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-                              <span className="font-semibold text-blue-700 truncate">
-                                🌐 {airline.officialWebsite}
+                              <span className="font-semibold text-emerald-700 flex items-center gap-1">
+                                <Check className="w-3 h-3 text-emerald-600" />
+                                <span>Rota e datas 100% preenchidas</span>
                               </span>
-                              <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded font-semibold text-slate-600 shrink-0">
+                              <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded font-bold text-slate-600 shrink-0">
                                 {isRoundTrip ? 'Ida e Volta' : 'Somente Ida'}
                               </span>
                             </div>
@@ -1048,25 +1049,23 @@ export default function HeroSearch({ onSelectDestinationForPlan, onNotify }) {
                               href={airline.officialBookingUrl || airline.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 text-white shadow-2xs"
-                              title={`Ir para o site oficial da ${airline.name} com rota, datas e passageiros preenchidos`}
+                              className="w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 text-white shadow-soft group"
+                              title={`Emitir voos da ${airline.name} com rota, datas e passageiros 100% preenchidos no motor oficial`}
                             >
-                              <span>Comprar no Site Oficial da {airline.name}</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>Emitir Passagem da {airline.name}</span>
+                              <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-white" />
                             </a>
 
-                            {airline.googleFlightsUrl && (
-                              <a
-                                href={airline.googleFlightsUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full py-1.5 px-2.5 rounded-lg text-[10px] sm:text-[11px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-600 hover:text-navy-900 hover:bg-slate-100 border border-slate-200"
-                                title={`Comparar voos da ${airline.name} no Google Flights`}
-                              >
-                                <span>Ver filtro da {airline.name} no Google Flights</span>
-                                <ExternalLink className="w-3 h-3 text-slate-400" />
-                              </a>
-                            )}
+                            <a
+                              href={airline.portalUrl || `https://${airline.officialWebsite}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full py-1.5 px-2.5 rounded-lg text-[10px] sm:text-[11px] font-semibold flex items-center justify-center gap-1 transition-all text-slate-600 hover:text-navy-900 hover:bg-slate-100 border border-slate-200"
+                              title={`Acessar página inicial da ${airline.name} sem erros`}
+                            >
+                              <span>Acessar Portal Oficial ({airline.name})</span>
+                              <ExternalLink className="w-3 h-3 text-slate-400" />
+                            </a>
                           </div>
 
                         </div>

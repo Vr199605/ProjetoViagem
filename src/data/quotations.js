@@ -8,6 +8,7 @@ import {
   buildKayakUrl,
   buildAirlineUrl,
   buildAirlineGoogleFlightsUrl,
+  buildAirlinePortalUrl,
   AIRLINE_DOMAINS,
   extractAirportCode,
   buildPackageUrl
@@ -621,6 +622,7 @@ export function calculateFlightComparison({
     const airlineUnitPrice = Math.round(unitPriceWithBaggage * airlineSpread);
     const officialBookingUrl = buildAirlineUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly });
     const googleFlightsUrl = buildAirlineGoogleFlightsUrl(airline.id, { origin, destination, departDate, returnDate, roundTrip, adults, seatClass, directOnly });
+    const portalUrl = buildAirlinePortalUrl(airline.id);
     const officialWebsite = AIRLINE_DOMAINS[airline.id] || 'site oficial';
 
     return {
@@ -634,6 +636,7 @@ export function calculateFlightComparison({
       badge: airline.badge,
       hub: airline.hub,
       officialWebsite,
+      portalUrl,
       baggagePolicy: checkedBaggage ? 'Mala 23kg inclusa no cálculo' : airline.baggagePolicy,
       perk: airline.perk,
       pricePerAdult: airlineUnitPrice,
