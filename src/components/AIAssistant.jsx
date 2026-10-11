@@ -3,7 +3,7 @@ import {
   Sparkles, Send, MapPin, Calendar, DollarSign, Heart, 
   Users, Edit3, ArrowRight, Loader2, Check, FileDown, Eye, AlertCircle, 
   ShieldCheck, Star, ExternalLink, Luggage, Compass, RefreshCw, X, ChevronRight, Award,
-  Plane, Package, PieChart, Search, Globe, Lightbulb
+  Plane, Package, PieChart, Search, Globe, Lightbulb, FileText
 } from 'lucide-react';
 import { getAiDestinationSuggestions, DESTINATION_DATABASE } from '../services/aiSuggestionEngine';
 import { getAiQuestionAnswer, analyzeUserQuery } from '../services/placeRecommendationService';
